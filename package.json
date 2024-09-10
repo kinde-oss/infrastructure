@@ -1,0 +1,29 @@
+{
+  "name": "@kinde/infrastructure",
+  "version": "0.0.9",
+  "private": false,
+  "type": "module",
+  "module": "dist/infrastructure.js",
+  "main": "dist/infrastructure.cjs",
+  "types": "dist/main.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint:fix": "prettier --write .",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.5",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.5"
+  },
+  "packageManager": "pnpm@8.14.1+sha256.2df78e65d433d7693b9d3fbdaf431b2d96bb4f96a2ffecd51a50efe16e50a6a8",
+  "dependencies": {
+    "@types/node": "^22.9.0",
+    "prettier": "^3.3.3",
+    "vite-plugin-dts": "^4.3.0"
+  }
+}

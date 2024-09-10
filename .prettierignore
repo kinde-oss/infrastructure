@@ -1,0 +1,5 @@
+coverage
+.release-it.json
+CHANGELOG.md
+pnpm.lock.yaml
+package.json
