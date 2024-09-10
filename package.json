@@ -1,0 +1,25 @@
+{
+  "name": "@kinde/infrastructure",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "module": "dist/infrastructure.js",
+  "main": "dist/infrastructure.cjs",
+  "types": "dist/main.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint:fix": "prettier --write ."
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1"
+  },
+  "packageManager": "pnpm@8.14.1+sha256.2df78e65d433d7693b9d3fbdaf431b2d96bb4f96a2ffecd51a50efe16e50a6a8",
+  "dependencies": {
+    "@types/node": "^22.5.4",
+    "prettier": "^3.3.3",
+    "vite-plugin-dts": "^4.2.1"
+  }
+}
