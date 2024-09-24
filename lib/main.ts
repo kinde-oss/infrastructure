@@ -40,3 +40,5 @@ export function getKindeAccessTokenHandle<T>(): T & AccessToken {
   //@ts-expect-error This is injected at runtime
   return new Proxy<T & AccessToken>(kinde.accessToken.value, tokenProxyHandler);
 }
+
+export * from "./types";
