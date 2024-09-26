@@ -42,13 +42,52 @@ type WorkflowDenyResponse = {
 export type WorkflowReponse = WorkflowAcceptResponse | WorkflowDenyResponse;
 
 export type WorkflowSettings = {
-  timeout: number;
-  retries: number;
-  terminal: boolean;
+  /**
+   * {string} REQUIRED The unique identifier of the workflow
+   */
+  id: string,
+
+  /**
+   * {WorkflowTrigger} REQUIRED Workflow trigger
+   */
+  trigger: WorkflowTrigger,
+
+  /**
+   * {WorkflowTrigger} friendly free text description of the workflow
+   */
+  description?: "Check if the user is banned by IP address",
+
+  /**
+   * {number} timeout in milliseconds, default is 5000
+   */
+  timeout?: number,
+
+  /**
+   * {number} number of retries, default is 1
+   */
+  retries?: number,
+
+  /**
+   * {number} reset all claims to default value on workflow start, default is false
+   */
+  resetClaims?: boolean,
 };
 
-export type onUserTokenEvent = {
-  type: "onUserToken";
+export enum WorkflowTrigger { 
+  UserTokenGenerated = 'user:tokens_generated',
+  M2MTokenGenerated = 'm2m:tokens_generated'
+}
+
+export type onUserTokenGeneratedEvent = {
+  type: 'WorkflowTrigger.UserTokenGenerated';
+  data: {
+    ipAddress: string;
+    userAgent: string;
+  };
+};
+
+export type onM2MTokenGeneratedEvent = {
+  type: WorkflowTrigger.M2MTokenGenerated;
   data: {
     ipAddress: string;
     userAgent: string;
