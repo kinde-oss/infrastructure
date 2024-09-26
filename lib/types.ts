@@ -45,41 +45,41 @@ export type WorkflowSettings = {
   /**
    * {string} REQUIRED The unique identifier of the workflow
    */
-  id: string,
+  id: string;
 
   /**
    * {WorkflowTrigger} REQUIRED Workflow trigger
    */
-  trigger: WorkflowTrigger,
+  trigger: WorkflowTrigger;
 
   /**
    * {WorkflowTrigger} friendly free text description of the workflow
    */
-  description?: "Check if the user is banned by IP address",
+  description?: "Check if the user is banned by IP address";
 
   /**
    * {number} timeout in milliseconds, default is 5000
    */
-  timeout?: number,
+  timeout?: number;
 
   /**
    * {number} number of retries, default is 1
    */
-  retries?: number,
+  retries?: number;
 
   /**
    * {number} reset all claims to default value on workflow start, default is false
    */
-  resetClaims?: boolean,
+  resetClaims?: boolean;
 };
 
-export enum WorkflowTrigger { 
-  UserTokenGenerated = 'user:tokens_generated',
-  M2MTokenGenerated = 'm2m:tokens_generated'
+export enum WorkflowTrigger {
+  UserTokenGenerated = "user:tokens_generated",
+  M2MTokenGenerated = "m2m:tokens_generated",
 }
 
 export type onUserTokenGeneratedEvent = {
-  type: 'WorkflowTrigger.UserTokenGenerated';
+  type: "WorkflowTrigger.UserTokenGenerated";
   data: {
     ipAddress: string;
     userAgent: string;
