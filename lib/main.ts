@@ -23,7 +23,7 @@ const tokenProxyHandler = {
   },
   set(target: any, prop: string, receiver: any) {
     if (claimDenyList.includes(prop.toString())) {
-      throw new Error(`Access to ${prop.toString} is not allowed`);
+      throw new Error(`Access to ${prop.toString()} is not allowed`);
     }
     return Reflect.set(target, prop, receiver);
   },
