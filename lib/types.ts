@@ -67,10 +67,35 @@ export type WorkflowSettings = {
    */
   retries?: number;
 
-  /**
-   * {number} reset all claims to default value on workflow start, default is false
-   */
-  resetClaims?: boolean;
+  bindings?: {
+    /**
+     * Exposes the id token to the workflow
+     */
+    'kinde.idToken'?: {
+
+      /**
+       * {boolean} reset all claims to default value on workflow start, default is false
+       */
+      resetClaims?: boolean;
+    },
+    /**
+     * Exposes the access token to the workflow
+     */
+    'kinde.accessToken'?: {
+       /**
+       * {boolean} reset all claims to default value on workflow start, default is false
+       */
+      resetClaims?: boolean;
+    },
+    /**
+     * Exposes the console methods to the workflow
+     */
+    'console'?: {},
+    /**
+     * Exposes the fetch method to call extenal APIs to the workflow
+     */
+    'kinde.fetch'?: {},    
+  }
 };
 
 export enum WorkflowTrigger {
