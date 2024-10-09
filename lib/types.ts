@@ -21,6 +21,7 @@ export type IdToken = {
 };
 
 export type AccessToken = {
+  /// todo: add access token claims
   sub: string;
 };
 
@@ -99,8 +100,9 @@ export type WorkflowSettings = {
 };
 
 export enum WorkflowTrigger {
-  UserTokenGenerated = "user:tokens_generated",
-  M2MTokenGenerated = "m2m:tokens_generated",
+  UserTokenGeneration = "user:tokens_generation",
+  M2MTokenGeneration = "m2m:tokens_generation",
+  
 }
 
 export type onUserTokenGeneratedEvent = {
@@ -112,7 +114,7 @@ export type onUserTokenGeneratedEvent = {
 };
 
 export type onM2MTokenGeneratedEvent = {
-  type: WorkflowTrigger.M2MTokenGenerated;
+  type: WorkflowTrigger.M2MTokenGeneration;
   data: {
     ipAddress: string;
     userAgent: string;
