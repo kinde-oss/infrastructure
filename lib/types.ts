@@ -1,28 +1,79 @@
-export type IdToken = {
-  at_hash: string;
+type TokenCommon = {
   aud: Array<string>;
-  auth_time: number;
   azp: string;
-  email: string;
-  email_verified: boolean;
   exp: number;
-  family_name: string;
-  given_name: string;
   iat: number;
+  sub: string;
   iss: string;
   jti: string;
+};
+
+export type IdToken = TokenCommon & {
+  at_hash: string;
+  auth_time: number;
+  email: string;
+  email_verified: boolean;
+  family_name: string;
+  given_name: string;
   name: string;
   org_codes: Array<string>;
   picture: string;
   preferred_username: string;
   rat: number;
-  sub: string;
   updated_at: number;
 };
 
-export type AccessToken = {
-  /// todo: add access token claims
-  sub: string;
+export type AccessToken = TokenCommon & {
+  feature_flags: Record<
+    string,
+    | {
+        t: "b";
+        v: boolean;
+      }
+    | {
+        t: "n";
+        v: number;
+      }
+    | {
+        t: "s";
+        v: string;
+      }
+  >;
+  org_code: string;
+  org_name: string;
+  roles: Array<{
+    id: string;
+    key: string;
+    name: string;
+  }>;
+  scp: Array<string>;
+  user_properties: Record<
+    string,
+    {
+      v: string;
+    }
+  >;
+};
+
+export type M2MToken = TokenCommon & {
+  feature_flags: Record<
+    string,
+    | {
+        t: "b";
+        v: boolean;
+      }
+    | {
+        t: "n";
+        v: number;
+      }
+    | {
+        t: "s";
+        v: string;
+      }
+  >;
+  org_code: string;
+  org_name: string;
+  scp: Array<string>;
 };
 
 export enum WorkflowResult {
@@ -44,19 +95,19 @@ export type WorkflowReponse = WorkflowAcceptResponse | WorkflowDenyResponse;
 
 export type WorkflowSettings = {
   /**
-   * {string} REQUIRED The unique identifier of the workflow
+   * {string} id The unique identifier of the workflow
    */
   id: string;
 
   /**
-   * {WorkflowTrigger} REQUIRED Workflow trigger
+   * {WorkflowTrigger} trigger Workflow trigger
    */
   trigger: WorkflowTrigger;
 
   /**
-   * {WorkflowTrigger} friendly free text description of the workflow
+   * {string} [name] friendly name the workflow
    */
-  description?: "Check if the user is banned by IP address";
+  name?: string;
 
   /**
    * {number} timeout in milliseconds, default is 5000
@@ -72,51 +123,57 @@ export type WorkflowSettings = {
     /**
      * Exposes the id token to the workflow
      */
-    'kinde.idToken'?: {
-
+    "kinde.idToken"?: {
       /**
        * {boolean} reset all claims to default value on workflow start, default is false
        */
       resetClaims?: boolean;
-    },
+    };
     /**
      * Exposes the access token to the workflow
      */
-    'kinde.accessToken'?: {
-       /**
+    "kinde.accessToken"?: {
+      /**
        * {boolean} reset all claims to default value on workflow start, default is false
        */
       resetClaims?: boolean;
-    },
+    };
     /**
      * Exposes the console methods to the workflow
      */
-    'console'?: {},
+    console?: {};
     /**
      * Exposes the fetch method to call extenal APIs to the workflow
      */
-    'kinde.fetch'?: {},    
-  }
+    "kinde.fetch"?: {};
+  };
 };
 
 export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
   M2MTokenGeneration = "m2m:tokens_generation",
-  
 }
 
-export type onUserTokenGeneratedEvent = {
-  type: "WorkflowTrigger.UserTokenGenerated";
-  data: {
-    ipAddress: string;
-    userAgent: string;
+type EventBase = {
+  request: {
+    auth: {
+      audience: string[];
+    };
+    ip: string;
+  };
+  context: {
+    user: {};
+    org: {};
+    app: {
+      clientId: string;
+    };
   };
 };
 
-export type onM2MTokenGeneratedEvent = {
-  type: WorkflowTrigger.M2MTokenGeneration;
-  data: {
-    ipAddress: string;
-    userAgent: string;
-  };
+export type onUserTokenGeneratedEvent = EventBase & {
+  trigger: WorkflowTrigger.UserTokenGeneration;
+};
+
+export type onM2MTokenGeneratedEvent = EventBase & {
+  trigger: WorkflowTrigger.M2MTokenGeneration;
 };
