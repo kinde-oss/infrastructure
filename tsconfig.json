@@ -19,5 +19,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "lib/main.ts", "lib/types.ts"]
+  "include": ["src", "lib/**/*.ts", "lib/types.ts"],
+  "exclude": [
+    "lib/**/*.test.ts"
+  ]
 }

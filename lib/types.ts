@@ -155,25 +155,33 @@ export enum WorkflowTrigger {
 }
 
 type EventBase = {
-  request: {
-    auth: {
-      audience: string[];
-    };
-    ip: string;
-  };
+  request: RequestContext,
   context: {
-    user: {};
-    org: {};
-    app: {
-      clientId: string;
-    };
-  };
+    clientId: string;
+    orgCode: string;
+  }
 };
 
+type RequestContext = {
+  auth: {
+    audience: string[];
+    scope: string[];
+  };
+  ipAddress: string;
+}
+
 export type onUserTokenGeneratedEvent = EventBase & {
-  trigger: WorkflowTrigger.UserTokenGeneration;
+  context: {
+    workflowTrigger: WorkflowTrigger.UserTokenGeneration;
+    userId: string;
+  };
 };
 
 export type onM2MTokenGeneratedEvent = EventBase & {
-  trigger: WorkflowTrigger.M2MTokenGeneration;
+  context: {
+    trigger: WorkflowTrigger.M2MTokenGeneration;
+  };
 };
+
+// export * from './prohibitedClaims';
+

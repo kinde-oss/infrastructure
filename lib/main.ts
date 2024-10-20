@@ -1,68 +1,62 @@
-import { IdToken, AccessToken, M2MToken } from "./types";
 export * from "./types";
+import { KindeIdTokenProhibitedClaims, KindeAccessTokenProhibitedClaims, Kindem2mTokenProhibitedClaims } from "./prohibitedClaims.ts";
 
-const commonProhibitedClaims = [
-  "azp",
-  "exp",
-  "iat",
-  "iss",
-  "nbf",
-  "sid",
-  "sub",
-  "act",
-  "iss",
-  "sid",
-  "aud",
-];
-const KindeIdTokenProhibitedClaims = [
-  ...commonProhibitedClaims,
-  "auth_time,jti,updated_at,rat",
-];
-const KindeAccessTokenProhibitedClaims = [
-  ...commonProhibitedClaims,
-  "jti",
-  "scp",
-];
-const Kindem2mTokenProhibitedClaims = [
-  ...commonProhibitedClaims,
-  "gty",
-  "gty",
-  "jti",
-  "scp",
-];
+declare namespace kinde {
+  export function fetch(url: string, options: unknown): Promise<any>;
 
-const idTokenProxyHandler = {
+  namespace env {
+    export function get(key: string): string;
+  }
+
+  namespace idToken {
+    export function setCustomClaim(key: string, value: unknown): void;
+    export function getCustomClaims(): unknown;
+  }
+  namespace accessToken {
+    export function setCustomClaim(key: string, value: unknown): void;
+    export function getCustomClaims(): unknown;
+  }
+  namespace m2mToken {
+    export function setCustomClaim(key: string, value: unknown): void;
+    export function getCustomClaims(): unknown;
+  }
+
+  namespace auth {
+    export function denyAccess(reason: string): void;
+  }
+
+  namespace risk {
+    export function setScore(score: number): void;
+    export function getScore(): number;
+  }
+}
+
+const idTokenClaimsHandler = {
   get(target: any, prop: string, receiver: any) {
     return Reflect.get(target, prop.toString(), receiver);
   },
   set(target: any, prop: string, receiver: any) {
-    if (KindeIdTokenProhibitedClaims.includes(prop.toString())) {
-      throw new Error(`Access to ${prop.toString()} is not allowed`);
-    }
+    kinde.idToken.setCustomClaim(prop, receiver);
     return Reflect.set(target, prop, receiver);
   },
 };
 
-const accessTokenProxyHandler = {
+const accessTokenClaimsHandler = {
   get(target: any, prop: string, receiver: any) {
     return Reflect.get(target, prop.toString(), receiver);
   },
   set(target: any, prop: string, receiver: any) {
-    if (KindeAccessTokenProhibitedClaims.includes(prop.toString())) {
-      throw new Error(`Access to ${prop.toString()} is not allowed`);
-    }
+    kinde.accessToken.setCustomClaim(prop, receiver);
     return Reflect.set(target, prop, receiver);
   },
 };
 
-const m2mTokenProxyHandler = {
+const m2mTokenClaimsHandler = {
   get(target: any, prop: string, receiver: any) {
     return Reflect.get(target, prop.toString(), receiver);
   },
   set(target: any, prop: string, receiver: any) {
-    if (Kindem2mTokenProhibitedClaims.includes(prop.toString())) {
-      throw new Error(`Access to ${prop.toString()} is not allowed`);
-    }
+    kinde.idToken.setCustomClaim(prop, receiver);
     return Reflect.set(target, prop, receiver);
   },
 };
@@ -70,32 +64,39 @@ const m2mTokenProxyHandler = {
 /**
  * Returns mutatable ID Token object
  */
-export function getKindeIdTokenHandle<T>(): T & IdToken {
-  return new Proxy<T & IdToken>(
-    //@ts-expect-error This is injected at runtime
-    kinde.idToken.value,
-    idTokenProxyHandler,
-  );
+export function idTokenCustomClaims<T extends object>(): Omit<T, KindeIdTokenProhibitedClaims> {
+  const claims = kinde.idToken.getCustomClaims() as Omit<T, KindeIdTokenProhibitedClaims>;
+  return new Proxy<Omit<T, KindeIdTokenProhibitedClaims>>(claims, idTokenClaimsHandler);
 }
 
 /**
  * Returns mutatable access token object
  */
-export function getKindeAccessTokenHandle<T>(): T & AccessToken {
-  return new Proxy<T & AccessToken>(
-    //@ts-expect-error This is injected at runtime
-    kinde.accessToken.value,
-    accessTokenProxyHandler,
-  );
+export function accessTokenCustomClaims<T extends object>(): Omit<T, KindeAccessTokenProhibitedClaims> {
+  const claims = kinde.accessToken.getCustomClaims() as Omit<T, KindeAccessTokenProhibitedClaims>;
+  return new Proxy<Omit<T, KindeAccessTokenProhibitedClaims>>(claims, accessTokenClaimsHandler);
 }
 
 /**
  * Returns mutatable M2M token object
  */
-export function getKindeM2MTokenHandle<T>(): T & M2MToken {
-  return new Proxy<T & AccessToken>(
-    //@ts-expect-error This is injected at runtime
-    kinde.m2mToken.value,
-    m2mTokenProxyHandler,
-  );
+export function m2mTokenClaims<T extends object>(): Omit<T, Kindem2mTokenProhibitedClaims> { 
+  const claims = kinde.accessToken.getCustomClaims() as Omit<T, Kindem2mTokenProhibitedClaims>;
+  return new Proxy<Omit<T, Kindem2mTokenProhibitedClaims>>(claims, m2mTokenClaimsHandler);
+}
+
+/**
+ * Gets the environment variable from the Kinde buisness dashboard
+ * @param key 
+ */
+export function getEnvironmentVariable<T = string>(key: T): string {
+  return kinde.env.get(key as string);
+}
+
+/**
+ * Deny access to the user
+ * @param reason Reason for denying access
+ */
+export function denyAccess(reason: string) {
+  kinde.auth.denyAccess(reason);
 }
