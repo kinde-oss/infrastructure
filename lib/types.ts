@@ -145,7 +145,15 @@ export type WorkflowSettings = {
     /**
      * Exposes the fetch method to call extenal APIs to the workflow
      */
-    "kinde.fetch"?: {};
+    "kinde.fetch"?: {}; 
+    /**
+    * Exposes access to the kinde environment variables
+    */
+    "kinde.env"?: {};
+    /**
+    * Exposes access to the kinde environment variables
+    */
+    "kinde.auth"?: {};
   };
 };
 

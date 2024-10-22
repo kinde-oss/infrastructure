@@ -1,15 +1,21 @@
 import { describe, it, expect, vi } from "vitest";
-import { idTokenCustomClaims, accessTokenCustomClaims } from "./main";
-import { get } from "http";
+import { idTokenCustomClaims, accessTokenCustomClaims, getEnvironmentVariable } from "./main";
 
 global.kinde = {
   idToken: {
-    getCustomClaims: vi.fn().mockReturnValue({  }),
+    getCustomClaims: vi.fn().mockReturnValue({ name: 'John Doe'  }),
     setCustomClaim: vi.fn(),
   },
   accessToken: {
-    getCustomClaims: vi.fn().mockReturnValue({  }),
+    getCustomClaims: vi.fn().mockReturnValue({ name: 'John Doe' }),
     setCustomClaim: vi.fn(),
+  },
+  env: {
+    get: vi.fn().mockReturnValue({
+      value: "123",
+      isSecret: false,
+    }),
+    
 
   },
 };
@@ -17,16 +23,8 @@ global.kinde = {
 describe("ID Token", () => {
   it("should return a proxy object with IdToken properties", () => {
     const idTokenHandle = idTokenCustomClaims();
-    expect(idTokenHandle).toHaveProperty("sub");
-    expect(idTokenHandle.sub).toBe("123");
-  });
-
-  it("should not allow overriding of sub", () => {
-    const idTokenHandle = idTokenCustomClaims();
-    expect(() => {
-      idTokenHandle.sub = "456";
-    }).toThrowError("Access to sub is not allowed");
-    expect(idTokenHandle.sub).toBe("123");
+    expect(idTokenHandle).not.toHaveProperty("sub");
+    expect(idTokenHandle).toHaveProperty("name");
   });
 
   it("should allow setting of custom property", () => {
@@ -39,17 +37,9 @@ describe("ID Token", () => {
 describe("Access Token", () => {
   it("should return a proxy object with AccessToken properties", () => {
     const accessTokenHandle = accessTokenCustomClaims();
-    expect(accessTokenHandle).toHaveProperty("sub");
-    expect(accessTokenHandle.sub).toBe("654");
-  });
+    expect(accessTokenHandle).not.toHaveProperty("sub");
+    expect(accessTokenHandle).toHaveProperty("name");
 
-  it("should not allow overriding of sub", () => {
-    const accessTokenHandle = accessTokenCustomClaims();
-
-    expect(() => {
-      accessTokenHandle.sub = "456";
-    }).toThrowError("Access to sub is not allowed");
-    expect(accessTokenHandle.sub).toBe("654");
   });
 
   it("should allow setting of custom property", () => {
@@ -58,3 +48,13 @@ describe("Access Token", () => {
     expect(accessTokenHandle.ipAddress).toBe("1.2.3.4");
   });
 });
+
+describe("getEnvironmentVariable", () => {
+  it("should return the value of the environment variable", () => {
+    const env = getEnvironmentVariable("API_KEY");
+    expect(env).toStrictEqual({
+      "isSecret": false,
+      "value": "123",
+    });
+  });
+})

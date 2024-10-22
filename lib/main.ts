@@ -5,7 +5,7 @@ declare namespace kinde {
   export function fetch(url: string, options: unknown): Promise<any>;
 
   namespace env {
-    export function get(key: string): string;
+    export function get(key: string): { value: string, isSecret: boolean };
   }
 
   namespace idToken {
@@ -66,7 +66,7 @@ const m2mTokenClaimsHandler = {
  */
 export function idTokenCustomClaims<T extends object>(): Omit<T, KindeIdTokenProhibitedClaims> {
   if (!kinde.idToken) {
-    throw new Error("IdToken binding not availabe");
+    throw new Error("IdToken binding not available, please add to workflow settings to enable");
   }
   const claims = kinde.idToken.getCustomClaims() as Omit<T, KindeIdTokenProhibitedClaims>;
   return new Proxy<Omit<T, KindeIdTokenProhibitedClaims>>(claims, idTokenClaimsHandler);
@@ -77,7 +77,7 @@ export function idTokenCustomClaims<T extends object>(): Omit<T, KindeIdTokenPro
  */
 export function accessTokenCustomClaims<T extends object>(): Omit<T, KindeAccessTokenProhibitedClaims> {
   if (!kinde.accessToken) {
-    throw new Error("accessToken binding not availabe");
+    throw new Error("accessToken binding not available, please add to workflow settings to enable");
   }
   const claims = kinde.accessToken.getCustomClaims() as Omit<T, KindeAccessTokenProhibitedClaims>;
   return new Proxy<Omit<T, KindeAccessTokenProhibitedClaims>>(claims, accessTokenClaimsHandler);
@@ -88,7 +88,7 @@ export function accessTokenCustomClaims<T extends object>(): Omit<T, KindeAccess
  */
 export function m2mTokenClaims<T extends object>(): Omit<T, Kindem2mTokenProhibitedClaims> { 
   if (!kinde.m2mToken) {
-    throw new Error("m2mToken binding not availabe");
+    throw new Error("m2mToken binding not available, please add to workflow settings to enable");
   }
   const claims = kinde.m2mToken.getCustomClaims() as Omit<T, Kindem2mTokenProhibitedClaims>;
   return new Proxy<Omit<T, Kindem2mTokenProhibitedClaims>>(claims, m2mTokenClaimsHandler);
@@ -98,8 +98,13 @@ export function m2mTokenClaims<T extends object>(): Omit<T, Kindem2mTokenProhibi
  * Gets the environment variable from the Kinde buisness dashboard
  * @param key 
  */
-export function getEnvironmentVariable<T = string>(key: T): string {
-  return kinde.env.get(key as string);
+
+export function getEnvironmentVariable<T = string>(key: T): { value: string, isSecret: boolean } {
+  if (!kinde.env) {
+    throw new Error("env binding not available, please add to workflow settings to enable");
+  }
+
+  return kinde.env.get(key as string)
 }
 
 /**
@@ -107,5 +112,8 @@ export function getEnvironmentVariable<T = string>(key: T): string {
  * @param reason Reason for denying access
  */
 export function denyAccess(reason: string) {
+  if (!kinde.auth) {
+    throw new Error("auth binding not available");
+  }
   kinde.auth.denyAccess(reason);
 }
