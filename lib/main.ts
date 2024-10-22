@@ -65,6 +65,9 @@ const m2mTokenClaimsHandler = {
  * Returns mutatable ID Token object
  */
 export function idTokenCustomClaims<T extends object>(): Omit<T, KindeIdTokenProhibitedClaims> {
+  if (!kinde.idToken) {
+    throw new Error("IdToken binding not availabe");
+  }
   const claims = kinde.idToken.getCustomClaims() as Omit<T, KindeIdTokenProhibitedClaims>;
   return new Proxy<Omit<T, KindeIdTokenProhibitedClaims>>(claims, idTokenClaimsHandler);
 }
@@ -73,6 +76,9 @@ export function idTokenCustomClaims<T extends object>(): Omit<T, KindeIdTokenPro
  * Returns mutatable access token object
  */
 export function accessTokenCustomClaims<T extends object>(): Omit<T, KindeAccessTokenProhibitedClaims> {
+  if (!kinde.accessToken) {
+    throw new Error("accessToken binding not availabe");
+  }
   const claims = kinde.accessToken.getCustomClaims() as Omit<T, KindeAccessTokenProhibitedClaims>;
   return new Proxy<Omit<T, KindeAccessTokenProhibitedClaims>>(claims, accessTokenClaimsHandler);
 }
@@ -81,7 +87,10 @@ export function accessTokenCustomClaims<T extends object>(): Omit<T, KindeAccess
  * Returns mutatable M2M token object
  */
 export function m2mTokenClaims<T extends object>(): Omit<T, Kindem2mTokenProhibitedClaims> { 
-  const claims = kinde.accessToken.getCustomClaims() as Omit<T, Kindem2mTokenProhibitedClaims>;
+  if (!kinde.m2mToken) {
+    throw new Error("m2mToken binding not availabe");
+  }
+  const claims = kinde.m2mToken.getCustomClaims() as Omit<T, Kindem2mTokenProhibitedClaims>;
   return new Proxy<Omit<T, Kindem2mTokenProhibitedClaims>>(claims, m2mTokenClaimsHandler);
 }
 
