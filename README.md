@@ -168,7 +168,7 @@ This example will get the api token from the Kinde environment variables and cal
 ##### Required bindings
 
 ```
-kinde.accessToken
+kinde.ipToken
 kinde.fetch
 url
 kinde.env
@@ -186,13 +186,13 @@ async handle(event: onUserTokenGeneratedEvent) {
     })
   });
 
-  const accessToken = ipTokenCustomClaims<
+  const idToken = idTokenCustomClaims<
     {
       timezone: string;
     }
   >();
 
-  accessToken.timezone = ipDetails.timezone;
+  idToken.timezone = ipDetails.timezone;
 },
 ```
 
