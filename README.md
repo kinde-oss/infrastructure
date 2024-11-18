@@ -168,7 +168,7 @@ This example will get the api token from the Kinde environment variables and cal
 ##### Required bindings
 
 ```
-kinde.ipToken
+kinde.idToken
 kinde.fetch
 url
 kinde.env
