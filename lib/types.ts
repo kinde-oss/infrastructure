@@ -127,3 +127,10 @@ export type KindeFetchOptions = {
   headers: Record<string, string>;
   body?: URLSearchParams;
 };
+
+export type KindeAPIRequest = {
+  method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH",
+  endpoint: string,
+  params?: Record<string, string>,
+  contentType?: "application/json" | "application/x-www-form-urlencoded"
+}
