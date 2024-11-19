@@ -253,7 +253,7 @@ export async function createKindeAPI(
   const callKindeAPI = async (
     method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH",
     endpoint: string,
-    params: Record<string, string>,
+    params?: Record<string, string>,
   ) => {
     const result = await kinde.fetch(
       `${event.context.domains.kindeDomain}/api/v1/${endpoint}`,
@@ -265,7 +265,7 @@ export async function createKindeAPI(
           "Content-Type": "application/json",
           accept: "application/json",
         },
-        body: new URLSearchParams(params),
+        body: params && new URLSearchParams(params),
       },
     );
 
@@ -273,13 +273,13 @@ export async function createKindeAPI(
   };
 
   return {
-    get: async (endpoint: string, params: Record<string, string>) =>
+    get: async (endpoint: string, params?: Record<string, string>) =>
       await callKindeAPI("GET", endpoint, params),
-    post: async (endpoint: string, params: Record<string, string>) =>
+    post: async (endpoint: string, params?: Record<string, string>) =>
       await callKindeAPI("PATCH", endpoint, params),
-    put: async (endpoint: string, params: Record<string, string>) =>
+    put: async (endpoint: string, params?: Record<string, string>) =>
       await callKindeAPI("PUT", endpoint, params),
-    delete: async (endpoint: string, params: Record<string, string>) =>
+    delete: async (endpoint: string, params?: Record<string, string>) =>
       await callKindeAPI("DELETE", endpoint, params),
   };
 }
