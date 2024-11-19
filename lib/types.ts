@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 export type WorkflowSettings = {
   /**
    * {string} id The unique identifier of the workflow
@@ -129,8 +130,8 @@ export type KindeFetchOptions = {
 };
 
 export type KindeAPIRequest = {
-  method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH",
-  endpoint: string,
-  params?: Record<string, string>,
-  contentType?: "application/json" | "application/x-www-form-urlencoded"
-}
+  method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
+  endpoint: string;
+  params?: Record<string, string>;
+  contentType?: "application/json" | "application/x-www-form-urlencoded";
+};

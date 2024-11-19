@@ -9,63 +9,97 @@ import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace kinde {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function fetch(url: string, options: unknown): Promise<any>;
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace env {
     export function get(key: string): { value: string; isSecret: boolean };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace idToken {
     export function setCustomClaim(key: string, value: unknown): void;
     export function getCustomClaims(): unknown;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace accessToken {
     export function setCustomClaim(key: string, value: unknown): void;
     export function getCustomClaims(): unknown;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace m2mToken {
     export function setCustomClaim(key: string, value: unknown): void;
     export function getCustomClaims(): unknown;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace auth {
     export function denyAccess(reason: string): void;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace risk {
     export function setScore(score: number): void;
     export function getScore(): number;
   }
 }
 
-const idTokenClaimsHandler = {
-  get(target: any, prop: string, receiver: any) {
-    return Reflect.get(target, prop.toString(), receiver);
+const idTokenClaimsHandler: ProxyHandler<Record<string, unknown>> = {
+  get(
+    target: Record<string, unknown>,
+    prop: string,
+    value: ProxyHandler<Record<string, unknown>>,
+  ) {
+    return Reflect.get(target, prop.toString(), value);
   },
-  set(target: any, prop: string, receiver: any) {
-    kinde.idToken.setCustomClaim(prop, receiver);
-    return Reflect.set(target, prop, receiver);
+  set(
+    target: Record<string, unknown>,
+    prop: string,
+    value: ProxyHandler<Record<string, unknown>>,
+  ) {
+    kinde.idToken.setCustomClaim(prop, value);
+    return Reflect.set(target, prop, value);
   },
 };
 
 const accessTokenClaimsHandler = {
-  get(target: any, prop: string, receiver: any) {
-    return Reflect.get(target, prop.toString(), receiver);
+  get(
+    target: Record<string, unknown>,
+    prop: string,
+    value: ProxyHandler<Record<string, unknown>>,
+  ) {
+    return Reflect.get(target, prop.toString(), value);
   },
-  set(target: any, prop: string, receiver: any) {
-    kinde.accessToken.setCustomClaim(prop, receiver);
-    return Reflect.set(target, prop, receiver);
+  set(
+    target: Record<string, unknown>,
+    prop: string,
+    value: ProxyHandler<Record<string, unknown>>,
+  ) {
+    kinde.accessToken.setCustomClaim(prop, value);
+    return Reflect.set(target, prop, value);
   },
 };
 
 const m2mTokenClaimsHandler = {
-  get(target: any, prop: string, receiver: any) {
-    return Reflect.get(target, prop.toString(), receiver);
+  get(
+    target: Record<string, unknown>,
+    prop: string,
+    value: ProxyHandler<Record<string, unknown>>,
+  ) {
+    return Reflect.get(target, prop.toString(), value);
   },
-  set(target: any, prop: string, receiver: any) {
-    kinde.m2mToken.setCustomClaim(prop, receiver);
-    return Reflect.set(target, prop, receiver);
+  set(
+    target: Record<string, unknown>,
+    prop: string,
+    value: ProxyHandler<Record<string, unknown>>,
+  ) {
+    kinde.m2mToken.setCustomClaim(prop, value);
+    return Reflect.set(target, prop, value);
   },
 };
 
@@ -167,6 +201,7 @@ export function denyAccess(reason: string) {
  * Fetch data from an external API
  * @param reason Reason for denying access
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function fetch<T = any>(
   url: string,
   options: KindeFetchOptions,
@@ -275,14 +310,14 @@ export async function createKindeAPI(
 
   return {
     get: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "GET", ...params}),
+      await callKindeAPI({ method: "GET", ...params }),
     post: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "POST", ...params}),
+      await callKindeAPI({ method: "POST", ...params }),
     patch: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "PATCH", ...params}),    
+      await callKindeAPI({ method: "PATCH", ...params }),
     put: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "PUT", ...params}),
+      await callKindeAPI({ method: "PUT", ...params }),
     delete: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "DELETE", ...params}),
+      await callKindeAPI({ method: "DELETE", ...params }),
   };
 }
