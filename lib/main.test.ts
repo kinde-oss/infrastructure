@@ -5,6 +5,7 @@ import {
   getEnvironmentVariable,
   createKindeAPI,
   WorkflowEvents,
+  WorkflowTrigger,
 } from "./main";
 
 global.kinde = {
@@ -24,6 +25,38 @@ global.kinde = {
   },
   fetch: vi.fn().mockResolvedValue({}),
 };
+
+const mockEvent: WorkflowEvents = {
+  "request": {
+    "ip": "1.2.3.4",
+    "auth": {
+      "audience": ["https://api.example.com/v1"]
+    }
+  },
+  "context": {
+    "auth": {
+      "origin": "refresh_token_request",
+      "connectionId": "conn_0192b...",
+      "isExistingSession": false
+    },
+    "user": {
+      "id": "kp_6a071...",
+      "identityId": "identity_0192c..."
+    },
+    "domains": {
+      "kindeDomain": "https://mykindebusiness.kinde.com"
+    },
+    "workflow": {
+      "trigger": WorkflowTrigger.UserTokenGeneration
+    },
+    "application": {
+      "clientId": "f77dbc..."
+    },
+    "organization": {
+      "code": "org_b5a9c8..."
+    }
+  }
+}
 
 describe("ID Token", () => {
   it("should return a proxy object with IdToken properties", () => {
@@ -65,12 +98,11 @@ describe("getEnvironmentVariable", () => {
 
 describe("createKindeAPI", () => {
   it("should return the value of the environment variable", async () => {
-    const env = await createKindeAPI("API_KEY" as WorkflowEvents, {
-      method: "GET",
-    });
+    const env = await createKindeAPI(mockEvent);
     expect(env).toStrictEqual({
       delete: expect.any(Function),
       get: expect.any(Function),
+      patch: expect.any(Function),
       post: expect.any(Function),
       put: expect.any(Function),
     });
