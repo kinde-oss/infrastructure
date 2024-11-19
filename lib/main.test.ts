@@ -27,36 +27,36 @@ global.kinde = {
 };
 
 const mockEvent: WorkflowEvents = {
-  "request": {
-    "ip": "1.2.3.4",
-    "auth": {
-      "audience": ["https://api.example.com/v1"]
-    }
+  request: {
+    ip: "1.2.3.4",
+    auth: {
+      audience: ["https://api.example.com/v1"],
+    },
   },
-  "context": {
-    "auth": {
-      "origin": "refresh_token_request",
-      "connectionId": "conn_0192b...",
-      "isExistingSession": false
+  context: {
+    auth: {
+      origin: "refresh_token_request",
+      connectionId: "conn_0192b...",
+      isExistingSession: false,
     },
-    "user": {
-      "id": "kp_6a071...",
-      "identityId": "identity_0192c..."
+    user: {
+      id: "kp_6a071...",
+      identityId: "identity_0192c...",
     },
-    "domains": {
-      "kindeDomain": "https://mykindebusiness.kinde.com"
+    domains: {
+      kindeDomain: "https://mykindebusiness.kinde.com",
     },
-    "workflow": {
-      "trigger": WorkflowTrigger.UserTokenGeneration
+    workflow: {
+      trigger: WorkflowTrigger.UserTokenGeneration,
     },
-    "application": {
-      "clientId": "f77dbc..."
+    application: {
+      clientId: "f77dbc...",
     },
-    "organization": {
-      "code": "org_b5a9c8..."
-    }
-  }
-}
+    organization: {
+      code: "org_b5a9c8...",
+    },
+  },
+};
 
 describe("ID Token", () => {
   it("should return a proxy object with IdToken properties", () => {

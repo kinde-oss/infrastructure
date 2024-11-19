@@ -275,14 +275,14 @@ export async function createKindeAPI(
 
   return {
     get: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "GET", ...params}),
+      await callKindeAPI({ method: "GET", ...params }),
     post: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "POST", ...params}),
+      await callKindeAPI({ method: "POST", ...params }),
     patch: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "PATCH", ...params}),    
+      await callKindeAPI({ method: "PATCH", ...params }),
     put: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "PUT", ...params}),
+      await callKindeAPI({ method: "PUT", ...params }),
     delete: async (params: Omit<KindeAPIRequest, "method">) =>
-      await callKindeAPI({ method: "DELETE", ...params}),
+      await callKindeAPI({ method: "DELETE", ...params }),
   };
 }
