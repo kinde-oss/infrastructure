@@ -4,7 +4,7 @@ import {
   KindeAccessTokenProhibitedClaims,
   Kindem2mTokenProhibitedClaims,
 } from "./prohibitedClaims.ts";
-import { KindeFetchOptions, WorkflowEvents } from "./types";
+import { KindeAPIRequest, KindeFetchOptions, WorkflowEvents } from "./types";
 import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
@@ -250,11 +250,12 @@ export async function createKindeAPI(
     },
   );
 
-  const callKindeAPI = async (
-    method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH",
-    endpoint: string,
-    params: Record<string, string>,
-  ) => {
+  const callKindeAPI = async ({
+    method,
+    endpoint,
+    params,
+    contentType = "application/json",
+  }: KindeAPIRequest) => {
     const result = await kinde.fetch(
       `${event.context.domains.kindeDomain}/api/v1/${endpoint}`,
       {
@@ -262,10 +263,10 @@ export async function createKindeAPI(
         responseFormat: "json",
         headers: {
           authorization: `Bearer ${token.access_token}`,
-          "Content-Type": "application/json",
+          "Content-Type": contentType,
           accept: "application/json",
         },
-        body: new URLSearchParams(params),
+        body: params && new URLSearchParams(params),
       },
     );
 
@@ -273,13 +274,15 @@ export async function createKindeAPI(
   };
 
   return {
-    get: async (endpoint: string, params: Record<string, string>) =>
-      await callKindeAPI("GET", endpoint, params),
-    post: async (endpoint: string, params: Record<string, string>) =>
-      await callKindeAPI("PATCH", endpoint, params),
-    put: async (endpoint: string, params: Record<string, string>) =>
-      await callKindeAPI("PUT", endpoint, params),
-    delete: async (endpoint: string, params: Record<string, string>) =>
-      await callKindeAPI("DELETE", endpoint, params),
+    get: async (params: Omit<KindeAPIRequest, "method">) =>
+      await callKindeAPI({ method: "GET", ...params}),
+    post: async (params: Omit<KindeAPIRequest, "method">) =>
+      await callKindeAPI({ method: "POST", ...params}),
+    patch: async (params: Omit<KindeAPIRequest, "method">) =>
+      await callKindeAPI({ method: "PATCH", ...params}),    
+    put: async (params: Omit<KindeAPIRequest, "method">) =>
+      await callKindeAPI({ method: "PUT", ...params}),
+    delete: async (params: Omit<KindeAPIRequest, "method">) =>
+      await callKindeAPI({ method: "DELETE", ...params}),
   };
 }
