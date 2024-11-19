@@ -53,18 +53,17 @@ const idTokenClaimsHandler: ProxyHandler<Record<string, unknown>> = {
   get(
     target: Record<string, unknown>,
     prop: string,
-    receiver: ProxyHandler<Record<string, unknown>>,
+    value: ProxyHandler<Record<string, unknown>>,
   ) {
-    return Reflect.get(target, prop.toString(), receiver);
+    return Reflect.get(target, prop.toString(), value);
   },
   set(
     target: Record<string, unknown>,
     prop: string,
-    value: unknown,
-    receiver: ProxyHandler<Record<string, unknown>>,
+    value: ProxyHandler<Record<string, unknown>>,
   ) {
     kinde.idToken.setCustomClaim(prop, value);
-    return Reflect.set(target, prop, value, receiver);
+    return Reflect.set(target, prop, value);
   },
 };
 
@@ -72,17 +71,17 @@ const accessTokenClaimsHandler = {
   get(
     target: Record<string, unknown>,
     prop: string,
-    receiver: ProxyHandler<Record<string, unknown>>,
+    value: ProxyHandler<Record<string, unknown>>,
   ) {
-    return Reflect.get(target, prop.toString(), receiver);
+    return Reflect.get(target, prop.toString(), value);
   },
   set(
     target: Record<string, unknown>,
     prop: string,
-    receiver: ProxyHandler<Record<string, unknown>>,
+    value: ProxyHandler<Record<string, unknown>>,
   ) {
-    kinde.accessToken.setCustomClaim(prop, receiver);
-    return Reflect.set(target, prop, receiver);
+    kinde.accessToken.setCustomClaim(prop, value);
+    return Reflect.set(target, prop, value);
   },
 };
 
@@ -90,17 +89,17 @@ const m2mTokenClaimsHandler = {
   get(
     target: Record<string, unknown>,
     prop: string,
-    receiver: ProxyHandler<Record<string, unknown>>,
+    value: ProxyHandler<Record<string, unknown>>,
   ) {
-    return Reflect.get(target, prop.toString(), receiver);
+    return Reflect.get(target, prop.toString(), value);
   },
   set(
     target: Record<string, unknown>,
     prop: string,
-    receiver: ProxyHandler<Record<string, unknown>>,
+    value: ProxyHandler<Record<string, unknown>>,
   ) {
-    kinde.m2mToken.setCustomClaim(prop, receiver);
-    return Reflect.set(target, prop, receiver);
+    kinde.m2mToken.setCustomClaim(prop, value);
+    return Reflect.set(target, prop, value);
   },
 };
 
