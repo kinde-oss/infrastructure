@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 export type WorkflowSettings = {
   /**
    * {string} id The unique identifier of the workflow

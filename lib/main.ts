@@ -9,61 +9,96 @@ import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace kinde {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function fetch(url: string, options: unknown): Promise<any>;
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace env {
     export function get(key: string): { value: string; isSecret: boolean };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace idToken {
     export function setCustomClaim(key: string, value: unknown): void;
     export function getCustomClaims(): unknown;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace accessToken {
     export function setCustomClaim(key: string, value: unknown): void;
     export function getCustomClaims(): unknown;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace m2mToken {
     export function setCustomClaim(key: string, value: unknown): void;
     export function getCustomClaims(): unknown;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace auth {
     export function denyAccess(reason: string): void;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace risk {
     export function setScore(score: number): void;
     export function getScore(): number;
   }
 }
 
-const idTokenClaimsHandler = {
-  get(target: any, prop: string, receiver: any) {
+const idTokenClaimsHandler: ProxyHandler<Record<string, unknown>> = {
+  get(
+    target: Record<string, unknown>,
+    prop: string,
+    receiver: ProxyHandler<Record<string, unknown>>,
+  ) {
     return Reflect.get(target, prop.toString(), receiver);
   },
-  set(target: any, prop: string, receiver: any) {
-    kinde.idToken.setCustomClaim(prop, receiver);
-    return Reflect.set(target, prop, receiver);
+  set(
+    target: Record<string, unknown>,
+    prop: string,
+    value: unknown,
+    receiver: ProxyHandler<Record<string, unknown>>,
+  ) {
+    kinde.idToken.setCustomClaim(prop, value);
+    return Reflect.set(target, prop, value, receiver);
   },
 };
 
 const accessTokenClaimsHandler = {
-  get(target: any, prop: string, receiver: any) {
+  get(
+    target: Record<string, unknown>,
+    prop: string,
+    receiver: ProxyHandler<Record<string, unknown>>,
+  ) {
     return Reflect.get(target, prop.toString(), receiver);
   },
-  set(target: any, prop: string, receiver: any) {
+  set(
+    target: Record<string, unknown>,
+    prop: string,
+    receiver: ProxyHandler<Record<string, unknown>>,
+  ) {
     kinde.accessToken.setCustomClaim(prop, receiver);
     return Reflect.set(target, prop, receiver);
   },
 };
 
 const m2mTokenClaimsHandler = {
-  get(target: any, prop: string, receiver: any) {
+  get(
+    target: Record<string, unknown>,
+    prop: string,
+    receiver: ProxyHandler<Record<string, unknown>>,
+  ) {
     return Reflect.get(target, prop.toString(), receiver);
   },
-  set(target: any, prop: string, receiver: any) {
+  set(
+    target: Record<string, unknown>,
+    prop: string,
+    receiver: ProxyHandler<Record<string, unknown>>,
+  ) {
     kinde.m2mToken.setCustomClaim(prop, receiver);
     return Reflect.set(target, prop, receiver);
   },
@@ -167,6 +202,7 @@ export function denyAccess(reason: string) {
  * Fetch data from an external API
  * @param reason Reason for denying access
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function fetch<T = any>(
   url: string,
   options: KindeFetchOptions,
