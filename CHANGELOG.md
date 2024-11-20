@@ -1,6 +1,19 @@
 # Changelog
 
 
+## 0.1.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.1.1...main)
+
+### 🩹 Fixes
+
+- Url bindings ([c9dcd16](https://github.com/kinde-oss/infrastructure/commit/c9dcd16))
+- Typo ([741b30b](https://github.com/kinde-oss/infrastructure/commit/741b30b))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+
 ## ...main
 
 ## 0.0.1...main
