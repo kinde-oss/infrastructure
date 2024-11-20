@@ -125,7 +125,7 @@ export default {
   async handle(event: onUserTokenGeneratedEvent) {
     const accessToken = accessTokenCustomClaims<{
       hello: string;
-      ip: string;
+      ipAddress: string;
     }>();
 
     accessToken.hello = "Hello there!";
@@ -155,10 +155,10 @@ kinde.accessToken
 
 ```typescript
 async handle(event: onUserTokenGeneratedEvent) {
-  if (accessToken.ipAddress.startsWith('192')) {
+  if (event.request.ip.startsWith('192')) {
     denyAccess("You are not allowed to access this resource");
   }
-},
+}
 ```
 
 #### Call an external API
@@ -170,8 +170,8 @@ This example will get the api token from the Kinde environment variables and cal
 ```
 kinde.idToken
 kinde.fetch
-url
 kinde.env
+url
 ```
 
 ```typescript
@@ -181,9 +181,9 @@ async handle(event: onUserTokenGeneratedEvent) {
   const { data: ipDetails } = await fetch(`https://ipinfo.io/${event.request.ip}?token=${ipInfoToken}`, {
     method: "GET",
     responseFormat: 'json',
-    headers: new Headers({
+    headers: {
       "Content-Type": "application/json",
-    })
+    }
   });
 
   const idToken = idTokenCustomClaims<
@@ -193,7 +193,7 @@ async handle(event: onUserTokenGeneratedEvent) {
   >();
 
   idToken.timezone = ipDetails.timezone;
-},
+}
 ```
 
 #### Kinde Management API
@@ -214,8 +214,8 @@ The example below will read the users permissions and add them to the accessToke
 ```
 kinde.accessToken
 kinde.fetch
-url
 kinde.env
+url
 ```
 
 ```typescript
@@ -225,14 +225,13 @@ async handle(event: onUserTokenGeneratedEvent) {
 
   const kindeAPI = await createKindeAPI(event);
 
-  const { data: res } = await kindeAPI.get(
-    `organizations/${orgCode}/users/${userId}/permissions`
-  );
+  const { data: res } = await kindeAPI.get({
+    endpoint: `organizations/${orgCode}/users/${userId}/permissions`,
+  });
 
   const accessToken = accessTokenCustomClaims<{ hello: string; settings: string; permissions: []}>();
   accessToken.hello = "Hello there!";
-  accessToken.settings = settings.output
-  accessToken.permissions = res.permissions
+  accessToken.permissions = res.permissions;
 },
 ```
 
