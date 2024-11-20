@@ -3,3 +3,4 @@ coverage
 CHANGELOG.md
 pnpm-lock.yaml
 package.json
+renovate.json
