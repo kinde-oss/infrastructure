@@ -175,7 +175,7 @@ url
 ```
 
 ```typescript
-aasync handle(event: onUserTokenGeneratedEvent) {
+async handle(event: onUserTokenGeneratedEvent) {
   const ipInfoToken = getEnvironmentVariable('IP_INFO_TOKEN')?.value
 
   const { data: ipDetails } = await fetch(`https://ipinfo.io/${event.request.ip}?token=${ipInfoToken}`, {
