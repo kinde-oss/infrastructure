@@ -63,6 +63,10 @@ export type WorkflowSettings = {
      * Exposes access to the kinde environment variables
      */
     "kinde.auth"?: {};
+    /**
+     * Add URL tooling
+     */
+    url?: {};
   };
 };
 
