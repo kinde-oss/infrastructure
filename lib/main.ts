@@ -8,6 +8,7 @@ import { KindeAPIRequest, KindeFetchOptions, WorkflowEvents } from "./types";
 import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
+type KindePlaceholder = `@${string}@`;
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace kinde {
@@ -340,16 +341,23 @@ export async function createKindeAPI(
   };
 }
 
-export const getKindeWidget = () => "@cd65da2987c740d58961024aa4a27194@";
+export const getKindeWidget = (): KindePlaceholder =>
+  "@cd65da2987c740d58961024aa4a27194@";
 
-export const getKindeNonce = () => "@43dffdf2c22f40e9981303cb383f6fac@";
+export const getKindeNonce = (): KindePlaceholder =>
+  "@43dffdf2c22f40e9981303cb383f6fac@";
 
-export const getKindeRequiredCSS = () => "@ce0ef44d50f6408985f00c04a85d8430@";
+export const getKindeRequiredCSS = (): KindePlaceholder =>
+  "@ce0ef44d50f6408985f00c04a85d8430@";
 
-export const getKindeRequiredJS = () => "@8103c7ff23fe49edb9b0537d2927e74e@";
+export const getKindeRequiredJS = (): KindePlaceholder =>
+  "@8103c7ff23fe49edb9b0537d2927e74e@";
 
-export const getKindeCSRF = () => "@0c654432670c4d0292c3a0bc3c533247@";
+export const getKindeCSRF = (): KindePlaceholder =>
+  "@0c654432670c4d0292c3a0bc3c533247@";
 
-export const getKindeSignUpUrl = () => "@b1d3a51558e64036ad072b56ebae37f5@";
+export const getKindeSignUpUrl = (): KindePlaceholder =>
+  "@b1d3a51558e64036ad072b56ebae37f5@";
 
-export const getKindeSignInUrl = () => "@847681e125384709836f921deb311104@";
+export const getKindeSignInUrl = (): KindePlaceholder =>
+  "@847681e125384709836f921deb311104@";
