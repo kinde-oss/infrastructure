@@ -20,6 +20,11 @@ declare namespace kinde {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace localization {
+    export function get(key: string): string;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace idToken {
     export function setCustomClaim(key: string, value: unknown): void;
     export function getCustomClaims(): unknown;
@@ -112,7 +117,7 @@ export function idTokenCustomClaims<T extends object>(): Omit<
 > {
   if (!kinde.idToken) {
     throw new Error(
-      "IdToken binding not available, please add to workflow settings to enable",
+      "IdToken binding not available, please add to workflow/page settings to enable",
     );
   }
   const claims = kinde.idToken.getCustomClaims() as Omit<
@@ -134,7 +139,7 @@ export function accessTokenCustomClaims<T extends object>(): Omit<
 > {
   if (!kinde.accessToken) {
     throw new Error(
-      "accessToken binding not available, please add to workflow settings to enable",
+      "accessToken binding not available, please add to workflow/page settings to enable",
     );
   }
   const claims = kinde.accessToken.getCustomClaims() as Omit<
@@ -156,7 +161,7 @@ export function m2mTokenClaims<T extends object>(): Omit<
 > {
   if (!kinde.m2mToken) {
     throw new Error(
-      "m2mToken binding not available, please add to workflow settings to enable",
+      "m2mToken binding not available, please add to workflow/page settings to enable",
     );
   }
   const claims = kinde.m2mToken.getCustomClaims() as Omit<
@@ -173,17 +178,30 @@ export function m2mTokenClaims<T extends object>(): Omit<
  * Gets the environment variable from the Kinde buisness dashboard
  * @param key
  */
-
 export function getEnvironmentVariable<T = string>(
   key: T,
 ): { value: string; isSecret: boolean } {
   if (!kinde.env) {
     throw new Error(
-      "env binding not available, please add to workflow settings to enable",
+      "env binding not available, please add to workflow/page settings to enable",
     );
   }
 
   return kinde.env.get(key as string);
+}
+
+/**
+ * Gets the environment variable from the Kinde buisness dashboard
+ * @param key
+ */
+export function getLocalization(key: string): string {
+  if (!kinde.localization) {
+    throw new Error(
+      "localization binding not available, please add to workflow/page settings to enable",
+    );
+  }
+
+  return kinde.localization.get(key);
 }
 
 /**
@@ -321,3 +339,17 @@ export async function createKindeAPI(
       await callKindeAPI({ method: "DELETE", ...params }),
   };
 }
+
+export const getKindeWidget = () => "@cd65da2987c740d58961024aa4a27194@";
+
+export const getKindeNonce = () => "@43dffdf2c22f40e9981303cb383f6fac@";
+
+export const getKindeRequiredCSS = () => "@ce0ef44d50f6408985f00c04a85d8430@";
+
+export const getKindeRequiredJS = () => "@8103c7ff23fe49edb9b0537d2927e74e@";
+
+export const getKindeCSRF = () => "@0c654432670c4d0292c3a0bc3c533247@";
+
+export const getKindeSignUpUrl = () => "@b1d3a51558e64036ad072b56ebae37f5@";
+
+export const getKindeSignInUrl = () => "@847681e125384709836f921deb311104@";

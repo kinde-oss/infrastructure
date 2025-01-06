@@ -64,6 +64,10 @@ export type WorkflowSettings = {
      */
     "kinde.auth"?: {};
     /**
+     * Exposes access to the kinde localization
+     */
+    "kinde.localization": {};
+    /**
      * Add URL tooling
      */
     url?: {};
