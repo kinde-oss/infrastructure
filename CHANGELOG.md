@@ -1,6 +1,29 @@
 # Changelog
 
 
+## 0.1.2...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.1.2...main)
+
+### 🚀 Enhancements
+
+- Add support for pages ([abc58d4](https://github.com/kinde-oss/infrastructure/commit/abc58d4))
+- Add return types ([d4da3dc](https://github.com/kinde-oss/infrastructure/commit/d4da3dc))
+
+### 🩹 Fixes
+
+- **deps:** Update dependency vite-plugin-dts to v4.4.0 ([79ef60a](https://github.com/kinde-oss/infrastructure/commit/79ef60a))
+- **deps:** Update dependency prettier to v3.4.2 ([1a74f1b](https://github.com/kinde-oss/infrastructure/commit/1a74f1b))
+- **deps:** Update dependency @types/node to v22.10.5 ([4878bc8](https://github.com/kinde-oss/infrastructure/commit/4878bc8))
+
+### 🏡 Chore
+
+- Ignore renovate.json ([ed13189](https://github.com/kinde-oss/infrastructure/commit/ed13189))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+
 ## 0.1.1...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.1.1...main)
