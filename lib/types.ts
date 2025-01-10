@@ -175,9 +175,9 @@ interface Route {
   /** The requested widget context (e.g., 'register' or 'choose_organization') */
   context: string;
   /** The type of authentication flow ('register' or 'login') */
-  flow: 'register' | 'login';
+  flow: "register" | "login";
   /** The current path of the request ('auth', 'account', or '/') */
-  path: 'auth' | 'account' | '/';
+  path: "auth" | "account" | "/";
 }
 
 /**
@@ -213,7 +213,7 @@ interface KindePageContext {
 /**
  * The request object containing information about the current request
  */
-interface  KindePageRequest {
+interface KindePageRequest {
   /** Parameters extracted from the authorization URL */
   authUrlParams: AuthUrlParams;
   /** Localization settings for the page */
