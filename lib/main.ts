@@ -18,6 +18,9 @@ export const version = packageVersion;
 type KindePlaceholder = `@${string}@`;
 
 const getAssetUrl = (assetPath: string, orgCode?: OrgCode) => {
+  if (!assetPath || assetPath.includes("..")) {
+    throw new Error("Invalid asset path");
+  }
   return `/${assetPath}?${orgCode ? `p_org_code=${orgCode}&` : ""}cache=@8973ff883c2c40e1bad198b543e12b24@`;
 };
 
