@@ -354,41 +354,93 @@ export async function createKindeAPI(
 const registerGUID = "@b1d3a51558e64036ad072b56ebae37f5@";
 const loginGUID = "@847681e125384709836f921deb311104@";
 
+/**
+ * 
+ * @returns Kinde placeholder for the main page content
+ */
 export const getKindeWidget = (): KindePlaceholder =>
   "@cd65da2987c740d58961024aa4a27194@";
 
+/**
+ * 
+ * @returns Kinde placeholder for the nonce
+ */
 export const getKindeNonce = (): KindePlaceholder =>
   "@43dffdf2c22f40e9981303cb383f6fac@";
 
+/**
+ * 
+ * @returns Kinde placeholder for the required CSS
+ */
 export const getKindeRequiredCSS = (): KindePlaceholder =>
   "@ce0ef44d50f6408985f00c04a85d8430@";
 
+/**
+ * 
+ * @returns Kinde placeholder for the required JS
+ */
 export const getKindeRequiredJS = (): KindePlaceholder =>
   "@8103c7ff23fe49edb9b0537d2927e74e@";
 
+/**
+ * 
+ * @returns Kinde placeholder for the CSRF token
+ */
 export const getKindeCSRF = (): KindePlaceholder =>
   "@0c654432670c4d0292c3a0bc3c533247@";
 
+/**
+ * 
+ * @returns Register URL Placeholder
+ */
 export const getKindeRegisterUrl = (): KindePlaceholder => registerGUID;
 
+/**
+ * 
+ * @returns Login URL Placeholder
+ */
 export const getKindeLoginUrl = (): KindePlaceholder => loginGUID;
 
+/**
+ * 
+ * @returns Register URL Placeholder
+ */
 export const getKindeSignUpUrl = (): KindePlaceholder => registerGUID;
 
+/**
+ * 
+ * @returns Login URL Placeholder
+ */
 export const getKindeSignInUrl = (): KindePlaceholder => loginGUID;
 
+/**
+ * 
+ * @returns Light Mode Logo Placeholder
+ */
 export const getLogoUrl = (orgCode: OrgCode) => {
   return getAssetUrl("logo", orgCode);
 };
 
+/**
+ * 
+ * @returns Dark Mode Logo Placeholder
+ */
 export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
   return getAssetUrl("logo_dark", orgCode);
 };
 
+/**
+ * 
+ * @returns SVG FavIcon Placeholder
+ */
 export const getSVGFavicon = (orgCode: OrgCode) => {
   return getAssetUrl("favicon_svg", orgCode);
 };
 
+/**
+ * 
+ * @returns Fallback FavIcon Placeholder
+ */
 export const getFallbackFavicon = (orgCode: OrgCode) => {
   return getAssetUrl("favicon_fallback", orgCode);
 };
@@ -404,6 +456,20 @@ const coloursValid = (...colors: (string | undefined)[]) =>
 const borderRadiusValid = (...radii: (string | undefined)[]) =>
   radii.every(isValidBorderRadius) || undefined;
 
+
+/**
+ * Sets custom properties for the Kinde Designer.
+ *
+ * @param {KindeDesignerCustomProperties} params - The parameters for setting custom properties.
+ * @param {string} params.baseBackgroundColor - The base background color.
+ * @param {string} params.baseLinkColor - The base link color.
+ * @param {string} params.buttonBorderRadius - The border radius for buttons.
+ * @param {string} params.primaryButtonBackgroundColor - The background color for primary buttons.
+ * @param {string} params.primaryButtonColor - The color for primary buttons.
+ * @param {string} params.cardBorderRadius - The border radius for cards.
+ * @param {string} params.inputBorderRadius - The border radius for input fields.
+ * @returns {void}
+ */
 export const setKindeDesignerCustomProperties = ({
   baseBackgroundColor,
   baseLinkColor,
@@ -436,13 +502,21 @@ export const setKindeDesignerCustomProperties = ({
     throw new Error("Invalid border radius value provided");
   }
 
-  return `
-        ${baseBackgroundColor ? `--kinde-designer-base-background-color: ${baseBackgroundColor};` : ""}
-        ${baseLinkColor ? `--kinde-designer-base-link-color: ${baseLinkColor};` : ""}
-        ${cardBorderRadius ? `--kinde-designer-card-border-radius: ${cardBorderRadius};` : ""}
-        ${buttonBorderRadius ? `--kinde-designer-button-border-radius: ${buttonBorderRadius};` : ""}
-        ${inputBorderRadius ? `--kinde-designer-control-select-text-border-radius: ${inputBorderRadius};` : ""}
-        ${primaryButtonBackgroundColor ? `--kinde-designer-button-primary-background-color: ${primaryButtonBackgroundColor};` : ""}
-        ${primaryButtonColor ? `--kinde-designer-button-primary-color: ${primaryButtonColor};` : ""}
-        `;
+  return [
+    baseBackgroundColor &&
+      `--kinde-designer-base-background-color: ${baseBackgroundColor};`,
+    baseLinkColor && `--kinde-designer-base-link-color: ${baseLinkColor};`,
+    cardBorderRadius &&
+      `--kinde-designer-card-border-radius: ${cardBorderRadius};`,
+    buttonBorderRadius &&
+      `--kinde-designer-button-border-radius: ${buttonBorderRadius};`,
+    inputBorderRadius &&
+      `--kinde-designer-control-select-text-border-radius: ${inputBorderRadius};`,
+    primaryButtonBackgroundColor &&
+      `--kinde-designer-button-primary-background-color: ${primaryButtonBackgroundColor};`,
+    primaryButtonColor &&
+      `--kinde-designer-button-primary-color: ${primaryButtonColor};`,
+  ]
+    .filter(Boolean)
+    .join("\n");
 };
