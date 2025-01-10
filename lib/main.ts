@@ -457,7 +457,7 @@ const borderRadiusValid = (...radii: (string | undefined)[]) =>
  * @param {string} params.primaryButtonColor - The color for primary buttons.
  * @param {string} params.cardBorderRadius - The border radius for cards.
  * @param {string} params.inputBorderRadius - The border radius for input fields.
- * @returns {void}
+ * @returns {string} A string of CSS custom properties
  */
 export const setKindeDesignerCustomProperties = ({
   baseBackgroundColor,
