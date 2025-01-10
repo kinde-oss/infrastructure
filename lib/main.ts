@@ -9,6 +9,11 @@ import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
 type KindePlaceholder = `@${string}@`;
+type OrgCode = `org_${string}`;
+
+const getAssetUrl = (assetPath: string, orgCode?: OrgCode) => {
+  return `/${assetPath}?${orgCode ? `p_org_code=${orgCode}&` : ""}cache=@8973ff883c2c40e1bad198b543e12b24@`;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace kinde {
@@ -341,6 +346,9 @@ export async function createKindeAPI(
   };
 }
 
+const registerGUID = "@b1d3a51558e64036ad072b56ebae37f5@";
+const loginGUID = "@847681e125384709836f921deb311104@";
+
 export const getKindeWidget = (): KindePlaceholder =>
   "@cd65da2987c740d58961024aa4a27194@";
 
@@ -356,8 +364,56 @@ export const getKindeRequiredJS = (): KindePlaceholder =>
 export const getKindeCSRF = (): KindePlaceholder =>
   "@0c654432670c4d0292c3a0bc3c533247@";
 
-export const getKindeSignUpUrl = (): KindePlaceholder =>
-  "@b1d3a51558e64036ad072b56ebae37f5@";
+export const getKindeRegisterUrl = (): KindePlaceholder => registerGUID;
 
-export const getKindeSignInUrl = (): KindePlaceholder =>
-  "@847681e125384709836f921deb311104@";
+export const getKindeLoginUrl = (): KindePlaceholder => loginGUID;
+
+export const getKindeSignUpUrl = (): KindePlaceholder => registerGUID;
+
+export const getKindeSignInUrl = (): KindePlaceholder => loginGUID;
+
+export const getLogoUrl = (orgCode: OrgCode) => {
+  return getAssetUrl("logo", orgCode);
+};
+
+export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
+  return getAssetUrl("logo_dark", orgCode);
+};
+
+export const getSVGFavicon = (orgCode: OrgCode) => {
+  return getAssetUrl("favicon_svg", orgCode);
+};
+
+export const getFallbackFavicon = (orgCode: OrgCode) => {
+  return getAssetUrl("favicon_fallback", orgCode);
+};
+
+export type KindeDesignerCustomProperties = {
+  baseBackgroundColor?: string;
+  baseLinkColor?: string;
+  buttonBorderRadius?: string;
+  primaryButtonBackgroundColor?: string;
+  primaryButtonColor?: string;
+  cardBorderRadius?: string;
+  inputBorderRadius?: string;
+};
+
+export const setKindeDesignerCustomProperties = ({
+  baseBackgroundColor,
+  baseLinkColor,
+  buttonBorderRadius,
+  primaryButtonBackgroundColor,
+  primaryButtonColor,
+  cardBorderRadius,
+  inputBorderRadius,
+}: KindeDesignerCustomProperties) => {
+  return `
+        ${baseBackgroundColor ? `--kinde-designer-base-background-color: ${baseBackgroundColor};` : ""}
+        ${baseLinkColor ? `--kinde-designer-base-link-color: $${baseLinkColor};` : ""}
+        ${cardBorderRadius ? `--kinde-designer-card-border-radius: ${cardBorderRadius};` : ""}
+        ${buttonBorderRadius ? `--kinde-designer-button-border-radius: ${buttonBorderRadius};` : ""}
+        ${inputBorderRadius ? `--kinde-designer-control-select-text-border-radius: ${inputBorderRadius};` : ""}
+        ${primaryButtonBackgroundColor ? `--kinde-designer-button-primary-background-color: ${primaryButtonBackgroundColor};` : ""}
+        ${primaryButtonColor ? `--kinde-designer-button-primary-color: ${primaryButtonColor};` : ""}
+        `;
+};
