@@ -342,66 +342,66 @@ const registerGUID = "@b1d3a51558e64036ad072b56ebae37f5@";
 const loginGUID = "@847681e125384709836f921deb311104@";
 
 /**
- * 
+ *
  * @returns Kinde placeholder for the main page content
  */
 export const getKindeWidget = (): KindePlaceholder =>
   "@cd65da2987c740d58961024aa4a27194@";
 
 /**
- * 
+ *
  * @returns Kinde placeholder for the nonce
  */
 export const getKindeNonce = (): KindePlaceholder =>
   "@43dffdf2c22f40e9981303cb383f6fac@";
 
 /**
- * 
+ *
  * @returns Kinde placeholder for the required CSS
  */
 export const getKindeRequiredCSS = (): KindePlaceholder =>
   "@ce0ef44d50f6408985f00c04a85d8430@";
 
 /**
- * 
+ *
  * @returns Kinde placeholder for the required JS
  */
 export const getKindeRequiredJS = (): KindePlaceholder =>
   "@8103c7ff23fe49edb9b0537d2927e74e@";
 
 /**
- * 
+ *
  * @returns Kinde placeholder for the CSRF token
  */
 export const getKindeCSRF = (): KindePlaceholder =>
   "@0c654432670c4d0292c3a0bc3c533247@";
 
 /**
- * 
+ *
  * @returns Register URL Placeholder
  */
 export const getKindeRegisterUrl = (): KindePlaceholder => registerGUID;
 
 /**
- * 
+ *
  * @returns Login URL Placeholder
  */
 export const getKindeLoginUrl = (): KindePlaceholder => loginGUID;
 
 /**
- * 
+ *
  * @returns Register URL Placeholder
  */
 export const getKindeSignUpUrl = (): KindePlaceholder => registerGUID;
 
 /**
- * 
+ *
  * @returns Login URL Placeholder
  */
 export const getKindeSignInUrl = (): KindePlaceholder => loginGUID;
 
 /**
- * 
+ *
  * @returns Light Mode Logo Placeholder
  */
 export const getLogoUrl = (orgCode: OrgCode) => {
@@ -409,7 +409,7 @@ export const getLogoUrl = (orgCode: OrgCode) => {
 };
 
 /**
- * 
+ *
  * @returns Dark Mode Logo Placeholder
  */
 export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
@@ -417,7 +417,7 @@ export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
 };
 
 /**
- * 
+ *
  * @returns SVG FavIcon Placeholder
  */
 export const getSVGFavicon = (orgCode: OrgCode) => {
@@ -425,7 +425,7 @@ export const getSVGFavicon = (orgCode: OrgCode) => {
 };
 
 /**
- * 
+ *
  * @returns Fallback FavIcon Placeholder
  */
 export const getFallbackFavicon = (orgCode: OrgCode) => {
@@ -442,7 +442,6 @@ const coloursValid = (...colors: (string | undefined)[]) =>
   colors.every(isValidColor) || undefined;
 const borderRadiusValid = (...radii: (string | undefined)[]) =>
   radii.every(isValidBorderRadius) || undefined;
-
 
 /**
  * Sets custom properties for the Kinde Designer.
