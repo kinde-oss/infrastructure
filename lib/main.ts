@@ -4,7 +4,13 @@ import {
   KindeAccessTokenProhibitedClaims,
   Kindem2mTokenProhibitedClaims,
 } from "./prohibitedClaims.ts";
-import { KindeAPIRequest, KindeDesignerCustomProperties, KindeFetchOptions, OrgCode, WorkflowEvents } from "./types";
+import {
+  KindeAPIRequest,
+  KindeDesignerCustomProperties,
+  KindeFetchOptions,
+  OrgCode,
+  WorkflowEvents,
+} from "./types";
 import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
@@ -387,11 +393,16 @@ export const getFallbackFavicon = (orgCode: OrgCode) => {
   return getAssetUrl("favicon_fallback", orgCode);
 };
 
-const isValidColor = (color: string | undefined) => !color || /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(.*\)$|^rgba\(.*\)$/.test(color);  
-const isValidBorderRadius = (radius: string | undefined) => !radius || /^\d+(%|px|rem|em)$/.test(radius); 
+const isValidColor = (color: string | undefined) =>
+  !color ||
+  /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(.*\)$|^rgba\(.*\)$/.test(color);
+const isValidBorderRadius = (radius: string | undefined) =>
+  !radius || /^\d+(%|px|rem|em)$/.test(radius);
 
-const coloursValid = (...colors: (string | undefined)[]) => colors.every(isValidColor) || undefined;
-const borderRadiusValid = (...radii: (string | undefined)[]) => radii.every(isValidBorderRadius) || undefined;
+const coloursValid = (...colors: (string | undefined)[]) =>
+  colors.every(isValidColor) || undefined;
+const borderRadiusValid = (...radii: (string | undefined)[]) =>
+  radii.every(isValidBorderRadius) || undefined;
 
 export const setKindeDesignerCustomProperties = ({
   baseBackgroundColor,
@@ -402,17 +413,26 @@ export const setKindeDesignerCustomProperties = ({
   cardBorderRadius,
   inputBorderRadius,
 }: KindeDesignerCustomProperties) => {
-  if (!coloursValid(baseBackgroundColor, baseLinkColor, primaryButtonBackgroundColor, primaryButtonColor)) {
-    console.log('baseBackgroundColor: ', baseBackgroundColor);
-    console.log('baseLinkColor: ', baseLinkColor);
-    console.log('primaryButtonBackgroundColor: ', primaryButtonBackgroundColor);
-    console.log('primaryButtonColor: ', primaryButtonColor);
+  if (
+    !coloursValid(
+      baseBackgroundColor,
+      baseLinkColor,
+      primaryButtonBackgroundColor,
+      primaryButtonColor,
+    )
+  ) {
+    console.log("baseBackgroundColor: ", baseBackgroundColor);
+    console.log("baseLinkColor: ", baseLinkColor);
+    console.log("primaryButtonBackgroundColor: ", primaryButtonBackgroundColor);
+    console.log("primaryButtonColor: ", primaryButtonColor);
     throw new Error("Invalid color value provided");
   }
-  if (!borderRadiusValid(buttonBorderRadius, cardBorderRadius, inputBorderRadius)) {
-    console.log('buttonBorderRadius: ', buttonBorderRadius);
-    console.log('cardBorderRadius: ', cardBorderRadius);
-    console.log('inputBorderRadius: ', inputBorderRadius);
+  if (
+    !borderRadiusValid(buttonBorderRadius, cardBorderRadius, inputBorderRadius)
+  ) {
+    console.log("buttonBorderRadius: ", buttonBorderRadius);
+    console.log("cardBorderRadius: ", cardBorderRadius);
+    console.log("inputBorderRadius: ", inputBorderRadius);
     throw new Error("Invalid border radius value provided");
   }
 
