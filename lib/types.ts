@@ -143,3 +143,15 @@ export type KindeAPIRequest = {
   params?: Record<string, string>;
   contentType?: "application/json" | "application/x-www-form-urlencoded";
 };
+
+export type KindeDesignerCustomProperties = {
+  baseBackgroundColor?: string;
+  baseLinkColor?: string;
+  buttonBorderRadius?: string;
+  primaryButtonBackgroundColor?: string;
+  primaryButtonColor?: string;
+  cardBorderRadius?: string;
+  inputBorderRadius?: string;
+};
+
+export type OrgCode = `org_${string}`;

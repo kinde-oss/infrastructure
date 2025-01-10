@@ -4,12 +4,11 @@ import {
   KindeAccessTokenProhibitedClaims,
   Kindem2mTokenProhibitedClaims,
 } from "./prohibitedClaims.ts";
-import { KindeAPIRequest, KindeFetchOptions, WorkflowEvents } from "./types";
+import { KindeAPIRequest, KindeDesignerCustomProperties, KindeFetchOptions, OrgCode, WorkflowEvents } from "./types";
 import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
 type KindePlaceholder = `@${string}@`;
-type OrgCode = `org_${string}`;
 
 const getAssetUrl = (assetPath: string, orgCode?: OrgCode) => {
   return `/${assetPath}?${orgCode ? `p_org_code=${orgCode}&` : ""}cache=@8973ff883c2c40e1bad198b543e12b24@`;
@@ -386,16 +385,6 @@ export const getSVGFavicon = (orgCode: OrgCode) => {
 
 export const getFallbackFavicon = (orgCode: OrgCode) => {
   return getAssetUrl("favicon_fallback", orgCode);
-};
-
-export type KindeDesignerCustomProperties = {
-  baseBackgroundColor?: string;
-  baseLinkColor?: string;
-  buttonBorderRadius?: string;
-  primaryButtonBackgroundColor?: string;
-  primaryButtonColor?: string;
-  cardBorderRadius?: string;
-  inputBorderRadius?: string;
 };
 
 export const setKindeDesignerCustomProperties = ({
