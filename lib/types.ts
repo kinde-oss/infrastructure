@@ -155,3 +155,17 @@ export type KindeDesignerCustomProperties = {
 };
 
 export type OrgCode = `org_${string}`;
+
+export type createKindeAPIOptions =
+  | {
+      clientId: string;
+      clientSecret: string;
+      clientIdKey: never;
+      clientSecretKey: never;
+    }
+  | {
+      clientIdKey: string;
+      clientSecretKey: string;
+      clientId: never;
+      clientSecret: never;
+    };

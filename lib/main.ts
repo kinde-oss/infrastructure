@@ -5,6 +5,7 @@ import {
   Kindem2mTokenProhibitedClaims,
 } from "./prohibitedClaims.ts";
 import {
+  createKindeAPIOptions,
   KindeAPIRequest,
   KindeDesignerCustomProperties,
   KindeFetchOptions,
@@ -249,20 +250,6 @@ export async function fetch<T = any>(
     data: result?.json,
   } as T;
 }
-
-type createKindeAPIOptions =
-  | {
-      clientId: string;
-      clientSecret: string;
-      clientIdKey: never;
-      clientSecretKey: never;
-    }
-  | {
-      clientIdKey: string;
-      clientSecretKey: string;
-      clientId: never;
-      clientSecret: never;
-    };
 
 /**
  * create a Kinde API client
