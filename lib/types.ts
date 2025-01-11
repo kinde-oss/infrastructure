@@ -149,7 +149,7 @@ export type KindeAPIRequest = {
  */
 interface AuthUrlParams {
   /** The requested organization code (e.g., 'org_12345') */
-  orgCode: string;
+  orgCode: OrgCode;
   /** The state parameter used in the OAuth flow */
   state: string;
   /** The client_id query parameter identifying the application */
@@ -230,7 +230,8 @@ export type KindePageEvent = {
   context: KindePageContext;
   /** Contains information about the current request */
   request: KindePageRequest;
-}
+};
+
 export type KindeDesignerCustomProperties = {
   baseBackgroundColor?: string;
   baseLinkColor?: string;
