@@ -1,6 +1,43 @@
 # Changelog
 
 
+## 0.2.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.0...main)
+
+### 🚀 Enhancements
+
+- Custom UI updates ([e38ab18](https://github.com/kinde-oss/infrastructure/commit/e38ab18))
+- Switch out orgCode type to new type ([17fb5d2](https://github.com/kinde-oss/infrastructure/commit/17fb5d2))
+
+### 🩹 Fixes
+
+- **deps:** Update dependency vite-plugin-dts to v4.5.0 ([7f68bf0](https://github.com/kinde-oss/infrastructure/commit/7f68bf0))
+- Added validation to properties ([170ff3a](https://github.com/kinde-oss/infrastructure/commit/170ff3a))
+- Improve safety of asset path ([8acc264](https://github.com/kinde-oss/infrastructure/commit/8acc264))
+
+### 📖 Documentation
+
+- JSDocs ([38b6234](https://github.com/kinde-oss/infrastructure/commit/38b6234))
+- Fix mistake in jsdoc ([06a65c0](https://github.com/kinde-oss/infrastructure/commit/06a65c0))
+
+### 🌊 Types
+
+- Include page event ([bda1d00](https://github.com/kinde-oss/infrastructure/commit/bda1d00))
+
+### 🏡 Chore
+
+- Refactor ([901a0a2](https://github.com/kinde-oss/infrastructure/commit/901a0a2))
+- Lint ([a518e5d](https://github.com/kinde-oss/infrastructure/commit/a518e5d))
+- Move type ([db4bc45](https://github.com/kinde-oss/infrastructure/commit/db4bc45))
+- Lint ([2736f56](https://github.com/kinde-oss/infrastructure/commit/2736f56))
+- Lint ([fb5d3a0](https://github.com/kinde-oss/infrastructure/commit/fb5d3a0))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+- Peter Sabichay Phanouvong ([@peterphanouvong](http://github.com/peterphanouvong))
+
 ## 0.1.2...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.1.2...main)
