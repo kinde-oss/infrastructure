@@ -423,7 +423,7 @@ export const getDarkModeLogoUrl = (orgCode?: OrgCode) => {
  *
  * @returns SVG FavIcon Placeholder
  */
-export const getSVGFavicon = (orgCode?: OrgCode) => {
+export const getSVGFaviconUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("favicon_svg", orgCode);
 };
 
@@ -431,7 +431,7 @@ export const getSVGFavicon = (orgCode?: OrgCode) => {
  *
  * @returns Fallback FavIcon Placeholder
  */
-export const getFallbackFavicon = (orgCode?: OrgCode) => {
+export const getFallbackFaviconUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("favicon_fallback", orgCode);
 };
 
