@@ -439,7 +439,7 @@ const isValidColor = (color: string | undefined) =>
   !color ||
   /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(.*\)$|^rgba\(.*\)$/.test(color);
 const isValidBorderRadius = (radius: string | undefined) =>
-  !radius || /^\d+(%|px|rem|em)$/.test(radius);
+  !radius || /^(0|\d+(.(\d)+)?(%|px|rem|em))$/.test(radius);
 
 const coloursValid = (...colors: (string | undefined)[]) =>
   colors.every(isValidColor) || undefined;
