@@ -56,6 +56,14 @@ export type WorkflowSettings = {
      */
     "kinde.fetch"?: {};
     /**
+     * Exposes the fetch method to call signed extenal APIs to the workflow
+     */
+    "kinde.secureFetch"?: {};
+    /**
+     * Exposes the fetch method to call access the manipulate the Kinde widget
+     */
+    "kinde.widget"?: {};
+    /**
      * Exposes access to the kinde environment variables
      */
     "kinde.env"?: {};
@@ -77,11 +85,13 @@ export type WorkflowSettings = {
 export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
   M2MTokenGeneration = "m2m:token_generation",
+  ExistingPasswordProvided = "user:existing_password_provided",
 }
 
 export type WorkflowEvents =
   | onUserTokenGeneratedEvent
-  | onM2MTokenGeneratedEvent;
+  | onM2MTokenGeneratedEvent
+  | onExistingPasswordProvided;
 
 type EventBase = {
   request: RequestContext;
@@ -118,6 +128,20 @@ export type onUserTokenGeneratedEvent = EventBase & {
     };
     organization: {
       code: string;
+    };
+  };
+};
+
+export type onExistingPasswordProvided = EventBase & {
+  context: {
+    auth: {
+      password: string;
+    };
+    user: {
+      id: string;
+    };
+    workflow: {
+      trigger: WorkflowTrigger.ExistingPasswordProvided;
     };
   };
 };
