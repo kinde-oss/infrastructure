@@ -86,12 +86,14 @@ export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
   M2MTokenGeneration = "m2m:token_generation",
   ExistingPasswordProvided = "user:existing_password_provided",
+  NewPasswordProvided = "user:new_password_provided",
 }
 
 export type WorkflowEvents =
   | onUserTokenGeneratedEvent
   | onM2MTokenGeneratedEvent
-  | onExistingPasswordProvided;
+  | onExistingPasswordProvided
+  | onNewPasswordProvided;
 
 type EventBase = {
   request: RequestContext;
@@ -142,6 +144,22 @@ export type onExistingPasswordProvided = EventBase & {
     };
     workflow: {
       trigger: WorkflowTrigger.ExistingPasswordProvided;
+    };
+  };
+};
+
+export type onNewPasswordProvided = EventBase & {
+  context: {
+    auth: {
+      firstPassword: string; // the first password entered
+      secondPassword: string; // password match field
+      newPasswordReason: "reset" | "initial"; // whether it is registration or reset
+    };
+    user: {
+      id: string;
+    };
+    workflow: {
+      trigger: WorkflowTrigger.NewPasswordProvided;
     };
   };
 };
