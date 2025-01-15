@@ -297,7 +297,7 @@ export async function secureFetch<T = any>(
     options.responseFormat = "json";
   }
 
-  const result = await kinde.fetch(url, options);
+  const result = await kinde.secureFetch(url, options);
 
   return {
     data: result?.json,

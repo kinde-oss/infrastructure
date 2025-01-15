@@ -52,11 +52,11 @@ export type WorkflowSettings = {
      */
     console?: {};
     /**
-     * Exposes the fetch method to call extenal APIs to the workflow
+     * Exposes the fetch method to call external APIs to the workflow
      */
     "kinde.fetch"?: {};
     /**
-     * Exposes the fetch method to call signed extenal APIs to the workflow
+     * Exposes the fetch method to call signed external APIs to the workflow
      */
     "kinde.secureFetch"?: {};
     /**
