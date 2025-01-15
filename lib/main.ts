@@ -407,7 +407,7 @@ export const getKindeSignInUrl = (): KindePlaceholder => loginGUID;
  *
  * @returns Light Mode Logo Placeholder
  */
-export const getLogoUrl = (orgCode: OrgCode) => {
+export const getLogoUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("logo", orgCode);
 };
 
@@ -415,7 +415,7 @@ export const getLogoUrl = (orgCode: OrgCode) => {
  *
  * @returns Dark Mode Logo Placeholder
  */
-export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
+export const getDarkModeLogoUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("logo_dark", orgCode);
 };
 
@@ -423,7 +423,7 @@ export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
  *
  * @returns SVG FavIcon Placeholder
  */
-export const getSVGFavicon = (orgCode: OrgCode) => {
+export const getSVGFavicon = (orgCode?: OrgCode) => {
   return getAssetUrl("favicon_svg", orgCode);
 };
 
@@ -431,7 +431,7 @@ export const getSVGFavicon = (orgCode: OrgCode) => {
  *
  * @returns Fallback FavIcon Placeholder
  */
-export const getFallbackFavicon = (orgCode: OrgCode) => {
+export const getFallbackFavicon = (orgCode?: OrgCode) => {
   return getAssetUrl("favicon_fallback", orgCode);
 };
 
