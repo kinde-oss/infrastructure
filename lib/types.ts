@@ -69,7 +69,7 @@ export interface KindeBindings {
   /**
    * Exposes access to the kinde localization
    */
-  "kinde.localization": {};
+  "kinde.localization"?: {};
   /**
    * Add URL tooling
    */
