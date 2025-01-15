@@ -22,56 +22,58 @@ export type WorkflowSettings = {
     action: "stop" | "continue";
   };
 
-  bindings?: {
+  bindings?: KindeBindings;
+};
+
+export interface KindeBindings {
+  /**
+   * Exposes the id token to the workflow
+   */
+  "kinde.idToken"?: {
     /**
-     * Exposes the id token to the workflow
+     * {boolean} reset all claims to default value on workflow start, default is false
      */
-    "kinde.idToken"?: {
-      /**
-       * {boolean} reset all claims to default value on workflow start, default is false
-       */
-      resetClaims?: boolean;
-    };
-    /**
-     * Exposes the access token to the workflow
-     */
-    "kinde.accessToken"?: {
-      /**
-       * {boolean} reset all claims to default value on workflow start, default is false
-       */
-      resetClaims?: boolean;
-    };
-    "kinde.m2mToken"?: {
-      /**
-       * {boolean} reset all claims to default value on workflow start, default is false
-       */
-      resetClaims?: boolean;
-    };
-    /**
-     * Exposes the console methods to the workflow
-     */
-    console?: {};
-    /**
-     * Exposes the fetch method to call extenal APIs to the workflow
-     */
-    "kinde.fetch"?: {};
-    /**
-     * Exposes access to the kinde environment variables
-     */
-    "kinde.env"?: {};
-    /**
-     * Exposes access to the kinde environment variables
-     */
-    "kinde.auth"?: {};
-    /**
-     * Exposes access to the kinde localization
-     */
-    "kinde.localization": {};
-    /**
-     * Add URL tooling
-     */
-    url?: {};
+    resetClaims?: boolean;
   };
+  /**
+   * Exposes the access token to the workflow
+   */
+  "kinde.accessToken"?: {
+    /**
+     * {boolean} reset all claims to default value on workflow start, default is false
+     */
+    resetClaims?: boolean;
+  };
+  "kinde.m2mToken"?: {
+    /**
+     * {boolean} reset all claims to default value on workflow start, default is false
+     */
+    resetClaims?: boolean;
+  };
+  /**
+   * Exposes the console methods to the workflow
+   */
+  console?: {};
+  /**
+   * Exposes the fetch method to call extenal APIs to the workflow
+   */
+  "kinde.fetch"?: {};
+  /**
+   * Exposes access to the kinde environment variables
+   */
+  "kinde.env"?: {};
+  /**
+   * Exposes access to the kinde environment variables
+   */
+  "kinde.auth"?: {};
+  /**
+   * Exposes access to the kinde localization
+   */
+  "kinde.localization"?: {};
+  /**
+   * Add URL tooling
+   */
+  url?: {};
 };
 
 export enum WorkflowTrigger {
