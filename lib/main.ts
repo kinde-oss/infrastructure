@@ -28,10 +28,20 @@ const getAssetUrl = (assetPath: string, orgCode?: OrgCode) => {
 declare namespace kinde {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function fetch(url: string, options: unknown): Promise<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function secureFetch(url: string, options: unknown): Promise<any>;
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace env {
     export function get(key: string): { value: string; isSecret: boolean };
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace widget {
+    export function invalidateFormField(
+      fieldName: string,
+      message: string,
+    ): void;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -231,8 +241,21 @@ export function denyAccess(reason: string) {
 }
 
 /**
+ * Invalidate a Kinde widget form field
+ * @param fieldName Name of the field to invalidate
+ * @param message Reason for invalidating the field
+ */
+export function invalidateFormField(fieldName: string, message: string) {
+  if (!kinde.widget) {
+    throw new Error("widget binding not available");
+  }
+  kinde.widget.invalidateFormField(fieldName, message);
+}
+
+/**
  * Fetch data from an external API
- * @param reason Reason for denying access
+ * @param url URL of the API
+ * @param options Fetch options
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function fetch<T = any>(
@@ -248,6 +271,33 @@ export async function fetch<T = any>(
   }
 
   const result = await kinde.fetch(url, options);
+
+  return {
+    data: result?.json,
+  } as T;
+}
+
+/**
+ * Fetch data from a secure external API
+ *
+ * Encryption keys can be setup in the Kinde dashboard under workflows > encryption keys
+ * @param url URL of the API
+ * @param options Fetch options
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function secureFetch<T = any>(
+  url: string,
+  options: KindeFetchOptions,
+): Promise<T> {
+  if (!kinde.secureFetch) {
+    throw new Error("secureFetch binding not available");
+  }
+
+  if (!options.responseFormat) {
+    options.responseFormat = "json";
+  }
+
+  const result = await kinde.secureFetch(url, options);
 
   return {
     data: result?.json,
