@@ -17,7 +17,7 @@ pnpm install @kinde/infrastructure
 
 ## Usage
 
-### Methods
+### Workflow Methods
 
 `idTokenCustomClaims` - Define and set custom claims on the id token
 
@@ -29,9 +29,45 @@ pnpm install @kinde/infrastructure
 
 `fetch` - Sent a request to external API
 
+`secureFetch` - Sent an encypted request to external API
+
 `getEnvironmentVariable` - Get Environment variable from Kinde secrets
 
 `createKindeAPI` - Create handler to call the Kinde management SDK
+
+### Custom Pages Methods
+
+`getKindeWidget` - Places the kinde widget on the page
+
+`getKindeNonce` - Places the generated Nonce on your page for increased security
+
+`getKindeRequiredCSS` - Inserts the required CSS
+
+`getKindeRequiredJS` - Inserts the required JS
+
+`getKindeCSRF` - Places the generated CSRF on your page for increased security
+
+`getKindeRegisterUrl` or `getKindeSignUpUrl` - Gets the registration Url
+
+`getKindeLoginUrl` or `getKindeSignInUrl`- Gets the login Url
+
+`getLogoUrl` - Gets the organisations logo Url
+
+`getDarkModeLogoUrl` - gets the organisations dark mode logo Url
+
+`getSVGFaviconUrl` - gets the organistaions SVG favicon
+
+`getFallbackFaviconUrl` - geths the organisations fallback favicon
+
+`setKindeDesignerCustomProperties` - Update styling of the Kinde widget
+
+- baseBackgroundColor
+- baseLinkColor
+- buttonBorderRadius,
+- primaryButtonBackgroundColor
+- primaryButtonColor
+- cardBorderRadius
+- inputBorderRadius
 
 ### Workflow Event
 
@@ -95,6 +131,62 @@ pnpm install @kinde/infrastructure
 }
 ```
 
+#### On new password provided
+
+```json
+{
+  "request": {
+    "ip": "1.2.3.4",
+    "auth": {
+      "audience": ["https://api.example.com/v1"]
+    }
+  },
+  "context": {
+    "auth": {
+      "firstPassword": "somesecurepassword",
+      "secondPassword": "somesecurepassword",
+      "newPasswordReason": "reset"
+    },
+    "domains": {
+      "kindeDomain": "https://mykindebusiness.kinde.com"
+    },
+    "workflow": {
+      "trigger": "user:new_password_provided"
+    },
+    "application": {
+      "clientId": "f77dbc..."
+    }
+  }
+}
+```
+
+#### On existing password provided
+
+```json
+{
+  "request": {
+    "ip": "1.2.3.4",
+    "auth": {
+      "audience": ["https://api.example.com/v1"]
+    }
+  },
+  "context": {
+    "auth": {
+      "password": "somesecurepassword"
+    },
+    "domains": {
+      "kindeDomain": "https://mykindebusiness.kinde.com"
+    },
+    "workflow": {
+      "trigger": "user:existing_password_provided"
+    },
+    "application": {
+      "clientId": "f77dbc..."
+    }
+  }
+}
+```
+
 ### Examples
 
 #### Customise tokens
@@ -121,17 +213,15 @@ export const workflowSettings: WorkflowSettings = {
   },
 };
 
-export default {
-  async handle(event: onUserTokenGeneratedEvent) {
-    const accessToken = accessTokenCustomClaims<{
-      hello: string;
-      ipAddress: string;
-    }>();
+export default async function (event: onUserTokenGeneratedEvent) {
+  const accessToken = accessTokenCustomClaims<{
+    hello: string;
+    ipAddress: string;
+  }>();
 
-    accessToken.hello = "Hello there!";
-    accessToken.ipAddress = event.request.ip;
-  },
-};
+  accessToken.hello = "Hello there!";
+  accessToken.ipAddress = event.request.ip;
+},
 ```
 
 This will result with two new extra claims added to the AccessToken
@@ -154,8 +244,8 @@ kinde.accessToken
 ```
 
 ```typescript
-async handle(event: onUserTokenGeneratedEvent) {
-  if (event.request.ip.startsWith('192')) {
+export default async function (event: onUserTokenGeneratedEvent) {
+  if (event.request.ip.startsWith("192")) {
     denyAccess("You are not allowed to access this resource");
   }
 }
@@ -175,22 +265,23 @@ url
 ```
 
 ```typescript
-async handle(event: onUserTokenGeneratedEvent) {
-  const ipInfoToken = getEnvironmentVariable('IP_INFO_TOKEN')?.value
+export default async function (event: onUserTokenGeneratedEvent) {
+  const ipInfoToken = getEnvironmentVariable("IP_INFO_TOKEN")?.value;
 
-  const { data: ipDetails } = await fetch(`https://ipinfo.io/${event.request.ip}?token=${ipInfoToken}`, {
-    method: "GET",
-    responseFormat: 'json',
-    headers: {
-      "Content-Type": "application/json",
-    }
-  });
-
-  const idToken = idTokenCustomClaims<
+  const { data: ipDetails } = await fetch(
+    `https://ipinfo.io/${event.request.ip}?token=${ipInfoToken}`,
     {
-      timezone: string;
-    }
-  >();
+      method: "GET",
+      responseFormat: "json",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  const idToken = idTokenCustomClaims<{
+    timezone: string;
+  }>();
 
   idToken.timezone = ipDetails.timezone;
 }
@@ -219,7 +310,7 @@ url
 ```
 
 ```typescript
-async handle(event: onUserTokenGeneratedEvent) {
+export default async function (event: onUserTokenGeneratedEvent) {
   const orgCode = event.context.organization.code;
   const userId = event.context.user.id;
 
