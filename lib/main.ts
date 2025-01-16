@@ -467,7 +467,7 @@ export const setKindeDesignerCustomProperties = ({
   primaryButtonColor,
   cardBorderRadius,
   inputBorderRadius,
-}: KindeDesignerCustomProperties) => {
+}: KindeDesignerCustomProperties): string => {
   if (
     !coloursValid(
       baseBackgroundColor,
