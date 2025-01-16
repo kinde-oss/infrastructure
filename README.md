@@ -61,13 +61,13 @@ pnpm install @kinde/infrastructure
 
 `setKindeDesignerCustomProperties` - Update styling of the Kinde widget
 
-  - baseBackgroundColor
-  - baseLinkColor
-  - buttonBorderRadius,
-  - primaryButtonBackgroundColor
-  - primaryButtonColor
-  - cardBorderRadius
-  - inputBorderRadius
+- baseBackgroundColor
+- baseLinkColor
+- buttonBorderRadius,
+- primaryButtonBackgroundColor
+- primaryButtonColor
+- cardBorderRadius
+- inputBorderRadius
 
 ### Workflow Event
 
@@ -145,7 +145,7 @@ pnpm install @kinde/infrastructure
     "auth": {
       "firstPassword": "somesecurepassword",
       "secondPassword": "somesecurepassword",
-      "newPasswordReason": "reset",
+      "newPasswordReason": "reset"
     },
     "domains": {
       "kindeDomain": "https://mykindebusiness.kinde.com"
@@ -186,7 +186,6 @@ pnpm install @kinde/infrastructure
   }
 }
 ```
-
 
 ### Examples
 
@@ -246,7 +245,7 @@ kinde.accessToken
 
 ```typescript
 export default async function (event: onUserTokenGeneratedEvent) {
-  if (event.request.ip.startsWith('192')) {
+  if (event.request.ip.startsWith("192")) {
     denyAccess("You are not allowed to access this resource");
   }
 }
@@ -267,21 +266,22 @@ url
 
 ```typescript
 export default async function (event: onUserTokenGeneratedEvent) {
-  const ipInfoToken = getEnvironmentVariable('IP_INFO_TOKEN')?.value
+  const ipInfoToken = getEnvironmentVariable("IP_INFO_TOKEN")?.value;
 
-  const { data: ipDetails } = await fetch(`https://ipinfo.io/${event.request.ip}?token=${ipInfoToken}`, {
-    method: "GET",
-    responseFormat: 'json',
-    headers: {
-      "Content-Type": "application/json",
-    }
-  });
-
-  const idToken = idTokenCustomClaims<
+  const { data: ipDetails } = await fetch(
+    `https://ipinfo.io/${event.request.ip}?token=${ipInfoToken}`,
     {
-      timezone: string;
-    }
-  >();
+      method: "GET",
+      responseFormat: "json",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  const idToken = idTokenCustomClaims<{
+    timezone: string;
+  }>();
 
   idToken.timezone = ipDetails.timezone;
 }
