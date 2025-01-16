@@ -1,6 +1,35 @@
 # Changelog
 
 
+## 0.2.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.1...main)
+
+### 🚀 Enhancements
+
+- Add support for `onExistingPasswordProvided` workflow event ([3e5c203](https://github.com/kinde-oss/infrastructure/commit/3e5c203))
+- Add Url suffix to favIcon helpers ([6fa2dbe](https://github.com/kinde-oss/infrastructure/commit/6fa2dbe))
+- Add `new_password_provided` ([df220ad](https://github.com/kinde-oss/infrastructure/commit/df220ad))
+
+### 🩹 Fixes
+
+- Correct typo and secureFetch request ([a907191](https://github.com/kinde-oss/infrastructure/commit/a907191))
+- Improve radius regex ([639a5c9](https://github.com/kinde-oss/infrastructure/commit/639a5c9))
+
+### 📖 Documentation
+
+- Update readme ([a27650e](https://github.com/kinde-oss/infrastructure/commit/a27650e))
+
+### 🏡 Chore
+
+- OrgCode optional for functions wrapping getAssetUrl ([0033893](https://github.com/kinde-oss/infrastructure/commit/0033893))
+- Lint ([b7cc52f](https://github.com/kinde-oss/infrastructure/commit/b7cc52f))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+- Peter Phanouvong ([@peterphanouvong](http://github.com/peterphanouvong))
+
 ## 0.2.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.0...main)
