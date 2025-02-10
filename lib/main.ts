@@ -9,6 +9,7 @@ import {
   KindeAPIRequest,
   KindeDesignerCustomProperties,
   KindeFetchOptions,
+  MFAEnforcementPolicy,
   OrgCode,
   WorkflowEvents,
 } from "./types";
@@ -70,6 +71,13 @@ declare namespace kinde {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace auth {
     export function denyAccess(reason: string): void;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace mfa {
+    export function setEnforcementPolicy(
+      mfaEnforcementPolicy: MFAEnforcementPolicy,
+    ): void;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -275,6 +283,17 @@ export async function fetch<T = any>(
   return {
     data: result?.json,
   } as T;
+}
+
+/**
+ * Set the MFA enforcement policy for the user
+ * @param policy MFA Policy to enforce
+ */
+export function setEnforcementPolicy(policy: MFAEnforcementPolicy) {
+  if (!kinde.mfa) {
+    throw new Error("mfa binding not available, please add to workflow settings to enable");
+  }
+  kinde.mfa.setEnforcementPolicy(policy);
 }
 
 /**
