@@ -174,7 +174,7 @@ export type onM2MTokenGeneratedEvent = EventBase & {
 
 export type KindeFetchOptions = {
   method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
-  responseFormat?: "json";
+  responseFormat?: "json" | "text";
   headers: Record<string, string>;
   body?: URLSearchParams;
 };
