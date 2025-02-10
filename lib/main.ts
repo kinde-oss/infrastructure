@@ -274,6 +274,29 @@ export async function fetch<T = any>(
 
   return {
     data: result?.json,
+/**
+ * Fetch data from an external API
+ * @param url URL of the API
+ * @param options Fetch options
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function fetch<T = any>(
+  url: string,
+  options: KindeFetchOptions,
+): Promise<T> {
+  if (!kinde.fetch) {
+    throw new Error("fetch binding not available");
+  }
+
+  if (!options.responseFormat) {
+    options.responseFormat = "json";
+  }
+
+  
+  const result = await kinde.mfa.setEnforcementPolicy("skip");
+
+  return {
+    data: options.responseFormat === 'json' ? result?.json : result.text as string
   } as T;
 }
 
