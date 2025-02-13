@@ -291,7 +291,9 @@ export async function fetch<T = any>(
  */
 export function setEnforcementPolicy(policy: MFAEnforcementPolicy) {
   if (!kinde.mfa) {
-    throw new Error("mfa binding not available, please add to workflow settings to enable");
+    throw new Error(
+      "mfa binding not available, please add to workflow settings to enable",
+    );
   }
   kinde.mfa.setEnforcementPolicy(policy);
 }
