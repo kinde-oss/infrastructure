@@ -281,7 +281,10 @@ export async function fetch<T = any>(
   const result = await kinde.fetch(url, options);
 
   return {
-    data: result?.json,
+    data:
+      options.responseFormat === "json"
+        ? result?.json
+        : (result.text as string),
   } as T;
 }
 
