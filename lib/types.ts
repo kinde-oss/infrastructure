@@ -76,6 +76,10 @@ export type WorkflowSettings = {
      */
     "kinde.localization": {};
     /**
+     * Required to change the MFA policy
+     */
+    "kinde.mfa": {};
+    /**
      * Add URL tooling
      */
     url?: {};
@@ -84,6 +88,7 @@ export type WorkflowSettings = {
 
 export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
+  UserPreMFA = "user:pre_mfa",
   M2MTokenGeneration = "m2m:token_generation",
   ExistingPasswordProvided = "user:existing_password_provided",
   NewPasswordProvided = "user:new_password_provided",
@@ -160,6 +165,38 @@ export type onNewPasswordProvided = EventBase & {
     };
     workflow: {
       trigger: WorkflowTrigger.NewPasswordProvided;
+    };
+  };
+};
+
+export type MFAPolicy = "required" | "optional" | "off";
+export type MFAContext = "environment" | "organization";
+export type MFAEnabledFactors =
+  | "mfa:sms"
+  | "mfa:email"
+  | "mfa:authenticator_app";
+export type MFAEnforcementPolicy = "required" | "skip";
+
+export type onUserPreMFA = EventBase & {
+  context: {
+    auth: {
+      connectionId: string;
+    };
+    mfa: {
+      policy: MFAPolicy;
+      context: MFAContext;
+      enabled_factors: MFAEnabledFactors[];
+      is_user_role_exempt: boolean;
+      is_user_connection_exempt: boolean;
+    };
+    user: {
+      id: string;
+    };
+    workflow: {
+      trigger: WorkflowTrigger.UserPreMFA;
+    };
+    organization: {
+      code: string;
     };
   };
 };
