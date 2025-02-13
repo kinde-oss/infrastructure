@@ -1,6 +1,26 @@
 # Changelog
 
 
+## 0.2.2...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.2...main)
+
+### 🚀 Enhancements
+
+- Pre MFA workflow ([5d23eb4](https://github.com/kinde-oss/infrastructure/commit/5d23eb4))
+
+### 🩹 Fixes
+
+- Kinde fetch return text return type ([71af812](https://github.com/kinde-oss/infrastructure/commit/71af812))
+
+### 🏡 Chore
+
+- Lint ([0600b54](https://github.com/kinde-oss/infrastructure/commit/0600b54))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+
 ## 0.2.1...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.1...main)
