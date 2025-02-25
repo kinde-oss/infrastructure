@@ -384,6 +384,12 @@ export async function createKindeAPI(
     params,
     contentType = "application/json",
   }: KindeAPIRequest) => {
+    let body;
+
+    if (params) {
+      body = method === "GET" ? new URLSearchParams(params) : params;
+    }
+
     const result = await kinde.fetch(
       `${event.context.domains.kindeDomain}/api/v1/${endpoint}`,
       {
@@ -394,7 +400,7 @@ export async function createKindeAPI(
           "Content-Type": contentType,
           accept: "application/json",
         },
-        body: params && new URLSearchParams(params),
+        body,
       },
     );
 
