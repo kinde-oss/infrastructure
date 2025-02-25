@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 0.3.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.3.0...main)
+
+### 🩹 Fixes
+
+- Passing body to non get fetch methods ([fe3a1ce](https://github.com/kinde-oss/infrastructure/commit/fe3a1ce))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+
 ## 0.2.2...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.2...main)
