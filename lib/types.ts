@@ -74,11 +74,11 @@ export type WorkflowSettings = {
     /**
      * Exposes access to the kinde localization
      */
-    "kinde.localization": {};
+    "kinde.localization"?: {};
     /**
      * Required to change the MFA policy
      */
-    "kinde.mfa": {};
+    "kinde.mfa"?: {};
     /**
      * Add URL tooling
      */
@@ -327,12 +327,12 @@ export type createKindeAPIOptions =
   | {
       clientId: string;
       clientSecret: string;
-      clientIdKey: never;
-      clientSecretKey: never;
+      clientIdKey?: never;
+      clientSecretKey?: never;
     }
   | {
       clientIdKey: string;
       clientSecretKey: string;
-      clientId: never;
-      clientSecret: never;
+      clientId?: never;
+      clientSecret?: never;
     };
