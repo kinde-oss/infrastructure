@@ -92,13 +92,16 @@ export enum WorkflowTrigger {
   M2MTokenGeneration = "m2m:token_generation",
   ExistingPasswordProvided = "user:existing_password_provided",
   NewPasswordProvided = "user:new_password_provided",
+  PostAuthentication = "user:post_authentication",
 }
 
 export type WorkflowEvents =
   | onUserTokenGeneratedEvent
   | onM2MTokenGeneratedEvent
   | onExistingPasswordProvided
-  | onNewPasswordProvided;
+  | onNewPasswordProvided
+  | onUserPreMFA
+  | onPostAuthentication;
 
 type EventBase = {
   request: RequestContext;
@@ -205,6 +208,37 @@ export type onM2MTokenGeneratedEvent = EventBase & {
   context: {
     workflow: {
       trigger: WorkflowTrigger.M2MTokenGeneration;
+    };
+  };
+};
+
+export type onPostAuthentication = EventBase & {
+  context: {
+    auth: {
+      connectionId: string;
+      isNewUserRecordCreated: boolean;
+    };
+    user: {
+      id: string;
+    };
+    domains: {
+      kindeDomain: string;
+    };
+    workflow: {
+      trigger: string;
+    };
+    application: {
+      clientId: string;
+    };
+  };
+  request: {
+    ip: string;
+    userAgent: string;
+    authUrlParams: {
+      state: string;
+      orgCode: string;
+      clientId: string;
+      redirectUri: string;
     };
   };
 };
