@@ -7,29 +7,25 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@types/node':
-        specifier: ^22.9.0
-        version: 22.10.5
-      prettier:
-        specifier: ^3.3.3
-        version: 3.4.2
-      vite-plugin-dts:
-        specifier: ^4.3.0
-        version: 4.5.0(@types/node@22.10.5)(rollup@4.27.0)(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.5))
     devDependencies:
       '@eslint/js':
         specifier: ^9.15.0
         version: 9.17.0
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.10.5
       '@vitest/coverage-v8':
-        specifier: ^3.0.7
+        specifier: ^3.0.0
         version: 3.0.7(vitest@3.0.0(@types/node@22.10.5))
       eslint:
         specifier: ^9.15.0
         version: 9.17.0
       globals:
-        specifier: ^15.12.0
-        version: 15.14.0
+        specifier: ^15.15.0
+        version: 15.15.0
+      prettier:
+        specifier: ^3.3.3
+        version: 3.4.2
       typescript:
         specifier: ^5.6.3
         version: 5.7.2
@@ -39,6 +35,9 @@ importers:
       vite:
         specifier: ^5.4.11
         version: 5.4.11(@types/node@22.10.5)
+      vite-plugin-dts:
+        specifier: ^4.3.0
+        version: 4.5.0(@types/node@22.10.5)(rollup@4.27.0)(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.5))
       vitest:
         specifier: ^3.0.0
         version: 3.0.0(@types/node@22.10.5)
@@ -849,8 +848,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.14.0:
-    resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
+  globals@15.15.0:
+    resolution: {integrity: sha512-7ACyT3wmyp3I61S4fG682L0VA2RGD9otkqGJIwNUMF1SWUombIIk+af1unuDYgMm082aHYwD+mzJvv9Iu8dsgg==}
     engines: {node: '>=18'}
 
   graceful-fs@4.2.11:
@@ -2204,7 +2203,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.14.0: {}
+  globals@15.15.0: {}
 
   graceful-fs@4.2.11: {}
 
