@@ -89,7 +89,7 @@ export type WorkflowSettings = {
 export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
   UserPreMFA = "user:pre_mfa",
-  PostAuthentication = "user:post_authentication",  
+  PostAuthentication = "user:post_authentication",
   M2MTokenGeneration = "m2m:token_generation",
   ExistingPasswordProvided = "user:existing_password_provided",
   NewPasswordProvided = "user:new_password_provided",
@@ -146,9 +146,9 @@ export type onPostAuthenticationEvent = EventBase & {
   request: {
     auth: never;
     authUrlParams: LoginMethodParams & {
-      state: string
-    }
-  },
+      state: string;
+    };
+  };
   context: {
     workflow: {
       trigger: WorkflowTrigger.PostAuthentication;
@@ -159,14 +159,14 @@ export type onPostAuthenticationEvent = EventBase & {
     auth: {
       connectionId: string;
       isNewUserRecordCreated: boolean;
-    }
-  }
-}
+    };
+  };
+};
 
 export type onExistingPasswordProvidedEvent = EventBase & {
   request: {
     auth: never;
-  }
+  };
   context: {
     auth: {
       password: string;
@@ -183,7 +183,7 @@ export type onExistingPasswordProvidedEvent = EventBase & {
 export type onNewPasswordProvidedEvent = EventBase & {
   request: {
     auth: never;
-  }
+  };
   context: {
     auth: {
       firstPassword: string; // the first password entered
@@ -236,9 +236,9 @@ export type onM2MTokenGeneratedEvent = EventBase & {
   request: {
     userAgent: never;
     auth: {
-      scope: string[]
-    }
-  }
+      scope: string[];
+    };
+  };
   context: {
     workflow: {
       trigger: WorkflowTrigger.M2MTokenGeneration;
@@ -373,7 +373,6 @@ export type createKindeAPIOptions =
       clientId: never;
       clientSecret: never;
     };
-
 
 type LoginMethodParams = Partial<
   Pick<
