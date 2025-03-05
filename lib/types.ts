@@ -89,6 +89,7 @@ export type WorkflowSettings = {
 export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
   UserPreMFA = "user:pre_mfa",
+  PostAuthentication = "user:post_authentication",  
   M2MTokenGeneration = "m2m:token_generation",
   ExistingPasswordProvided = "user:existing_password_provided",
   NewPasswordProvided = "user:new_password_provided",
@@ -96,9 +97,10 @@ export enum WorkflowTrigger {
 
 export type WorkflowEvents =
   | onUserTokenGeneratedEvent
+  | onPostAuthenticationEvent
   | onM2MTokenGeneratedEvent
-  | onExistingPasswordProvided
-  | onNewPasswordProvided;
+  | onExistingPasswordProvidedEvent
+  | onNewPasswordProvidedEvent;
 
 type EventBase = {
   request: RequestContext;
@@ -117,6 +119,7 @@ type RequestContext = {
     audience: string[];
   };
   ip: string;
+  userAgent: string;
 };
 
 export type onUserTokenGeneratedEvent = EventBase & {
@@ -139,7 +142,31 @@ export type onUserTokenGeneratedEvent = EventBase & {
   };
 };
 
-export type onExistingPasswordProvided = EventBase & {
+export type onPostAuthenticationEvent = EventBase & {
+  request: {
+    auth: never;
+    authUrlParams: LoginMethodParams & {
+      state: string
+    }
+  },
+  context: {
+    workflow: {
+      trigger: WorkflowTrigger.PostAuthentication;
+    };
+    user: {
+      id: string;
+    };
+    auth: {
+      connectionId: string;
+      isNewUserRecordCreated: boolean;
+    }
+  }
+}
+
+export type onExistingPasswordProvidedEvent = EventBase & {
+  request: {
+    auth: never;
+  }
   context: {
     auth: {
       password: string;
@@ -153,7 +180,10 @@ export type onExistingPasswordProvided = EventBase & {
   };
 };
 
-export type onNewPasswordProvided = EventBase & {
+export type onNewPasswordProvidedEvent = EventBase & {
+  request: {
+    auth: never;
+  }
   context: {
     auth: {
       firstPassword: string; // the first password entered
@@ -162,6 +192,7 @@ export type onNewPasswordProvided = EventBase & {
     };
     user: {
       id: string;
+      email: string;
     };
     workflow: {
       trigger: WorkflowTrigger.NewPasswordProvided;
@@ -186,8 +217,8 @@ export type onUserPreMFA = EventBase & {
       policy: MFAPolicy;
       context: MFAContext;
       enabled_factors: MFAEnabledFactors[];
-      is_user_role_exempt: boolean;
-      is_user_connection_exempt: boolean;
+      isUserRoleExempt: boolean;
+      isUserConnectionExempt: boolean;
     };
     user: {
       id: string;
@@ -202,6 +233,12 @@ export type onUserPreMFA = EventBase & {
 };
 
 export type onM2MTokenGeneratedEvent = EventBase & {
+  request: {
+    userAgent: never;
+    auth: {
+      scope: string[]
+    }
+  }
   context: {
     workflow: {
       trigger: WorkflowTrigger.M2MTokenGeneration;
@@ -264,13 +301,13 @@ interface Route {
  */
 interface WidgetContent {
   /** The page title displayed in the browser tab */
-  page_title: string;
+  pageTitle: string;
   /** The main heading text for the page */
   heading: string;
   /** The description text for the page */
   description: string;
   /** Alternative text for the company logo */
-  logo_alt: string;
+  logoAlt: string;
 }
 
 /**
@@ -336,3 +373,130 @@ export type createKindeAPIOptions =
       clientId: never;
       clientSecret: never;
     };
+
+
+type LoginMethodParams = Partial<
+  Pick<
+    LoginOptions,
+    | "audience"
+    | "scope"
+    | "isCreateOrg"
+    | "prompt"
+    | "lang"
+    | "loginHint"
+    | "orgCode"
+    | "orgName"
+    | "connectionId"
+    | "redirectURL"
+    | "hasSuccessPage"
+    | "workflowDeploymentId"
+  >
+>;
+
+export enum Scopes {
+  email = "email",
+  profile = "profile",
+  openid = "openid",
+  offline_access = "offline",
+}
+
+export enum PromptTypes {
+  none = "none",
+  create = "create",
+  login = "login",
+}
+
+export type LoginOptions = {
+  /** Audience to include in the token */
+  audience?: string;
+  /** Client ID of the application
+   *
+   * This can be found in the application settings in the Kinde dashboard
+   */
+  clientId: string;
+  /**
+   * Code challenge for PKCE
+   */
+  codeChallenge?: string;
+  /**
+   * Code challenge method for PKCE
+   */
+  codeChallengeMethod?: string;
+  /**
+   * Connection ID to use for the login
+   *
+   * This is found in the authentication settings in the Kinde dashboard
+   */
+  connectionId?: string;
+  /**
+   * Whether the user is creating an organization on registration
+   */
+  isCreateOrg?: boolean;
+  /**
+   * Language to use for the login in 2 letter ISO format
+   */
+  lang?: string;
+  /**
+   * Login hint to use for the login
+   *
+   * This can be in one of the following formats:
+   * - joe@blogs.com
+   * - phone:+447700900000:gb
+   * - username:joebloggs
+   */
+  loginHint?: string;
+  /**
+   * Organization code to use for the login
+   */
+  orgCode?: string;
+  /**
+   * Organization name to be used when creating an organization at registration
+   */
+  orgName?: string;
+  /**
+   * Prompt to use for the login
+   *
+   * This can be one of the following:
+   * - login (force user re-authentication)
+   * - create (show registration screen)
+   * - none (silently authenticate user without prompting for action)
+   *
+   */
+  prompt?: PromptTypes;
+  /**
+   * Redirect URL to use for the login
+   */
+  redirectURL: string;
+  /**
+   * Response type to use for the login
+   *
+   * Kinde currently only supports `code`
+   */
+  responseType?: string;
+  /**
+   * Scopes to include in the token
+   *
+   * This can be one or more of the following:
+   * - email
+   * - profile
+   * - openid
+   * - offline
+   */
+  scope?: Scopes[];
+  /**
+   * State to use for the login
+   */
+  state?: string;
+  /**
+   * Whether to show the success screen at the end of the flow, this is most useful when the callback is not a webpage.
+   */
+  hasSuccessPage?: boolean;
+  /**
+   * Single use code to prevent replay attacks
+   */
+  nonce?: string;
+  /**
+   * Workflow Deployment ID to trigger on authentication
+   */
+  workflowDeploymentId?: string;
+};
