@@ -1,6 +1,22 @@
 # Changelog
 
 
+## 0.3.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.3.1...main)
+
+### 🚀 Enhancements
+
+- Update workflow event types ([def2111](https://github.com/kinde-oss/infrastructure/commit/def2111))
+
+### 🏡 Chore
+
+- Lint ([bd777a0](https://github.com/kinde-oss/infrastructure/commit/bd777a0))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.3.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.3.0...main)
