@@ -59,6 +59,8 @@ pnpm install @kinde/infrastructure
 
 `getFallbackFaviconUrl` - geths the organisations fallback favicon
 
+`getKindeThemeCode` - Get the theme code
+
 `setKindeDesignerCustomProperties` - Update styling of the Kinde widget
 
 - baseBackgroundColor
