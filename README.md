@@ -57,7 +57,9 @@ pnpm install @kinde/infrastructure
 
 `getSVGFaviconUrl` - gets the organistaions SVG favicon
 
-`getFallbackFaviconUrl` - geths the organisations fallback favicon
+`getFallbackFaviconUrl` - gets the organisations fallback favicon
+
+`getKindeThemeCode` - Get the theme code
 
 `setKindeDesignerCustomProperties` - Update styling of the Kinde widget
 

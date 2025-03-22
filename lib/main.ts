@@ -385,7 +385,6 @@ export async function createKindeAPI(
     contentType = "application/json",
   }: KindeAPIRequest) => {
     let body;
-
     if (params) {
       body = method === "GET" ? new URLSearchParams(params) : params;
     }
@@ -482,6 +481,13 @@ export const getKindeSignUpUrl = (): KindePlaceholder => registerGUID;
  * @returns Login URL Placeholder
  */
 export const getKindeSignInUrl = (): KindePlaceholder => loginGUID;
+
+/**
+ *
+ * @returns Theme code Placeholder
+ */
+export const getKindeThemeCode = (): KindePlaceholder =>
+  "@09e41b34d7c04650aee6d26cafa152fc@";
 
 /**
  *
