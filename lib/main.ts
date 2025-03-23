@@ -273,13 +273,13 @@ export async function fetch<T = any>(
   if (!kinde.fetch) {
     throw new Error("fetch binding not available");
   }
-
+  console.log("here");
   if (!options.responseFormat) {
     options.responseFormat = "json";
   }
 
   const result = await kinde.fetch(url, options);
-
+  console.log("result", result);
   return {
     data:
       options.responseFormat === "json"
@@ -314,6 +314,7 @@ export async function secureFetch<T = any>(
   options: KindeFetchOptions,
 ): Promise<T> {
   if (!kinde.secureFetch) {
+    console.log("throwing error");
     throw new Error("secureFetch binding not available");
   }
 
@@ -339,6 +340,8 @@ export async function createKindeAPI(
 ) {
   let clientId: string;
   let clientSecret: string;
+
+  const apiVersion = 1;
 
   if (!URLSearchParams) {
     throw new Error("url binding not available");
@@ -378,6 +381,8 @@ export async function createKindeAPI(
     },
   );
 
+  console.log(token);
+
   const callKindeAPI = async ({
     method,
     endpoint,
@@ -386,11 +391,11 @@ export async function createKindeAPI(
   }: KindeAPIRequest) => {
     let body;
     if (params) {
-      body = method === "GET" ? new URLSearchParams(params) : params;
+      body = method === "GET" ? new URLSearchParams(params).toString() : params;
     }
 
     const result = await kinde.fetch(
-      `${event.context.domains.kindeDomain}/api/v1/${endpoint}`,
+      `${event.context.domains.kindeDomain}/api/v${apiVersion}/${endpoint}`,
       {
         method,
         responseFormat: "json",
@@ -399,7 +404,7 @@ export async function createKindeAPI(
           "Content-Type": contentType,
           accept: "application/json",
         },
-        body,
+        body: body ?? undefined,
       },
     );
 
