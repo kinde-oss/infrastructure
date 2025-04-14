@@ -100,7 +100,8 @@ export type WorkflowEvents =
   | onPostAuthenticationEvent
   | onM2MTokenGeneratedEvent
   | onExistingPasswordProvidedEvent
-  | onNewPasswordProvidedEvent;
+  | onNewPasswordProvidedEvent
+  | onUserPreMFA;
 
 type EventBase = {
   request: RequestContext;
