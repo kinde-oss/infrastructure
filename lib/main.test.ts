@@ -101,12 +101,7 @@ const mockEvent: WorkflowEvents = {
 
 describe("ID Token", () => {
   it("should return a proxy object with get and set methods", () => {
-    console.log("globalkinde", global.kinde);
-
-    // vi.spyOn(global.kinde, "setCustomClaim");
-
     const idTokenHandle = idTokenCustomClaims<{ test: string }>();
-    console.log(typeof idTokenHandle);
     expect(idTokenHandle).toStrictEqual({});
 
     idTokenHandle.test = "10";
@@ -131,12 +126,7 @@ describe("ID Token", () => {
 
 describe("Access Token", () => {
   it("should return a proxy object with get and set methods", () => {
-    console.log("globalkinde", global.kinde);
-
-    // vi.spyOn(global.kinde, "setCustomClaim");
-
     const accessTokenHandle = accessTokenCustomClaims<{ test: string }>();
-    console.log(typeof accessTokenHandle);
     expect(accessTokenHandle).toStrictEqual({});
 
     accessTokenHandle.test = "10";
@@ -161,12 +151,7 @@ describe("Access Token", () => {
 
 describe("M2M Token", () => {
   it("should return a proxy object with get and set methods", () => {
-    console.log("globalkinde", global.kinde);
-
-    // vi.spyOn(global.kinde, "setCustomClaim");
-
     const m2mTokenHandle = m2mTokenClaims<{ test: string }>();
-    console.log(typeof m2mTokenHandle);
     expect(m2mTokenHandle).toStrictEqual({});
 
     m2mTokenHandle.test = "10";

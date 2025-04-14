@@ -273,13 +273,11 @@ export async function fetch<T = any>(
   if (!kinde.fetch) {
     throw new Error("fetch binding not available");
   }
-  console.log("here");
   if (!options.responseFormat) {
     options.responseFormat = "json";
   }
 
   const result = await kinde.fetch(url, options);
-  console.log("result", result);
   return {
     data:
       options.responseFormat === "json"
@@ -314,7 +312,6 @@ export async function secureFetch<T = any>(
   options: KindeFetchOptions,
 ): Promise<T> {
   if (!kinde.secureFetch) {
-    console.log("throwing error");
     throw new Error("secureFetch binding not available");
   }
 
@@ -380,8 +377,6 @@ export async function createKindeAPI(
       }),
     },
   );
-
-  console.log(token);
 
   const callKindeAPI = async ({
     method,
