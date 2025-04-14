@@ -604,24 +604,6 @@ describe("setEnforcementPolicy", () => {
   });
 });
 
-describe("setEnforcementPolicy", () => {
-  it("should return the results from kinde environment", async () => {
-    setEnforcementPolicy("required");
-    expect(global.kinde.mfa.setEnforcementPolicy).toHaveBeenCalledWith(
-      "required",
-    );
-  });
-
-  it("should error when binding missing", async () => {
-    const backup = global.kinde.mfa;
-    delete global.kinde.mfa;
-    expect(() => setEnforcementPolicy("required")).toThrowError(
-      "mfa binding not available, please add to workflow settings to enable",
-    );
-    global.kinde.mfa = backup;
-  });
-});
-
 describe("secureFetch", () => {
   it("should return the results from kinde environment", async () => {
     secureFetch("required", {
