@@ -1,6 +1,34 @@
 # Changelog
 
 
+## 0.4.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.4.0...main)
+
+### 🚀 Enhancements
+
+- Add getKindeThemeCode ([372c8a7](https://github.com/kinde-oss/infrastructure/commit/372c8a7))
+
+### 🩹 Fixes
+
+- Kinde.localization optional ([7caf6d8](https://github.com/kinde-oss/infrastructure/commit/7caf6d8))
+- OnUserPreMFA workflow event type ([a516027](https://github.com/kinde-oss/infrastructure/commit/a516027))
+
+### 🏡 Chore
+
+- Correct typo ([bafdffc](https://github.com/kinde-oss/infrastructure/commit/bafdffc))
+- Lockfile hygiene ([2b55c24](https://github.com/kinde-oss/infrastructure/commit/2b55c24))
+- Remove debug console logs ([9662019](https://github.com/kinde-oss/infrastructure/commit/9662019))
+- Remove duplicate test ([e01cf1d](https://github.com/kinde-oss/infrastructure/commit/e01cf1d))
+
+### ✅ Tests
+
+- Extend test coverage ([b998717](https://github.com/kinde-oss/infrastructure/commit/b998717))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.3.1...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.3.1...main)
