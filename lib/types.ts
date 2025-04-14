@@ -74,7 +74,7 @@ export type WorkflowSettings = {
     /**
      * Exposes access to the kinde localization
      */
-    "kinde.localization": {};
+    "kinde.localization"?: {};
     /**
      * Required to change the MFA policy
      */
