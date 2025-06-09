@@ -27,6 +27,8 @@ import {
   invalidateFormField,
   setEnforcementPolicy,
   secureFetch,
+  denyPlanSelection,
+  denyPlanCancellation,
 } from "./main";
 
 global.kinde = {
@@ -64,6 +66,10 @@ global.kinde = {
   },
   auth: {
     denyAccess: vi.fn(),
+  },
+  plan: {
+    denySelection: vi.fn(),
+    denyCancellation: vi.fn(),
   },
   cache: {
     jwtToken: vi.fn(),
@@ -641,5 +647,51 @@ describe("secureFetch", () => {
       "secureFetch binding not available",
     );
     global.kinde.secureFetch = backup;
+  });
+});
+
+describe("denySelection", () => {
+  it("Errors on missing kinde.plan", async () => {
+    const backup = global.kinde.plan;
+    delete global.kinde.plan;
+    expect(() => denyPlanSelection("required", [])).toThrowError(
+      "plan binding not available, please add to workflow/page settings to enable",
+    );
+    global.kinde.plan = backup;
+  });
+
+  it("Errors on invalid message", async () => {
+    expect(() => denyPlanSelection(1, [])).toThrowError(
+      "Invalid message provided",
+    );
+  });
+
+  it("should pass params to internal methods", async () => {
+    denyPlanSelection("test", ["message"]);
+    expect(global.kinde.plan.denySelection).toHaveBeenCalledWith("test", [
+      "message",
+    ]);
+  });
+});
+
+describe("denyPlanCancellation", () => {
+  it("Errors on missing kinde.plan", async () => {
+    const backup = global.kinde.plan;
+    delete global.kinde.plan;
+    expect(() => denyPlanCancellation("required")).toThrowError(
+      "plan binding not available, please add to workflow/page settings to enable",
+    );
+    global.kinde.plan = backup;
+  });
+
+  it("Errors on invalid message", async () => {
+    expect(() => denyPlanCancellation()).toThrowError(
+      "Invalid message provided",
+    );
+  });
+
+  it("should pass params to internal methods", async () => {
+    denyPlanCancellation("test");
+    expect(global.kinde.plan.denyCancellation).toHaveBeenCalledWith("test");
   });
 });

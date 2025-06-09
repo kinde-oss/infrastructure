@@ -93,6 +93,8 @@ export enum WorkflowTrigger {
   M2MTokenGeneration = "m2m:token_generation",
   ExistingPasswordProvided = "user:existing_password_provided",
   NewPasswordProvided = "user:new_password_provided",
+  PlanSelection = "user:plan_selection",
+  PlanCancellationRequest = "user:plan_cancellation_request",
 }
 
 export type WorkflowEvents =
@@ -101,7 +103,9 @@ export type WorkflowEvents =
   | onM2MTokenGeneratedEvent
   | onExistingPasswordProvidedEvent
   | onNewPasswordProvidedEvent
-  | onUserPreMFA;
+  | onUserPreMFA
+  | onPlanSelection
+  | onPlanCancellationRequest;
 
 type EventBase = {
   request: RequestContext;
@@ -121,6 +125,39 @@ type RequestContext = {
   };
   ip: string;
   userAgent: string;
+};
+
+export type onPlanSelection = EventBase & {
+  context: {
+    user: {
+      id: string;
+    };
+    workflow: {
+      trigger: WorkflowTrigger.PlanSelection;
+    };
+    organization: {
+      code: string;
+    };
+    billing: {
+      currentPlanCode: string; // plan they are currently on
+      requestedPlanCode: string; // plan they are trying to switch to
+    };
+  };
+};
+
+export type onPlanCancellationRequest = EventBase & {
+  context: {
+    workflow: {
+      trigger: WorkflowTrigger.PlanCancellationRequest;
+    };
+    organization: {
+      code: string;
+    };
+    billing: {
+      currentPlanCode: string; // plan they are currently on
+      agreementId: string; // the subscription ID in Kinde
+    };
+  };
 };
 
 export type onUserTokenGeneratedEvent = EventBase & {

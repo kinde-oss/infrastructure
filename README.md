@@ -35,6 +35,10 @@ pnpm install @kinde/infrastructure
 
 `createKindeAPI` - Create handler to call the Kinde management SDK
 
+`denyPlanSelection` - Deny a plan selection change
+
+`denyPlanCancellation` - Deny cancellion of a plan
+
 `getM2MToken` - Get a m2m token, this will cache for the lifespan of the token for other workflows to use
 
 ### Custom Pages Methods
