@@ -65,6 +65,9 @@ global.kinde = {
   auth: {
     denyAccess: vi.fn(),
   },
+  cache: {
+    jwtToken: vi.fn(),
+  },
 };
 
 const mockEvent: WorkflowEvents = {
@@ -191,6 +194,8 @@ describe("createKindeAPI", () => {
     global.kinde.fetch.mockResolvedValueOnce({
       json: { access_token: "access_token" },
     });
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("access_token");
+
     const env = await createKindeAPI(mockEvent);
     global.kinde.fetch.mockResolvedValueOnce({
       json: {},
@@ -219,6 +224,8 @@ describe("createKindeAPI", () => {
     global.kinde.fetch.mockResolvedValueOnce({
       json: { access_token: "access_token" },
     });
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("access_token");
+
     const env = await createKindeAPI(mockEvent);
     global.kinde.fetch.mockResolvedValueOnce({
       json: {},
@@ -247,6 +254,8 @@ describe("createKindeAPI", () => {
     global.kinde.fetch.mockResolvedValueOnce({
       json: { access_token: "access_token" },
     });
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("access_token");
+
     const env = await createKindeAPI(mockEvent);
     global.kinde.fetch.mockResolvedValueOnce({
       json: {},
@@ -277,6 +286,8 @@ describe("createKindeAPI", () => {
     global.kinde.fetch.mockResolvedValueOnce({
       json: { access_token: "access_token" },
     });
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("access_token");
+
     const env = await createKindeAPI(mockEvent);
     global.kinde.fetch.mockResolvedValueOnce({
       json: {},
@@ -307,6 +318,8 @@ describe("createKindeAPI", () => {
     global.kinde.fetch.mockResolvedValueOnce({
       json: { access_token: "access_token" },
     });
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("access_token");
+
     const env = await createKindeAPI(mockEvent);
     global.kinde.fetch.mockResolvedValueOnce({
       json: {},
