@@ -35,6 +35,10 @@ pnpm install @kinde/infrastructure
 
 `createKindeAPI` - Create handler to call the Kinde management SDK
 
+`denyPlanSelection` - Deny a plan selection change
+
+`denyPlanCancellation` - Deny cancellion of a plan
+
 ### Custom Pages Methods
 
 `getKindeWidget` - Places the kinde widget on the page
