@@ -85,6 +85,12 @@ declare namespace kinde {
     export function setScore(score: number): void;
     export function getScore(): number;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace plan {
+    export function denySelection(message: string, reasons?: string[]): void;
+    export function denyCancellation(reason: string): number;
+  }
 }
 
 const idTokenClaimsHandler: ProxyHandler<Record<string, unknown>> = {
@@ -594,4 +600,43 @@ export const setKindeDesignerCustomProperties = ({
   ]
     .filter(Boolean)
     .join("\n");
+};
+
+/**
+ *
+ * Deny the plan selection for the user
+ * @param message Message to display to the user when denying plan selection
+ * @param reasons Array of reasons for denying the plan selection
+ */
+export const denyPlanSelection = (message: string, reasons?: string[]): void => {
+  if (!kinde.plan) {
+    throw new Error(
+      "plan binding not available, please add to workflow/page settings to enable",
+    );
+  }
+
+  if (!message || typeof message !== "string") {
+    throw new Error("Invalid message provided");
+  }
+
+  kinde.plan.denySelection(message, reasons);
+};
+
+/**
+ *
+ * Deny the plan cancellation for the user
+ * @param reason Message to display to the user when denying plan cancellation
+ */
+export const denyPlanCancellation = (reason: string): void => {
+  if (!kinde.plan) {
+    throw new Error(
+      "plan binding not available, please add to workflow/page settings to enable",
+    );
+  }
+
+  if (!reason || typeof reason !== "string") {
+    throw new Error("Invalid message provided");
+  }
+
+  kinde.plan.denyCancellation(reason);
 };
