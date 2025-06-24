@@ -35,6 +35,8 @@ pnpm install @kinde/infrastructure
 
 `createKindeAPI` - Create handler to call the Kinde management SDK
 
+`getM2MToken` - Get a m2m token, this will cache for the lifespan of the token for other workflows to use
+
 ### Custom Pages Methods
 
 `getKindeWidget` - Places the kinde widget on the page
@@ -259,7 +261,7 @@ This example will get the api token from the Kinde environment variables and cal
 
 ##### Required bindings
 
-```
+```p
 kinde.idToken
 kinde.fetch
 kinde.env

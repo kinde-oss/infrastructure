@@ -25,10 +25,27 @@ const getAssetUrl = (assetPath: string, orgCode?: OrgCode) => {
   return `/${assetPath}?${orgCode ? `p_org_code=${orgCode}&` : ""}cache=@8973ff883c2c40e1bad198b543e12b24@`;
 };
 
+type ValidationKeyJWKS = {
+  type: "jwks";
+  jwks: {
+    url: string;
+  };
+};
+
+type ValidationKeyStatic = {
+  type: "static";
+  static: {
+    alg: "HS256";
+    key: string;
+  };
+};
+
+type ValidationKey = { key: ValidationKeyJWKS | ValidationKeyStatic };
+
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace kinde {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function fetch(url: string, options: unknown): Promise<any>;
+  export function fetch(url: string, options: unknown): any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export function secureFetch(url: string, options: unknown): Promise<any>;
 
@@ -84,6 +101,17 @@ declare namespace kinde {
   namespace risk {
     export function setScore(score: number): void;
     export function getScore(): number;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace cache {
+    export function jwtToken(
+      tokenName: string,
+      options?: {
+        validation?: ValidationKey;
+        onMissingOrExpired?: () => string;
+      },
+    ): Promise<string>;
   }
 }
 
@@ -326,6 +354,64 @@ export async function secureFetch<T = any>(
   } as T;
 }
 
+export type getM2MTokenOptions = {
+  domain: string;
+  clientId: string;
+  clientSecret: string;
+  audience: string[];
+  scopes?: string[];
+  headers?: Record<string, string>;
+};
+
+export async function getM2MToken<T = string>(
+  tokenName: T,
+  options: getM2MTokenOptions,
+) {
+  return await kinde.cache.jwtToken(tokenName as string, {
+    validation: {
+      key: {
+        type: "jwks",
+        jwks: {
+          url: `${options.domain}/.well-known/jwks.json`,
+        },
+      },
+    },
+    onMissingOrExpired: () => {
+      if (!options.domain || !options.clientId || !options.clientSecret) {
+        throw new Error("getM2MToken: Missing required parameters");
+      }
+
+      try {
+        const result = kinde.fetch(`${options.domain}/oauth2/token`, {
+          method: "POST",
+          responseFormat: "json",
+          headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            accept: "application/json",
+            ...options.headers,
+          },
+          body: new URLSearchParams({
+            audience: options.audience?.join(" ") ?? "",
+            grant_type: "client_credentials",
+            client_id: options.clientId,
+            client_secret: options.clientSecret,
+            scope: options.scopes?.join(" ") ?? "",
+          }),
+        }) as { json: { access_token: string } };
+
+        if (!result.json?.access_token) {
+          throw new Error("getM2MToken: No access token returned");
+        }
+        return result.json.access_token;
+      } catch (error) {
+        throw new Error(
+          `getM2MToken: Failed to obtain token - ${(error as Error).message}`,
+        );
+      }
+    },
+  });
+}
+
 /**
  * create a Kinde API client
  * @param baseURL Base URL of the Kinde API
@@ -361,22 +447,12 @@ export async function createKindeAPI(
     }
   }
 
-  const { data: token } = await fetch(
-    `${event.context.domains.kindeDomain}/oauth2/token`,
-    {
-      method: "POST",
-      responseFormat: "json",
-      headers: {
-        "Content-type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        audience: `${event.context.domains.kindeDomain}/api`,
-        grant_type: "client_credentials",
-        client_id: clientId,
-        client_secret: clientSecret,
-      }),
-    },
-  );
+  const token = await getM2MToken("internal_m2m_access_token", {
+    domain: event.context.domains.kindeDomain,
+    clientId,
+    clientSecret,
+    audience: [`${event.context.domains.kindeDomain}/api`],
+  });
 
   const callKindeAPI = async ({
     method,
@@ -395,7 +471,7 @@ export async function createKindeAPI(
         method,
         responseFormat: "json",
         headers: {
-          authorization: `Bearer ${token.access_token}`,
+          authorization: `Bearer ${token}`,
           "Content-Type": contentType,
           accept: "application/json",
         },
