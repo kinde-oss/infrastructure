@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 0.4.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.4.1...main)
+
+### 🚀 Enhancements
+
+- GetM2MToken ([0cf69b7](https://github.com/kinde-oss/infrastructure/commit/0cf69b7))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.4.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.4.0...main)
