@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 0.5.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.5.0...main)
+
+### 🚀 Enhancements
+
+- Add billing workflow ([24d9a98](https://github.com/kinde-oss/infrastructure/commit/24d9a98))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.4.1...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.4.1...main)
