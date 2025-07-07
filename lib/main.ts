@@ -401,7 +401,6 @@ export async function getM2MToken<T = string>(
         throw new Error("getM2MToken: No access token returned");
       }
 
-      console.log("returning token: ", result.json.access_token);
       return result.json.access_token;
     } catch (error) {
       throw new Error(
@@ -470,6 +469,12 @@ export async function createKindeAPI(
     clientSecret,
     audience: [`${event.context.domains.kindeDomain}/api`],
   });
+
+  if (typeof token === "object") {
+    token = JSON.stringify(token);
+    token = token.replace(`"\\"`, "");
+    token = token.replace(`\\""`, "");
+  }
 
   const callKindeAPI = async ({
     method,
