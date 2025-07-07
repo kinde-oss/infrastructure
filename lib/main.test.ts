@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   idTokenCustomClaims,
   accessTokenCustomClaims,
@@ -29,6 +29,7 @@ import {
   secureFetch,
   denyPlanSelection,
   denyPlanCancellation,
+  getM2MToken,
 } from "./main";
 
 global.kinde = {
@@ -180,6 +181,174 @@ describe("M2M Token", () => {
       "m2mToken binding not available, please add to workflow/page settings to enable",
     );
     global.kinde.m2mToken = backup;
+  });
+});
+
+describe("getM2MToken", () => {
+  const mockOptions = {
+    domain: "https://test.kinde.com",
+    clientId: "test_client_id",
+    clientSecret: "test_client_secret",
+    audience: ["https://api.test.com"],
+    scopes: ["read", "write"],
+    headers: { "custom-header": "value" },
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should fetch token with caching when skipCache is false", async () => {
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("cached_token");
+
+    const result = await getM2MToken("test_token", mockOptions);
+
+    expect(result).toBe("cached_token");
+    expect(global.kinde.cache.jwtToken).toHaveBeenCalledWith("test_token", {
+      validation: {
+        key: {
+          type: "jwks",
+          jwks: {
+            url: "https://test.kinde.com/.well-known/jwks.json",
+          },
+        },
+      },
+      onMissingOrExpired: expect.any(Function),
+    });
+  });
+
+  it("should fetch token without caching when skipCache is true", async () => {
+    global.kinde.fetch.mockReturnValueOnce({
+      json: { access_token: "fresh_token" },
+    });
+
+    const result = await getM2MToken("test_token", {
+      ...mockOptions,
+      skipCache: true,
+    });
+
+    expect(result).toBe("fresh_token");
+    expect(global.kinde.cache.jwtToken).not.toHaveBeenCalled();
+    expect(global.kinde.fetch).toHaveBeenCalledWith(
+      "https://test.kinde.com/oauth2/token",
+      {
+        method: "POST",
+        responseFormat: "json",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          accept: "application/json",
+          "custom-header": "value",
+        },
+        body: expect.any(URLSearchParams),
+      },
+    );
+  });
+
+  it("should fetch token without caching when skipCache is undefined", async () => {
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("cached_token");
+
+    const result = await getM2MToken("test_token", mockOptions);
+
+    expect(result).toBe("cached_token");
+    expect(global.kinde.cache.jwtToken).toHaveBeenCalled();
+  });
+
+  it("should include all parameters in the token request", async () => {
+    global.kinde.fetch.mockReturnValueOnce({
+      json: { access_token: "fresh_token" },
+    });
+
+    await getM2MToken("test_token", { ...mockOptions, skipCache: true });
+
+    const fetchCall = global.kinde.fetch.mock.calls[0];
+    const body = fetchCall[1].body as URLSearchParams;
+
+    expect(body.get("audience")).toBe("https://api.test.com");
+    expect(body.get("grant_type")).toBe("client_credentials");
+    expect(body.get("client_id")).toBe("test_client_id");
+    expect(body.get("client_secret")).toBe("test_client_secret");
+    expect(body.get("scope")).toBe("read write");
+  });
+
+  it("should handle missing optional parameters", async () => {
+    global.kinde.fetch.mockReturnValueOnce({
+      json: { access_token: "fresh_token" },
+    });
+
+    const minimalOptions = {
+      domain: "https://test.kinde.com",
+      clientId: "test_client_id",
+      clientSecret: "test_client_secret",
+      audience: ["https://api.test.com"],
+    };
+
+    await getM2MToken("test_token", { ...minimalOptions, skipCache: true });
+
+    const fetchCall = global.kinde.fetch.mock.calls[0];
+    const body = fetchCall[1].body as URLSearchParams;
+
+    expect(body.get("audience")).toBe("https://api.test.com");
+    expect(body.get("scope")).toBe("");
+  });
+
+  it("should throw error when required parameters are missing", async () => {
+    const invalidOptions = {
+      domain: "",
+      clientId: "test_client_id",
+      clientSecret: "test_client_secret",
+      audience: ["https://api.test.com"],
+    };
+
+    await expect(
+      getM2MToken("test_token", { ...invalidOptions, skipCache: true }),
+    ).rejects.toThrow("getM2MToken: Missing required parameters");
+  });
+
+  it("should throw error when token response is invalid", async () => {
+    global.kinde.fetch.mockReturnValueOnce({
+      json: { invalid_field: "value" },
+    });
+
+    await expect(
+      getM2MToken("test_token", { ...mockOptions, skipCache: true }),
+    ).rejects.toThrow("getM2MToken: No access token returned");
+  });
+
+  it("should throw error when fetch fails", async () => {
+    global.kinde.fetch.mockImplementationOnce(() => {
+      throw new Error("Network error");
+    });
+
+    await expect(
+      getM2MToken("test_token", { ...mockOptions, skipCache: true }),
+    ).rejects.toThrow("getM2MToken: Failed to obtain token - Network error");
+  });
+
+  it("should handle onMissingOrExpired callback when using cache", async () => {
+    global.kinde.fetch.mockReturnValueOnce({
+      json: { access_token: "fresh_token" },
+    });
+    global.kinde.cache.jwtToken.mockImplementationOnce((tokenName, options) => {
+      // Simulate cache miss by calling onMissingOrExpired
+      return Promise.resolve(options.onMissingOrExpired());
+    });
+
+    const result = await getM2MToken("test_token", mockOptions);
+
+    expect(result).toBe("fresh_token");
+    expect(global.kinde.fetch).toHaveBeenCalledWith(
+      "https://test.kinde.com/oauth2/token",
+      {
+        method: "POST",
+        responseFormat: "json",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          accept: "application/json",
+          "custom-header": "value",
+        },
+        body: expect.any(URLSearchParams),
+      },
+    );
   });
 });
 
