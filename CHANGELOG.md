@@ -1,6 +1,22 @@
 # Changelog
 
 
+## 0.6.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.6.0...main)
+
+### 🚀 Enhancements
+
+- Option to skip cache on M2M token ([040ca9e](https://github.com/kinde-oss/infrastructure/commit/040ca9e))
+
+### 🩹 Fixes
+
+- When non string token, clean up the token ([68ebac6](https://github.com/kinde-oss/infrastructure/commit/68ebac6))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.5.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.5.0...main)
