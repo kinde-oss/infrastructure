@@ -367,12 +367,54 @@ export type getM2MTokenOptions = {
   audience: string[];
   scopes?: string[];
   headers?: Record<string, string>;
+  skipCache?: boolean;
 };
 
 export async function getM2MToken<T = string>(
   tokenName: T,
   options: getM2MTokenOptions,
 ) {
+  const fetchToken = () => {
+    if (!options.domain || !options.clientId || !options.clientSecret) {
+      throw new Error("getM2MToken: Missing required parameters");
+    }
+
+    try {
+      const result = kinde.fetch(`${options.domain}/oauth2/token`, {
+        method: "POST",
+        responseFormat: "json",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          accept: "application/json",
+          ...options.headers,
+        },
+        body: new URLSearchParams({
+          audience: options.audience?.join(" ") ?? "",
+          grant_type: "client_credentials",
+          client_id: options.clientId,
+          client_secret: options.clientSecret,
+          scope: options.scopes?.join(" ") ?? "",
+        }),
+      }) as { json: { access_token: string } };
+
+      if (!result.json?.access_token) {
+        throw new Error("getM2MToken: No access token returned");
+      }
+
+      return result.json.access_token;
+    } catch (error) {
+      throw new Error(
+        `getM2MToken: Failed to obtain token - ${(error as Error).message}`,
+      );
+    }
+  };
+
+  // If skipCache is true, directly fetch the token without using cache
+  if (options.skipCache) {
+    return fetchToken();
+  }
+
+  // Otherwise, use the cache with onMissingOrExpired callback
   return await kinde.cache.jwtToken(tokenName as string, {
     validation: {
       key: {
@@ -382,39 +424,7 @@ export async function getM2MToken<T = string>(
         },
       },
     },
-    onMissingOrExpired: () => {
-      if (!options.domain || !options.clientId || !options.clientSecret) {
-        throw new Error("getM2MToken: Missing required parameters");
-      }
-
-      try {
-        const result = kinde.fetch(`${options.domain}/oauth2/token`, {
-          method: "POST",
-          responseFormat: "json",
-          headers: {
-            "content-type": "application/x-www-form-urlencoded",
-            accept: "application/json",
-            ...options.headers,
-          },
-          body: new URLSearchParams({
-            audience: options.audience?.join(" ") ?? "",
-            grant_type: "client_credentials",
-            client_id: options.clientId,
-            client_secret: options.clientSecret,
-            scope: options.scopes?.join(" ") ?? "",
-          }),
-        }) as { json: { access_token: string } };
-
-        if (!result.json?.access_token) {
-          throw new Error("getM2MToken: No access token returned");
-        }
-        return result.json.access_token;
-      } catch (error) {
-        throw new Error(
-          `getM2MToken: Failed to obtain token - ${(error as Error).message}`,
-        );
-      }
-    },
+    onMissingOrExpired: fetchToken,
   });
 }
 
@@ -453,12 +463,18 @@ export async function createKindeAPI(
     }
   }
 
-  const token = await getM2MToken("internal_m2m_access_token", {
+  let token = await getM2MToken("internal_m2m_access_token", {
     domain: event.context.domains.kindeDomain,
     clientId,
     clientSecret,
     audience: [`${event.context.domains.kindeDomain}/api`],
   });
+
+  if (typeof token === "object") {
+    token = JSON.stringify(token);
+    token = token.replace(`"\\"`, "");
+    token = token.replace(`\\""`, "");
+  }
 
   const callKindeAPI = async ({
     method,
