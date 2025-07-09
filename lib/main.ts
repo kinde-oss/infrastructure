@@ -468,6 +468,7 @@ export async function createKindeAPI(
     clientId,
     clientSecret,
     audience: [`${event.context.domains.kindeDomain}/api`],
+    skipCache: options?.skipCache ?? false,
   });
 
   if (typeof token === "object") {

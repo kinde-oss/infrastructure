@@ -401,6 +401,7 @@ export type OrgCode = `org_${string}`;
 export type createKindeAPIOptions =
   | {
       version: 1;
+      skipCache?: boolean;
       clientId: never;
       clientSecret: never;
       clientIdKey: never;
@@ -408,6 +409,7 @@ export type createKindeAPIOptions =
     }
   | {
       version: 1;
+      skipCache?: boolean;
       clientId: string;
       clientSecret: string;
       clientIdKey: never;
@@ -415,6 +417,7 @@ export type createKindeAPIOptions =
     }
   | {
       version: 1;
+      skipCache?: boolean;
       clientIdKey: string;
       clientSecretKey: string;
       clientId: never;
