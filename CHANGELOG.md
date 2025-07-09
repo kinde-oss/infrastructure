@@ -1,6 +1,19 @@
 # Changelog
 
 
+## 0.7.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.0...main)
+
+### 🩹 Fixes
+
+- Expose skipCache to createKindeApi ([9b08395](https://github.com/kinde-oss/infrastructure/commit/9b08395))
+- Already do string replace on returned token ([6439f57](https://github.com/kinde-oss/infrastructure/commit/6439f57))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.6.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.6.0...main)
