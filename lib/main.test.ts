@@ -354,6 +354,11 @@ describe("getM2MToken", () => {
 
 describe("createKindeAPI", () => {
   it("should return the value of the environment variable", async () => {
+    global.kinde.fetch.mockReset();
+    global.kinde.fetch.mockResolvedValueOnce({
+      json: { access_token: "access_token" },
+    });
+    global.kinde.cache.jwtToken.mockResolvedValueOnce("access_token");
     const env = await createKindeAPI(mockEvent);
     expect(env).toStrictEqual({
       delete: expect.any(Function),
