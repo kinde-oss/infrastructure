@@ -473,9 +473,10 @@ export async function createKindeAPI(
 
   if (typeof token === "object") {
     token = JSON.stringify(token);
+    token = token.replace(`"\\"`, "");
+    token = token.replace(`\\""`, "");
   }
-  token = token.replace(`"\\"`, "");
-  token = token.replace(`\\""`, "");
+  token = token.replace(/"/g, "");
 
   const callKindeAPI = async ({
     method,
