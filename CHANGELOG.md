@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 0.7.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.1...main)
+
+### 🩹 Fixes
+
+- Token cleanup ([d6999b1](https://github.com/kinde-oss/infrastructure/commit/d6999b1))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.7.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.0...main)
