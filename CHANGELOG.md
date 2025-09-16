@@ -1,6 +1,18 @@
 # Changelog
 
 
+## 0.7.2...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.2...main)
+
+### 🚀 Enhancements
+
+- User:pre_registration ([77f57dd](https://github.com/kinde-oss/infrastructure/commit/77f57dd))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.7.1...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.1...main)
