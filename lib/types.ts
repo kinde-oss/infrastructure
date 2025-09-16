@@ -95,6 +95,7 @@ export enum WorkflowTrigger {
   NewPasswordProvided = "user:new_password_provided",
   PlanSelection = "user:plan_selection",
   PlanCancellationRequest = "user:plan_cancellation_request",
+  UserPreRegistration = "user:pre_registration",
 }
 
 export type WorkflowEvents =
@@ -105,7 +106,8 @@ export type WorkflowEvents =
   | onNewPasswordProvidedEvent
   | onUserPreMFA
   | onPlanSelection
-  | onPlanCancellationRequest;
+  | onPlanCancellationRequest
+  | onUserPreRegistrationEvent;
 
 type EventBase = {
   request: RequestContext;
@@ -197,6 +199,30 @@ export type onPostAuthenticationEvent = EventBase & {
     auth: {
       connectionId: string;
       isNewUserRecordCreated: boolean;
+    };
+  };
+};
+
+export type onUserPreRegistrationEvent = EventBase & {
+  request: {
+    ip: string;
+    userAgent: string;
+    authUrlParams: LoginMethodParams & {
+      state: string;
+    };
+  };
+  context: {
+    auth: {
+      connectionId: string;
+    };
+    workflow: {
+      trigger: WorkflowTrigger.UserPreRegistration;
+    };
+    domains: {
+      kindeDomain: string;
+    };
+    application: {
+      clientId: string;
     };
   };
 };
