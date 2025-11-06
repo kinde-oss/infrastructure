@@ -80,6 +80,10 @@ export type WorkflowSettings = {
      */
     "kinde.mfa": {};
     /**
+     * Exposes access to the kinde SSO session
+     */
+    "kinde.ssoSession"?: {};
+    /**
      * Add URL tooling
      */
     url?: {};
