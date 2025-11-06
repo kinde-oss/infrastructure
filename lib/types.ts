@@ -78,7 +78,7 @@ export type WorkflowSettings = {
     /**
      * Required to change the MFA policy
      */
-    "kinde.mfa": {};
+    "kinde.mfa"?: {};
     /**
      * Add URL tooling
      */
