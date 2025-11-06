@@ -96,6 +96,7 @@ export enum WorkflowTrigger {
   PlanSelection = "user:plan_selection",
   PlanCancellationRequest = "user:plan_cancellation_request",
   UserPreRegistration = "user:pre_registration",
+  NewUsernameProvided = "user:new_username_provided",
 }
 
 export type WorkflowEvents =
@@ -107,6 +108,7 @@ export type WorkflowEvents =
   | onUserPreMFA
   | onPlanSelection
   | onPlanCancellationRequest
+  | onNewUsernameProvidedEvent
   | onUserPreRegistrationEvent;
 
 type EventBase = {
@@ -223,6 +225,24 @@ export type onUserPreRegistrationEvent = EventBase & {
     };
     application: {
       clientId: string;
+    };
+  };
+};
+
+export type onNewUsernameProvidedEvent = EventBase & {
+  request: {
+    ip: string;
+    userAgent: string;
+  };
+  context: {
+    auth: {
+      suppliedUsername: string;
+    };
+    workflow: {
+      trigger: WorkflowTrigger.NewUsernameProvided;
+    };
+    domains: {
+      kindeDomain: string;
     };
   };
 };
