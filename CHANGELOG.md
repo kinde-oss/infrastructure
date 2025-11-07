@@ -1,6 +1,27 @@
 # Changelog
 
 
+## 0.8.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.8.0...main)
+
+### 🚀 Enhancements
+
+- "user:new_username_provided" workflow trigger. ([8946df0](https://github.com/kinde-oss/infrastructure/commit/8946df0))
+- "kinde.ssoSession" binding ([c088ad0](https://github.com/kinde-oss/infrastructure/commit/c088ad0))
+
+### 🩹 Fixes
+
+- "kinde.mfa" optional binding ([dea338b](https://github.com/kinde-oss/infrastructure/commit/dea338b))
+
+### 🏡 Chore
+
+- Lock file maintenance ([bdbaf11](https://github.com/kinde-oss/infrastructure/commit/bdbaf11))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
 ## 0.7.2...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.2...main)
