@@ -405,6 +405,7 @@ export async function getM2MToken<T = string>(
     } catch (error) {
       throw new Error(
         `getM2MToken: Failed to obtain token - ${(error as Error).message}`,
+        { cause: error },
       );
     }
   };
