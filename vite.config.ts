@@ -11,7 +11,7 @@ export default defineConfig({
       name: "@kinde/infrastructure",
       fileName: "infrastructure",
     },
-    target: "esnext",
+    target: "es2019",
     outDir: "../dist",
     emptyOutDir: true,
   },
