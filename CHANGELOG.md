@@ -1,7 +1,7 @@
 # Changelog
 
 
-## 0.9.0...main
+## 0.10.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.9.0...main)
 
@@ -31,8 +31,8 @@
 
 ### ❤️ Contributors
 
-- Koosha Owji <koosha.owji@gmail.com>
-- Andre Selton <andre@kinde.com>
+- Koosha Owji ([@Koosha-Owji](https://github.com/Koosha-Owji))
+- Andre Selton ([@onderay](https://github.com/onderay))
 
 ## 0.8.0...main
 
