@@ -3,6 +3,24 @@
 
 ## 0.10.0...main
 
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.10.0...main)
+
+### 🩹 Fixes
+
+- **build:** Target es2019 for goja-compatible bundle output ([d55ba86](https://github.com/kinde-oss/infrastructure/commit/d55ba86))
+
+### 🏡 Chore
+
+- Release v0.10.0 ([31ac71d](https://github.com/kinde-oss/infrastructure/commit/31ac71d))
+- Update changelog ([0e7b971](https://github.com/kinde-oss/infrastructure/commit/0e7b971))
+
+### ❤️ Contributors
+
+- Daniel Rivers <daniel@kinde.com>
+- Koosha Owji <koosha.owji@gmail.com>
+
+## 0.10.0...main
+
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.9.0...main)
 
 ### 🩹 Fixes
