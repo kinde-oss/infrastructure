@@ -1,6 +1,39 @@
 # Changelog
 
 
+## 0.10.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.9.0...main)
+
+### 🩹 Fixes
+
+- Update package.json typescript-eslint version to match pnpm-lock.yaml ([07f46a5](https://github.com/kinde-oss/infrastructure/commit/07f46a5))
+- Update package.json vitest versions to match pnpm-lock.yaml (^3.2.4) ([9e9f3e7](https://github.com/kinde-oss/infrastructure/commit/9e9f3e7))
+- Update typescript version in package.json to match lockfile (^5.9.3) ([7a90649](https://github.com/kinde-oss/infrastructure/commit/7a90649))
+- Update package.json vite-plugin-dts specifier to ^4.5.4 to match lockfile ([67e488a](https://github.com/kinde-oss/infrastructure/commit/67e488a))
+- Update globals specifier in package.json to ^16.5.0 to match lockfile ([d4d241c](https://github.com/kinde-oss/infrastructure/commit/d4d241c))
+- Update package.json eslint versions to match lockfile (^9.39.4) ([dee0a2d](https://github.com/kinde-oss/infrastructure/commit/dee0a2d))
+- Update @types/node in package.json to ^22.19.18 to match lockfile ([2cbd82e](https://github.com/kinde-oss/infrastructure/commit/2cbd82e))
+- Align typescript-eslint manifest with lockfiles ([e9221e3](https://github.com/kinde-oss/infrastructure/commit/e9221e3))
+- Align @types/node version in package.json with lockfile (^22.19.19) ([0387384](https://github.com/kinde-oss/infrastructure/commit/0387384))
+- Sync typescript-eslint manifest with lockfile ([54ca09d](https://github.com/kinde-oss/infrastructure/commit/54ca09d))
+- Align package specifier with lockfile for typescript-eslint ([0bac3a4](https://github.com/kinde-oss/infrastructure/commit/0bac3a4))
+
+### 🏡 Chore
+
+- Update CODEOWNERS for dependency files ([f4bfa83](https://github.com/kinde-oss/infrastructure/commit/f4bfa83))
+- Merge origin/main into renovate/vitest-monorepo, resolve conflicts ([d3c8d15](https://github.com/kinde-oss/infrastructure/commit/d3c8d15))
+- Update prettier ([dda38b0](https://github.com/kinde-oss/infrastructure/commit/dda38b0))
+- Remove stale version from CI ([afa1aff](https://github.com/kinde-oss/infrastructure/commit/afa1aff))
+- Update node version in CI ([a4b74e4](https://github.com/kinde-oss/infrastructure/commit/a4b74e4))
+- Move enable-pre-post-scripts to pnpm-workspace.yaml ([990b164](https://github.com/kinde-oss/infrastructure/commit/990b164))
+- Preserve original error as cause ([a73a087](https://github.com/kinde-oss/infrastructure/commit/a73a087))
+
+### ❤️ Contributors
+
+- Koosha Owji ([@Koosha-Owji](https://github.com/Koosha-Owji))
+- Andre Selton ([@onderay](https://github.com/onderay))
+
 ## 0.8.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.8.0...main)
