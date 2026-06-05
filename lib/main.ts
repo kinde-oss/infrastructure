@@ -1,9 +1,9 @@
-export * from "./types";
+export * from "./types.js";
 import {
   KindeIdTokenProhibitedClaims,
   KindeAccessTokenProhibitedClaims,
   Kindem2mTokenProhibitedClaims,
-} from "./prohibitedClaims.ts";
+} from "./prohibitedClaims.js";
 import {
   createKindeAPIOptions,
   KindeAPIRequest,
@@ -12,7 +12,7 @@ import {
   MFAEnforcementPolicy,
   OrgCode,
   WorkflowEvents,
-} from "./types";
+} from "./types.js";
 import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
