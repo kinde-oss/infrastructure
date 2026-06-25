@@ -561,6 +561,13 @@ export const getKindeCSRF = (): KindePlaceholder =>
 
 /**
  *
+ * @returns Kinde placeholder for the CSRF token
+ */
+export const getKindeSwitchJS = (): KindePlaceholder =>
+  "@bc178a068813415ca4760fc31a8bdb01@";
+
+/**
+ *
  * @returns Register URL Placeholder
  */
 export const getKindeRegisterUrl = (): KindePlaceholder => registerGUID;
