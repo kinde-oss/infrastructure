@@ -1,6 +1,23 @@
 # Changelog
 
 
+## 0.10.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.10.1...main)
+
+### 🚀 Enhancements
+
+- Add switch connection JS ([b621125](https://github.com/kinde-oss/infrastructure/commit/b621125))
+- Add additional page context types ([9b7e714](https://github.com/kinde-oss/infrastructure/commit/9b7e714))
+
+### 🩹 Fixes
+
+- Correct readme text ([5fff61b](https://github.com/kinde-oss/infrastructure/commit/5fff61b))
+
+### ❤️ Contributors
+
+- Daniel Rivers <daniel@kinde.com>
+
 ## 0.10.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.10.0...main)
