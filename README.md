@@ -21,7 +21,7 @@ pnpm install @kinde/infrastructure
 
 `idTokenCustomClaims` - Define and set custom claims on the id token
 
-`accessCustomClaims` - Define and set custom claims on the access token
+`accessTokenCustomClaims` - Define and set custom claims on the access token
 
 `m2mCustomClaims` - Define and set custom claims on the m2m token
 
