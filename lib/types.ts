@@ -360,6 +360,7 @@ interface AuthUrlParams {
   clientId: string;
   /** The redirect_uri query parameter specifying where to return after auth */
   redirectUri: string;
+  loginHint?: string;
 }
 
 /**
@@ -379,7 +380,7 @@ interface Route {
   /** The requested widget context (e.g., 'register' or 'choose_organization') */
   context: string;
   /** The type of authentication flow ('register' or 'login') */
-  flow: "register" | "login";
+  flow: "register" | "login" | "";
   /** The current path of the request ('auth', 'account', or '/') */
   path: "auth" | "account" | "/";
 }
@@ -406,12 +407,115 @@ interface Widget {
   content: WidgetContent;
 }
 
+export type KindePageErrorContext = {
+  reason?: string;
+  code?: string;
+  message?: string;
+};
+
+export type AuthIntent = "sign_in" | "sign_up";
+export type ConnectionType = "social" | "enterprise" | "credential" | "other";
+export type CredentialMethod =
+  | "email:password"
+  | "email:otp"
+  | "username:password"
+  | "username:otp"
+  | "phone:otp";
+/**
+ * An authentication connection available on the current page.
+ */
+export type KindeAvailableConnection = {
+  /** Internal connection ID */
+  id: string;
+  /** Friendly connection ID used when switching connections */
+  friendlyId: string;
+  /** Display name for the connection */
+  name: string;
+  connectionType: ConnectionType;
+  /** Present for credential connections (e.g. email:password) */
+  credentialMethod?: CredentialMethod | null;
+  /** Identity type for the connection (e.g. email, username, phone, oauth2:github) */
+  identityType?: string;
+  /** Provider identifier */
+  provider: string;
+  /** Logo asset name for the connection */
+  logoName?: string;
+};
+/**
+ * Describes how to POST a connection switch request.
+ * Serialize this to JSON for data-kinde-change-connection-action.
+ */
+export type SwitchConnectionAction = {
+  path: string;
+  actionUrl: string;
+  method: "POST";
+  fields: {
+    psid: string;
+    connectionId: string;
+    authIntent: string;
+    loginHint: string;
+    isClickWrapAccepted: string;
+    isMarketingOptIn: string;
+  };
+};
+/**
+ * Auth state exposed to custom UI pages during an authentication flow.
+ */
+export type KindePageAuthContext = {
+  /** Email entered or resolved for the current step */
+  providedEmail?: string;
+  /** Login hint from the session (email portion) */
+  loginHint?: string;
+  /** Username entered or resolved for the current step */
+  suppliedUsername?: string;
+  /** Active identity type (e.g. email, username) */
+  identityType?: string;
+  /** Current auth intent */
+  reason?: AuthIntent;
+  /** Friendly ID of the active connection */
+  connectionId?: string;
+  /** Friendly ID of the connection bound to the current step */
+  activeConnectionId?: string;
+  /** Friendly ID of the connection stored on the auth session */
+  sessionConnectionId?: string;
+};
+export type KindePageSession = {
+  /** Pipeline step ID — use as data-kinde-change-connection-psid */
+  pipelineStepId: string;
+  /** OAuth state parameter */
+  state?: string;
+};
+export type KindePageConnections = {
+  /** Connections the user can switch to on this page */
+  available: KindeAvailableConnection[];
+};
+export type KindePageActions = {
+  switchConnection: SwitchConnectionAction;
+};
+
 /**
  * The context object containing page state and content
  */
-interface KindePageContext {
+export interface KindePageContext {
   /** Widget-specific data and generated content */
   widget: Widget;
+  domains: {
+    kindeDomain: string;
+  };
+  /** Auth state for the current pipeline step */
+  auth?: KindePageAuthContext;
+  /** Pipeline session metadata */
+  session?: KindePageSession;
+  /** Available connections and switch action */
+  connections?: KindePageConnections;
+  actions?: KindePageActions;
+  organization?: {
+    code: OrgCode;
+  };
+  application?: {
+    clientId: string;
+  };
+  error?: KindePageErrorContext;
 }
 
 /**
