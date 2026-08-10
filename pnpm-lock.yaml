@@ -18,7 +18,7 @@ importers:
         specifier: ^4.0.0
         version: 4.1.7(vitest@4.1.7)
       eslint:
-        specifier: ^10.8.0
+        specifier: ^10.0.0
         version: 10.8.0(supports-color@8.1.1)
       globals:
         specifier: ^17.9.0
