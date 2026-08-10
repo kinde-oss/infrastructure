@@ -291,9 +291,7 @@ export type onNewPasswordProvidedEvent = EventBase & {
 export type MFAPolicy = "required" | "optional" | "off";
 export type MFAContext = "environment" | "organization";
 export type MFAEnabledFactors =
-  | "mfa:sms"
-  | "mfa:email"
-  | "mfa:authenticator_app";
+  "mfa:sms" | "mfa:email" | "mfa:authenticator_app";
 export type MFAEnforcementPolicy = "required" | "skip";
 
 export type onUserPreMFA = EventBase & {
