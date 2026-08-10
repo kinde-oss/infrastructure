@@ -1,6 +1,30 @@
 # Changelog
 
 
+## 0.11.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.11.0...main)
+
+### 🩹 Fixes
+
+- Update vite-plugin-dts version in package.json to match lockfile ([51acadf](https://github.com/kinde-oss/infrastructure/commit/51acadf))
+- Sync globals version in package.json with pnpm-lock.yaml ([ea658f7](https://github.com/kinde-oss/infrastructure/commit/ea658f7))
+- Update @types/node specifier in package.json to match lockfile ([410972d](https://github.com/kinde-oss/infrastructure/commit/410972d))
+
+### 🏡 Chore
+
+- Standardize Renovate config with release-age cooldown ([85854de](https://github.com/kinde-oss/infrastructure/commit/85854de))
+- Fix lint ([669b48c](https://github.com/kinde-oss/infrastructure/commit/669b48c))
+- Regenerate lockfile ([92bba5a](https://github.com/kinde-oss/infrastructure/commit/92bba5a))
+- Regenerate lockfile ([ad62c1c](https://github.com/kinde-oss/infrastructure/commit/ad62c1c))
+- Regenerate lockfile ([756b06c](https://github.com/kinde-oss/infrastructure/commit/756b06c))
+- Regenerate lockfile ([808e8ba](https://github.com/kinde-oss/infrastructure/commit/808e8ba))
+
+### ❤️ Contributors
+
+- Koosha Owji <koosha.owji@gmail.com>
+- Shafal Adhikari <adhikarishafal0@gmail.com>
+
 ## 0.10.1...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.10.1...main)
