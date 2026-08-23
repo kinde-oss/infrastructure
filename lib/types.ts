@@ -90,7 +90,7 @@ export interface KindeBindings {
    * Add URL tooling
    */
   url?: {};
-};
+}
 
 export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
