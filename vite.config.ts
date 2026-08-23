@@ -11,12 +11,19 @@ export default defineConfig({
       name: "@kinde/infrastructure",
       fileName: "infrastructure",
     },
-    target: "esnext",
+    target: "es2019",
     outDir: "../dist",
     emptyOutDir: true,
   },
   root: "lib",
   base: "",
   resolve: { alias: { src: resolve(__dirname, "./lib") } },
-  plugins: [dts({ insertTypesEntry: true, outDir: "../dist" })],
+  plugins: [
+    dts({
+      root: __dirname,
+      entryRoot: "lib",
+      insertTypesEntry: true,
+      outDirs: "dist",
+    }),
+  ],
 });

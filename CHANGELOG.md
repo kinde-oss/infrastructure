@@ -1,6 +1,301 @@
 # Changelog
 
 
+## 0.11.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.11.0...main)
+
+### 🩹 Fixes
+
+- Update vite-plugin-dts version in package.json to match lockfile ([51acadf](https://github.com/kinde-oss/infrastructure/commit/51acadf))
+- Sync globals version in package.json with pnpm-lock.yaml ([ea658f7](https://github.com/kinde-oss/infrastructure/commit/ea658f7))
+- Update @types/node specifier in package.json to match lockfile ([410972d](https://github.com/kinde-oss/infrastructure/commit/410972d))
+
+### 🏡 Chore
+
+- Standardize Renovate config with release-age cooldown ([85854de](https://github.com/kinde-oss/infrastructure/commit/85854de))
+- Fix lint ([669b48c](https://github.com/kinde-oss/infrastructure/commit/669b48c))
+- Regenerate lockfile ([92bba5a](https://github.com/kinde-oss/infrastructure/commit/92bba5a))
+- Regenerate lockfile ([ad62c1c](https://github.com/kinde-oss/infrastructure/commit/ad62c1c))
+- Regenerate lockfile ([756b06c](https://github.com/kinde-oss/infrastructure/commit/756b06c))
+- Regenerate lockfile ([808e8ba](https://github.com/kinde-oss/infrastructure/commit/808e8ba))
+
+### ❤️ Contributors
+
+- Koosha Owji <koosha.owji@gmail.com>
+- Shafal Adhikari <adhikarishafal0@gmail.com>
+
+## 0.10.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.10.1...main)
+
+### 🚀 Enhancements
+
+- Add switch connection JS ([b621125](https://github.com/kinde-oss/infrastructure/commit/b621125))
+- Add additional page context types ([9b7e714](https://github.com/kinde-oss/infrastructure/commit/9b7e714))
+
+### 🩹 Fixes
+
+- Correct readme text ([5fff61b](https://github.com/kinde-oss/infrastructure/commit/5fff61b))
+
+### ❤️ Contributors
+
+- Daniel Rivers <daniel@kinde.com>
+
+## 0.10.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.10.0...main)
+
+### 🩹 Fixes
+
+- **build:** Target es2019 for goja-compatible bundle output ([d55ba86](https://github.com/kinde-oss/infrastructure/commit/d55ba86))
+
+### 🏡 Chore
+
+- Release v0.10.0 ([31ac71d](https://github.com/kinde-oss/infrastructure/commit/31ac71d))
+- Update changelog ([0e7b971](https://github.com/kinde-oss/infrastructure/commit/0e7b971))
+
+### ❤️ Contributors
+
+- Daniel Rivers <daniel@kinde.com>
+- Koosha Owji <koosha.owji@gmail.com>
+
+## 0.10.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.9.0...main)
+
+### 🩹 Fixes
+
+- Update package.json typescript-eslint version to match pnpm-lock.yaml ([07f46a5](https://github.com/kinde-oss/infrastructure/commit/07f46a5))
+- Update package.json vitest versions to match pnpm-lock.yaml (^3.2.4) ([9e9f3e7](https://github.com/kinde-oss/infrastructure/commit/9e9f3e7))
+- Update typescript version in package.json to match lockfile (^5.9.3) ([7a90649](https://github.com/kinde-oss/infrastructure/commit/7a90649))
+- Update package.json vite-plugin-dts specifier to ^4.5.4 to match lockfile ([67e488a](https://github.com/kinde-oss/infrastructure/commit/67e488a))
+- Update globals specifier in package.json to ^16.5.0 to match lockfile ([d4d241c](https://github.com/kinde-oss/infrastructure/commit/d4d241c))
+- Update package.json eslint versions to match lockfile (^9.39.4) ([dee0a2d](https://github.com/kinde-oss/infrastructure/commit/dee0a2d))
+- Update @types/node in package.json to ^22.19.18 to match lockfile ([2cbd82e](https://github.com/kinde-oss/infrastructure/commit/2cbd82e))
+- Align typescript-eslint manifest with lockfiles ([e9221e3](https://github.com/kinde-oss/infrastructure/commit/e9221e3))
+- Align @types/node version in package.json with lockfile (^22.19.19) ([0387384](https://github.com/kinde-oss/infrastructure/commit/0387384))
+- Sync typescript-eslint manifest with lockfile ([54ca09d](https://github.com/kinde-oss/infrastructure/commit/54ca09d))
+- Align package specifier with lockfile for typescript-eslint ([0bac3a4](https://github.com/kinde-oss/infrastructure/commit/0bac3a4))
+
+### 🏡 Chore
+
+- Update CODEOWNERS for dependency files ([f4bfa83](https://github.com/kinde-oss/infrastructure/commit/f4bfa83))
+- Merge origin/main into renovate/vitest-monorepo, resolve conflicts ([d3c8d15](https://github.com/kinde-oss/infrastructure/commit/d3c8d15))
+- Update prettier ([dda38b0](https://github.com/kinde-oss/infrastructure/commit/dda38b0))
+- Remove stale version from CI ([afa1aff](https://github.com/kinde-oss/infrastructure/commit/afa1aff))
+- Update node version in CI ([a4b74e4](https://github.com/kinde-oss/infrastructure/commit/a4b74e4))
+- Move enable-pre-post-scripts to pnpm-workspace.yaml ([990b164](https://github.com/kinde-oss/infrastructure/commit/990b164))
+- Preserve original error as cause ([a73a087](https://github.com/kinde-oss/infrastructure/commit/a73a087))
+
+### ❤️ Contributors
+
+- Koosha Owji ([@Koosha-Owji](https://github.com/Koosha-Owji))
+- Andre Selton ([@onderay](https://github.com/onderay))
+
+## 0.8.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.8.0...main)
+
+### 🚀 Enhancements
+
+- "user:new_username_provided" workflow trigger. ([8946df0](https://github.com/kinde-oss/infrastructure/commit/8946df0))
+- "kinde.ssoSession" binding ([c088ad0](https://github.com/kinde-oss/infrastructure/commit/c088ad0))
+
+### 🩹 Fixes
+
+- "kinde.mfa" optional binding ([dea338b](https://github.com/kinde-oss/infrastructure/commit/dea338b))
+
+### 🏡 Chore
+
+- Lock file maintenance ([bdbaf11](https://github.com/kinde-oss/infrastructure/commit/bdbaf11))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.7.2...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.2...main)
+
+### 🚀 Enhancements
+
+- User:pre_registration ([77f57dd](https://github.com/kinde-oss/infrastructure/commit/77f57dd))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.7.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.1...main)
+
+### 🩹 Fixes
+
+- Token cleanup ([d6999b1](https://github.com/kinde-oss/infrastructure/commit/d6999b1))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.7.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.7.0...main)
+
+### 🩹 Fixes
+
+- Expose skipCache to createKindeApi ([9b08395](https://github.com/kinde-oss/infrastructure/commit/9b08395))
+- Already do string replace on returned token ([6439f57](https://github.com/kinde-oss/infrastructure/commit/6439f57))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.6.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.6.0...main)
+
+### 🚀 Enhancements
+
+- Option to skip cache on M2M token ([040ca9e](https://github.com/kinde-oss/infrastructure/commit/040ca9e))
+
+### 🩹 Fixes
+
+- When non string token, clean up the token ([68ebac6](https://github.com/kinde-oss/infrastructure/commit/68ebac6))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.5.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.5.0...main)
+
+### 🚀 Enhancements
+
+- Add billing workflow ([24d9a98](https://github.com/kinde-oss/infrastructure/commit/24d9a98))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.4.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.4.1...main)
+
+### 🚀 Enhancements
+
+- GetM2MToken ([0cf69b7](https://github.com/kinde-oss/infrastructure/commit/0cf69b7))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.4.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.4.0...main)
+
+### 🚀 Enhancements
+
+- Add getKindeThemeCode ([372c8a7](https://github.com/kinde-oss/infrastructure/commit/372c8a7))
+
+### 🩹 Fixes
+
+- Kinde.localization optional ([7caf6d8](https://github.com/kinde-oss/infrastructure/commit/7caf6d8))
+- OnUserPreMFA workflow event type ([a516027](https://github.com/kinde-oss/infrastructure/commit/a516027))
+
+### 🏡 Chore
+
+- Correct typo ([bafdffc](https://github.com/kinde-oss/infrastructure/commit/bafdffc))
+- Lockfile hygiene ([2b55c24](https://github.com/kinde-oss/infrastructure/commit/2b55c24))
+- Remove debug console logs ([9662019](https://github.com/kinde-oss/infrastructure/commit/9662019))
+- Remove duplicate test ([e01cf1d](https://github.com/kinde-oss/infrastructure/commit/e01cf1d))
+
+### ✅ Tests
+
+- Extend test coverage ([b998717](https://github.com/kinde-oss/infrastructure/commit/b998717))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.3.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.3.1...main)
+
+### 🚀 Enhancements
+
+- Update workflow event types ([def2111](https://github.com/kinde-oss/infrastructure/commit/def2111))
+
+### 🏡 Chore
+
+- Lint ([bd777a0](https://github.com/kinde-oss/infrastructure/commit/bd777a0))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](https://github.com/DanielRivers))
+
+## 0.3.0...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.3.0...main)
+
+### 🩹 Fixes
+
+- Passing body to non get fetch methods ([fe3a1ce](https://github.com/kinde-oss/infrastructure/commit/fe3a1ce))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+
+## 0.2.2...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.2...main)
+
+### 🚀 Enhancements
+
+- Pre MFA workflow ([5d23eb4](https://github.com/kinde-oss/infrastructure/commit/5d23eb4))
+
+### 🩹 Fixes
+
+- Kinde fetch return text return type ([71af812](https://github.com/kinde-oss/infrastructure/commit/71af812))
+
+### 🏡 Chore
+
+- Lint ([0600b54](https://github.com/kinde-oss/infrastructure/commit/0600b54))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+
+## 0.2.1...main
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.1...main)
+
+### 🚀 Enhancements
+
+- Add support for `onExistingPasswordProvided` workflow event ([3e5c203](https://github.com/kinde-oss/infrastructure/commit/3e5c203))
+- Add Url suffix to favIcon helpers ([6fa2dbe](https://github.com/kinde-oss/infrastructure/commit/6fa2dbe))
+- Add `new_password_provided` ([df220ad](https://github.com/kinde-oss/infrastructure/commit/df220ad))
+
+### 🩹 Fixes
+
+- Correct typo and secureFetch request ([a907191](https://github.com/kinde-oss/infrastructure/commit/a907191))
+- Improve radius regex ([639a5c9](https://github.com/kinde-oss/infrastructure/commit/639a5c9))
+
+### 📖 Documentation
+
+- Update readme ([a27650e](https://github.com/kinde-oss/infrastructure/commit/a27650e))
+
+### 🏡 Chore
+
+- OrgCode optional for functions wrapping getAssetUrl ([0033893](https://github.com/kinde-oss/infrastructure/commit/0033893))
+- Lint ([b7cc52f](https://github.com/kinde-oss/infrastructure/commit/b7cc52f))
+
+### ❤️ Contributors
+
+- Daniel Rivers ([@DanielRivers](http://github.com/DanielRivers))
+- Peter Phanouvong ([@peterphanouvong](http://github.com/peterphanouvong))
+
 ## 0.2.0...main
 
 [compare changes](https://github.com/kinde-oss/infrastructure/compare/0.2.0...main)

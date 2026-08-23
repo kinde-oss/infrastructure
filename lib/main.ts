@@ -1,17 +1,18 @@
-export * from "./types";
+export * from "./types.js";
 import {
   KindeIdTokenProhibitedClaims,
   KindeAccessTokenProhibitedClaims,
   Kindem2mTokenProhibitedClaims,
-} from "./prohibitedClaims.ts";
+} from "./prohibitedClaims.js";
 import {
   createKindeAPIOptions,
   KindeAPIRequest,
   KindeDesignerCustomProperties,
   KindeFetchOptions,
+  MFAEnforcementPolicy,
   OrgCode,
   WorkflowEvents,
-} from "./types";
+} from "./types.js";
 import { version as packageVersion } from "../package.json";
 
 export const version = packageVersion;
@@ -24,14 +25,41 @@ const getAssetUrl = (assetPath: string, orgCode?: OrgCode) => {
   return `/${assetPath}?${orgCode ? `p_org_code=${orgCode}&` : ""}cache=@8973ff883c2c40e1bad198b543e12b24@`;
 };
 
+type ValidationKeyJWKS = {
+  type: "jwks";
+  jwks: {
+    url: string;
+  };
+};
+
+type ValidationKeyStatic = {
+  type: "static";
+  static: {
+    alg: "HS256";
+    key: string;
+  };
+};
+
+type ValidationKey = { key: ValidationKeyJWKS | ValidationKeyStatic };
+
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace kinde {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function fetch(url: string, options: unknown): Promise<any>;
+  export function fetch(url: string, options: unknown): any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export function secureFetch(url: string, options: unknown): Promise<any>;
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace env {
     export function get(key: string): { value: string; isSecret: boolean };
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace widget {
+    export function invalidateFormField(
+      fieldName: string,
+      message: string,
+    ): void;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -63,9 +91,33 @@ declare namespace kinde {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace mfa {
+    export function setEnforcementPolicy(
+      mfaEnforcementPolicy: MFAEnforcementPolicy,
+    ): void;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace risk {
     export function setScore(score: number): void;
     export function getScore(): number;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace plan {
+    export function denySelection(message: string, reasons?: string[]): void;
+    export function denyCancellation(reason: string): number;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace cache {
+    export function jwtToken(
+      tokenName: string,
+      options?: {
+        validation?: ValidationKey;
+        onMissingOrExpired?: () => string;
+      },
+    ): Promise<string>;
   }
 }
 
@@ -231,8 +283,21 @@ export function denyAccess(reason: string) {
 }
 
 /**
+ * Invalidate a Kinde widget form field
+ * @param fieldName Name of the field to invalidate
+ * @param message Reason for invalidating the field
+ */
+export function invalidateFormField(fieldName: string, message: string) {
+  if (!kinde.widget) {
+    throw new Error("widget binding not available");
+  }
+  kinde.widget.invalidateFormField(fieldName, message);
+}
+
+/**
  * Fetch data from an external API
- * @param reason Reason for denying access
+ * @param url URL of the API
+ * @param options Fetch options
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function fetch<T = any>(
@@ -242,16 +307,126 @@ export async function fetch<T = any>(
   if (!kinde.fetch) {
     throw new Error("fetch binding not available");
   }
-
   if (!options.responseFormat) {
     options.responseFormat = "json";
   }
 
   const result = await kinde.fetch(url, options);
+  return {
+    data:
+      options.responseFormat === "json"
+        ? result?.json
+        : (result.text as string),
+  } as T;
+}
+
+/**
+ * Set the MFA enforcement policy for the user
+ * @param policy MFA Policy to enforce
+ */
+export function setEnforcementPolicy(policy: MFAEnforcementPolicy) {
+  if (!kinde.mfa) {
+    throw new Error(
+      "mfa binding not available, please add to workflow settings to enable",
+    );
+  }
+  kinde.mfa.setEnforcementPolicy(policy);
+}
+
+/**
+ * Fetch data from a secure external API
+ *
+ * Encryption keys can be setup in the Kinde dashboard under workflows > encryption keys
+ * @param url URL of the API
+ * @param options Fetch options
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function secureFetch<T = any>(
+  url: string,
+  options: KindeFetchOptions,
+): Promise<T> {
+  if (!kinde.secureFetch) {
+    throw new Error("secureFetch binding not available");
+  }
+
+  if (!options.responseFormat) {
+    options.responseFormat = "json";
+  }
+
+  const result = await kinde.secureFetch(url, options);
 
   return {
     data: result?.json,
   } as T;
+}
+
+export type getM2MTokenOptions = {
+  domain: string;
+  clientId: string;
+  clientSecret: string;
+  audience: string[];
+  scopes?: string[];
+  headers?: Record<string, string>;
+  skipCache?: boolean;
+};
+
+export async function getM2MToken<T = string>(
+  tokenName: T,
+  options: getM2MTokenOptions,
+) {
+  const fetchToken = () => {
+    if (!options.domain || !options.clientId || !options.clientSecret) {
+      throw new Error("getM2MToken: Missing required parameters");
+    }
+
+    try {
+      const result = kinde.fetch(`${options.domain}/oauth2/token`, {
+        method: "POST",
+        responseFormat: "json",
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          accept: "application/json",
+          ...options.headers,
+        },
+        body: new URLSearchParams({
+          audience: options.audience?.join(" ") ?? "",
+          grant_type: "client_credentials",
+          client_id: options.clientId,
+          client_secret: options.clientSecret,
+          scope: options.scopes?.join(" ") ?? "",
+        }),
+      }) as { json: { access_token: string } };
+
+      if (!result.json?.access_token) {
+        throw new Error("getM2MToken: No access token returned");
+      }
+
+      return result.json.access_token;
+    } catch (error) {
+      throw new Error(
+        `getM2MToken: Failed to obtain token - ${(error as Error).message}`,
+        { cause: error },
+      );
+    }
+  };
+
+  // If skipCache is true, directly fetch the token without using cache
+  if (options.skipCache) {
+    return fetchToken();
+  }
+
+  // Otherwise, use the cache with onMissingOrExpired callback
+  return await kinde.cache.jwtToken(tokenName as string, {
+    validation: {
+      key: {
+        type: "jwks",
+        jwks: {
+          url: `${options.domain}/.well-known/jwks.json`,
+        },
+      },
+    },
+    onMissingOrExpired: fetchToken,
+  });
 }
 
 /**
@@ -265,6 +440,8 @@ export async function createKindeAPI(
 ) {
   let clientId: string;
   let clientSecret: string;
+
+  const apiVersion = 1;
 
   if (!URLSearchParams) {
     throw new Error("url binding not available");
@@ -287,22 +464,20 @@ export async function createKindeAPI(
     }
   }
 
-  const { data: token } = await fetch(
-    `${event.context.domains.kindeDomain}/oauth2/token`,
-    {
-      method: "POST",
-      responseFormat: "json",
-      headers: {
-        "Content-type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        audience: `${event.context.domains.kindeDomain}/api`,
-        grant_type: "client_credentials",
-        client_id: clientId,
-        client_secret: clientSecret,
-      }),
-    },
-  );
+  let token = await getM2MToken("internal_m2m_access_token", {
+    domain: event.context.domains.kindeDomain,
+    clientId,
+    clientSecret,
+    audience: [`${event.context.domains.kindeDomain}/api`],
+    skipCache: options?.skipCache ?? false,
+  });
+
+  if (typeof token === "object") {
+    token = JSON.stringify(token);
+    token = token.replace(`"\\"`, "");
+    token = token.replace(`\\""`, "");
+  }
+  token = token.replace(/"/g, "");
 
   const callKindeAPI = async ({
     method,
@@ -310,17 +485,22 @@ export async function createKindeAPI(
     params,
     contentType = "application/json",
   }: KindeAPIRequest) => {
+    let body;
+    if (params) {
+      body = method === "GET" ? new URLSearchParams(params).toString() : params;
+    }
+
     const result = await kinde.fetch(
-      `${event.context.domains.kindeDomain}/api/v1/${endpoint}`,
+      `${event.context.domains.kindeDomain}/api/v${apiVersion}/${endpoint}`,
       {
         method,
         responseFormat: "json",
         headers: {
-          authorization: `Bearer ${token.access_token}`,
+          authorization: `Bearer ${token}`,
           "Content-Type": contentType,
           accept: "application/json",
         },
-        body: params && new URLSearchParams(params),
+        body: body ?? undefined,
       },
     );
 
@@ -381,6 +561,13 @@ export const getKindeCSRF = (): KindePlaceholder =>
 
 /**
  *
+ * @returns Kinde placeholder for the CSRF token
+ */
+export const getKindeSwitchJS = (): KindePlaceholder =>
+  "@bc178a068813415ca4760fc31a8bdb01@";
+
+/**
+ *
  * @returns Register URL Placeholder
  */
 export const getKindeRegisterUrl = (): KindePlaceholder => registerGUID;
@@ -405,9 +592,16 @@ export const getKindeSignInUrl = (): KindePlaceholder => loginGUID;
 
 /**
  *
+ * @returns Theme code Placeholder
+ */
+export const getKindeThemeCode = (): KindePlaceholder =>
+  "@09e41b34d7c04650aee6d26cafa152fc@";
+
+/**
+ *
  * @returns Light Mode Logo Placeholder
  */
-export const getLogoUrl = (orgCode: OrgCode) => {
+export const getLogoUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("logo", orgCode);
 };
 
@@ -415,7 +609,7 @@ export const getLogoUrl = (orgCode: OrgCode) => {
  *
  * @returns Dark Mode Logo Placeholder
  */
-export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
+export const getDarkModeLogoUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("logo_dark", orgCode);
 };
 
@@ -423,7 +617,7 @@ export const getDarkModeLogoUrl = (orgCode: OrgCode) => {
  *
  * @returns SVG FavIcon Placeholder
  */
-export const getSVGFavicon = (orgCode: OrgCode) => {
+export const getSVGFaviconUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("favicon_svg", orgCode);
 };
 
@@ -431,7 +625,7 @@ export const getSVGFavicon = (orgCode: OrgCode) => {
  *
  * @returns Fallback FavIcon Placeholder
  */
-export const getFallbackFavicon = (orgCode: OrgCode) => {
+export const getFallbackFaviconUrl = (orgCode?: OrgCode) => {
   return getAssetUrl("favicon_fallback", orgCode);
 };
 
@@ -439,7 +633,7 @@ const isValidColor = (color: string | undefined) =>
   !color ||
   /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(.*\)$|^rgba\(.*\)$/.test(color);
 const isValidBorderRadius = (radius: string | undefined) =>
-  !radius || /^\d+(%|px|rem|em)$/.test(radius);
+  !radius || /^(0|\d+(.(\d)+)?(%|px|rem|em))$/.test(radius);
 
 const coloursValid = (...colors: (string | undefined)[]) =>
   colors.every(isValidColor) || undefined;
@@ -467,7 +661,7 @@ export const setKindeDesignerCustomProperties = ({
   primaryButtonColor,
   cardBorderRadius,
   inputBorderRadius,
-}: KindeDesignerCustomProperties) => {
+}: KindeDesignerCustomProperties): string => {
   if (
     !coloursValid(
       baseBackgroundColor,
@@ -508,4 +702,46 @@ export const setKindeDesignerCustomProperties = ({
   ]
     .filter(Boolean)
     .join("\n");
+};
+
+/**
+ *
+ * Deny the plan selection for the user
+ * @param message Message to display to the user when denying plan selection
+ * @param reasons Array of reasons for denying the plan selection
+ */
+export const denyPlanSelection = (
+  message: string,
+  reasons?: string[],
+): void => {
+  if (!kinde.plan) {
+    throw new Error(
+      "plan binding not available, please add to workflow/page settings to enable",
+    );
+  }
+
+  if (!message || typeof message !== "string") {
+    throw new Error("Invalid message provided");
+  }
+
+  kinde.plan.denySelection(message, reasons);
+};
+
+/**
+ *
+ * Deny the plan cancellation for the user
+ * @param reason Message to display to the user when denying plan cancellation
+ */
+export const denyPlanCancellation = (reason: string): void => {
+  if (!kinde.plan) {
+    throw new Error(
+      "plan binding not available, please add to workflow/page settings to enable",
+    );
+  }
+
+  if (!reason || typeof reason !== "string") {
+    throw new Error("Invalid message provided");
+  }
+
+  kinde.plan.denyCancellation(reason);
 };
