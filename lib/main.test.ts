@@ -817,9 +817,9 @@ describe("secureFetch", () => {
   it("should error when binding missing", async () => {
     const backup = global.kinde.secureFetch;
     delete global.kinde.secureFetch;
-    expect(async () => await secureFetch("required", {})).rejects.toThrowError(
-      "secureFetch binding not available",
-    );
+    await expect(
+      async () => await secureFetch("required", {}),
+    ).rejects.toThrowError("secureFetch binding not available");
     global.kinde.secureFetch = backup;
   });
 });
