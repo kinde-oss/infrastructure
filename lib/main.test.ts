@@ -522,16 +522,16 @@ describe("createKindeAPI", () => {
   });
 
   describe("Error handling", () => {
-    it("Missing client ID", () => {
+    it("Missing client ID", async () => {
       global.kinde.env.get.mockReturnValueOnce(undefined);
-      expect(
+      await expect(
         async () => await createKindeAPI({ ...mockEvent, context: {} }),
       ).rejects.toThrowError("M2M client ID not set");
     });
-    it("Missing client Secret", () => {
+    it("Missing client Secret", async () => {
       global.kinde.env.get.mockReturnValueOnce({ value: "test" });
       global.kinde.env.get.mockReturnValueOnce(undefined);
-      expect(
+      await expect(
         async () => await createKindeAPI({ ...mockEvent, context: {} }),
       ).rejects.toThrowError("M2M client secret not set");
     });
@@ -817,9 +817,9 @@ describe("secureFetch", () => {
   it("should error when binding missing", async () => {
     const backup = global.kinde.secureFetch;
     delete global.kinde.secureFetch;
-    expect(async () => await secureFetch("required", {})).rejects.toThrowError(
-      "secureFetch binding not available",
-    );
+    await expect(
+      async () => await secureFetch("required", {}),
+    ).rejects.toThrowError("secureFetch binding not available");
     global.kinde.secureFetch = backup;
   });
 });

@@ -22,73 +22,75 @@ export type WorkflowSettings = {
     action: "stop" | "continue";
   };
 
-  bindings?: {
-    /**
-     * Exposes the id token to the workflow
-     */
-    "kinde.idToken"?: {
-      /**
-       * {boolean} reset all claims to default value on workflow start, default is false
-       */
-      resetClaims?: boolean;
-    };
-    /**
-     * Exposes the access token to the workflow
-     */
-    "kinde.accessToken"?: {
-      /**
-       * {boolean} reset all claims to default value on workflow start, default is false
-       */
-      resetClaims?: boolean;
-    };
-    "kinde.m2mToken"?: {
-      /**
-       * {boolean} reset all claims to default value on workflow start, default is false
-       */
-      resetClaims?: boolean;
-    };
-    /**
-     * Exposes the console methods to the workflow
-     */
-    console?: {};
-    /**
-     * Exposes the fetch method to call external APIs to the workflow
-     */
-    "kinde.fetch"?: {};
-    /**
-     * Exposes the fetch method to call signed external APIs to the workflow
-     */
-    "kinde.secureFetch"?: {};
-    /**
-     * Exposes the fetch method to call access the manipulate the Kinde widget
-     */
-    "kinde.widget"?: {};
-    /**
-     * Exposes access to the kinde environment variables
-     */
-    "kinde.env"?: {};
-    /**
-     * Exposes access to the kinde environment variables
-     */
-    "kinde.auth"?: {};
-    /**
-     * Exposes access to the kinde localization
-     */
-    "kinde.localization"?: {};
-    /**
-     * Required to change the MFA policy
-     */
-    "kinde.mfa"?: {};
-    /**
-     * Exposes access to the kinde SSO session
-     */
-    "kinde.ssoSession"?: {};
-    /**
-     * Add URL tooling
-     */
-    url?: {};
-  };
+  bindings?: KindeBindings;
 };
+
+export interface KindeBindings {
+  /**
+   * Exposes the id token to the workflow
+   */
+  "kinde.idToken"?: {
+    /**
+     * {boolean} reset all claims to default value on workflow start, default is false
+     */
+    resetClaims?: boolean;
+  };
+  /**
+   * Exposes the access token to the workflow
+   */
+  "kinde.accessToken"?: {
+    /**
+     * {boolean} reset all claims to default value on workflow start, default is false
+     */
+    resetClaims?: boolean;
+  };
+  "kinde.m2mToken"?: {
+    /**
+     * {boolean} reset all claims to default value on workflow start, default is false
+     */
+    resetClaims?: boolean;
+  };
+  /**
+   * Exposes the console methods to the workflow
+   */
+  console?: {};
+  /**
+   * Exposes the fetch method to call external APIs to the workflow
+   */
+  "kinde.fetch"?: {};
+  /**
+   * Exposes the fetch method to call signed external APIs to the workflow
+   */
+  "kinde.secureFetch"?: {};
+  /**
+   * Exposes the fetch method to call access the manipulate the Kinde widget
+   */
+  "kinde.widget"?: {};
+  /**
+   * Exposes access to the kinde environment variables
+   */
+  "kinde.env"?: {};
+  /**
+   * Exposes the kinde auth flow controls, e.g. denying access to a user
+   */
+  "kinde.auth"?: {};
+  /**
+   * Exposes access to the kinde localization
+   */
+  "kinde.localization"?: {};
+  /**
+   * Required to change the MFA policy
+   */
+  "kinde.mfa"?: {};
+  /**
+   * Exposes access to the kinde SSO session
+   */
+  "kinde.ssoSession"?: {};
+  /**
+   * Add URL tooling
+   */
+  url?: {};
+}
 
 export enum WorkflowTrigger {
   UserTokenGeneration = "user:tokens_generation",
