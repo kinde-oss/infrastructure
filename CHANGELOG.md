@@ -1,9 +1,35 @@
 # Changelog
 
 
-## 0.11.0...main
+## 0.12.0...main
 
-[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.11.0...main)
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.11.1...0.12.0)
+
+### 🩹 Fixes
+
+- Align typescript-eslint manifest with lockfile ([cfe045f](https://github.com/kinde-oss/infrastructure/commit/cfe045f))
+- Update eslint specifier in package.json to match pnpm-lock.yaml ([20c8d7b](https://github.com/kinde-oss/infrastructure/commit/20c8d7b))
+- Run prettier on merged types.ts (drop stray semicolon after interface) ([5069f5d](https://github.com/kinde-oss/infrastructure/commit/5069f5d))
+- Await secureFetch rejection assertion; sync eslint specifier in package-lock.json ([8c6318b](https://github.com/kinde-oss/infrastructure/commit/8c6318b))
+- Await remaining unawaited rejects assertions in createKindeAPI error tests ([a14815f](https://github.com/kinde-oss/infrastructure/commit/a14815f))
+
+### 🌊 Types
+
+- Kinde binding ([0916e4c](https://github.com/kinde-oss/infrastructure/commit/0916e4c))
+- Optional localization ([72d2aaa](https://github.com/kinde-oss/infrastructure/commit/72d2aaa))
+
+### 🏡 Chore
+
+- Version mismatch fix ([d468596](https://github.com/kinde-oss/infrastructure/commit/d468596))
+
+### ❤️ Contributors
+
+- Dtoxvanilla1991 <dtoxvanilla@gmail.com>
+- Peter Phanouvong <peterphanouvong@gmail.com>
+
+## 0.11.0...0.11.1
+
+[compare changes](https://github.com/kinde-oss/infrastructure/compare/0.11.0...0.11.1)
 
 ### 🩹 Fixes
 
